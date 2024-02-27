@@ -4,12 +4,18 @@ import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.repo.EmployeeDataRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class EmployeeDataManagerImpl implements EmployeeDataManager {
+@Component
+public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,String> implements EmployeeDataManager {
 
+    EmployeeDataRepo employeeDataRepo;
 
     @Autowired
-    EmployeeDataRepo employeeDataRepo;
+    public void setEmployeeDataRepo(EmployeeDataRepo employeeDataRepo){
+        this.employeeDataRepo = employeeDataRepo;
+        this.repository = employeeDataRepo;
+    }
     @Override
     public EmployeeData getByUserName (String userName) throws Exception{
         return employeeDataRepo.findFirstByUserName(userName);
