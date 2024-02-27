@@ -1,6 +1,7 @@
 package com.example.employeeportal.services.impl;
 
 import com.example.employeeportal.dto.RegisterUserDto;
+import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.UserData;
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDataManager userDataManager;
+
+    @Autowired
+    EmployeeDataManager employeeDataManager;
 
     @Override
     public ResponseEntity<Object> login(String userName, String password) throws Exception{
@@ -33,8 +37,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Object> register(RegisterUserDto registerUserDto) throws Exception{
 
-        EmployeeData employeeData =
-
+        EmployeeData employeeData = employeeDataManager.getByUserName(registerUserDto.getUserName());
+        if(employeeData != null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        employeeData.setContactNumber(registerUserDto.getContactNumber());
+        employeeData.setEmpCode(registerUserDto.getEmpCode());
+        employeeData.setDesignation(registerUserDto.getEmpCode());
+        employeeData.setLevel(registerUserDto.getLevel());
+        employeeData.setFirstName(registerUserDto.getFirstName());
+        employeeData.setLastName(registerUserDto.getLastName());
+        employeeDataManager.save
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

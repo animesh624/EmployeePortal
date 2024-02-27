@@ -6,7 +6,11 @@ import lombok.Data;
 @Data
 public class RegisterUserDto {
 
-    private String name;
+    @JsonProperty("first_name")
+    private String firstName;
+
+    @JsonProperty("last_name")
+    private String lastName;
 
     @JsonProperty("user_name")
     private String userName;
