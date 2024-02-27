@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         employeeData.setLevel(registerUserDto.getLevel());
         employeeData.setFirstName(registerUserDto.getFirstName());
         employeeData.setLastName(registerUserDto.getLastName());
-        employeeDataManager.save
+        employeeDataManager.save(employeeData);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -16,8 +16,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeData getByUserName(String userName) throws Exception{
         EmployeeData employeeData = employeeDataRepo.findFirstByUserName(userName);
 
-        if(employeeData != null){
-            log.error("User already exists with userName " + userName);
+        if(employeeData == null){
+            log.error("User doesnt exist with userName " + userName);
+            return null;
         }
         return employeeData;
     }
