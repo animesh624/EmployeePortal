@@ -7,6 +7,7 @@ import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.UserService;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     EmployeeDataManager employeeDataManager;
+
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @PostConstruct
+    public void init() {
+        bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    }
     @Override
     public ResponseEntity<Object> login(LoginUserDto loginUserDto) throws Exception{
 
@@ -31,7 +39,6 @@ public class UserServiceImpl implements UserService {
         if(userData == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if(StringUtils.isEmpty(loginUserDto.getPassword()) || !bCryptPasswordEncoder.matches(loginUserDto.getPassword(), userData.getPassword())){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -40,12 +47,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Object> register(RegisterUserDto registerUserDto) throws Exception{
-        log.info("Animesh inside register with registerUserDto {}",registerUserDto);
         EmployeeData employeeData = employeeDataManager.getByUserName(registerUserDto.getUserName());
         if(employeeData != null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         employeeData = new EmployeeData();
         employeeData.setContactNumber(registerUserDto.getContactNumber());
         employeeData.setEmpCode(registerUserDto.getEmpCode());
@@ -54,7 +59,6 @@ public class UserServiceImpl implements UserService {
         employeeData.setFirstName(registerUserDto.getFirstName());
         employeeData.setLastName(registerUserDto.getLastName());
         employeeData.setUserName(registerUserDto.getUserName());
-        log.info("Animesh here");
         employeeData.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
         employeeDataManager.save(employeeData);
         return new ResponseEntity<>(HttpStatus.OK);
