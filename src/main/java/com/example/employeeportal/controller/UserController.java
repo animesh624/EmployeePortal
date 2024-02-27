@@ -1,0 +1,29 @@
+package com.example.employeeportal.controller;
+
+import com.example.employeeportal.dto.RegisterUserDto;
+import com.example.employeeportal.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    @Autowired
+    UserService userService;
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<Object> login(@RequestParam(value = "username")@NonNull String userName, @RequestParam(value = "password") @NonNull String password) throws Exception {
+        return userService.login(userName, password);
+    }
+
+    @PostMapping(path = "/register")
+    public ResponseEntity<Object> resgister(@RequestBody RegisterUserDto registerUserDto) throws Exception {
+        return userService.register(registerUserDto);
+    }
+
+}
