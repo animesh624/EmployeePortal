@@ -9,14 +9,14 @@ import com.example.employeeportal.services.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+@Service
 @Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     EmployeeDataManager employeeDataManager;
-
-    @Autowired
 
     @Override
     public EmployeeData getByUserName(String userName) throws Exception{

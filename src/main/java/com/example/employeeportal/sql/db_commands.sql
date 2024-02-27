@@ -27,3 +27,6 @@ CREATE TABLE `employee_data` (
                              UNIQUE KEY `uk_emp_code` (`emp_code`),
                              KEY `idx_username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `employee_data`
+    ADD COLUMN `password` varchar(128) NOT NULL DEFAULT NULL;

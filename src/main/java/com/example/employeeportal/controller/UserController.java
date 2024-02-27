@@ -1,5 +1,6 @@
 package com.example.employeeportal.controller;
 
+import com.example.employeeportal.dto.LoginUserDto;
 import com.example.employeeportal.dto.RegisterUserDto;
 import com.example.employeeportal.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class UserController {
     UserService userService;
 
     @PostMapping(path = "/login")
-    public ResponseEntity<Object> login(@RequestParam(value = "username")@NonNull String userName, @RequestParam(value = "password") @NonNull String password) throws Exception {
-        return userService.login(userName, password);
+    public ResponseEntity<Object> login(@RequestBody LoginUserDto loginUserDto) throws Exception {
+        return userService.login(loginUserDto);
     }
 
     @PostMapping(path = "/register")

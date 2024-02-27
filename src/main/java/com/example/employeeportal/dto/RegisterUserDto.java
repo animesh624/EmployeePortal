@@ -22,6 +22,8 @@ public class RegisterUserDto {
 
     private String level;
 
+    private String password;
+
     @JsonProperty("contact_number")
     private String contactNumber;
 

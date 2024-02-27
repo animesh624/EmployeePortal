@@ -24,6 +24,9 @@ public class EmployeeData {
     @Column(name = "username")
     private String userName;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "first_name")
     private String firstName;
 
