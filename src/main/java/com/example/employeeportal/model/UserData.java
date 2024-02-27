@@ -17,7 +17,7 @@ public class UserData {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name = "username")
+    @Column(name = "user_name")
     private String userName;
 
     @Column(name = "password")

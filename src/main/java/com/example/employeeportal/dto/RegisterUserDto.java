@@ -20,4 +20,6 @@ public class RegisterUserDto {
 
     @JsonProperty("contact_number")
     private String contactNumber;
+
+    //image
 }
