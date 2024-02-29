@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class EmployeeController {
 
@@ -23,5 +25,10 @@ public class EmployeeController {
     @PostMapping("/edit/employee")
     public EmployeeData editEmployee(@RequestParam EmployeeDto employeeDto) throws Exception{
         return employeeService.editEmployee(employeeDto);
+    }
+
+    @PostMapping("/search")
+    public List<EmployeeData> editEmployee(@RequestParam String keyword) throws Exception{
+        return employeeService.searchEmployee(keyword);
     }
 }

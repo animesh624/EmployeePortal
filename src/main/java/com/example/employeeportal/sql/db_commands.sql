@@ -30,3 +30,9 @@ CREATE TABLE `employee_data` (
 
 ALTER TABLE `employee_data`
     ADD COLUMN `password` varchar(128) NOT NULL DEFAULT NULL;
+
+ALTER TABLE `employee_data`
+    ADD COLUMN `full_name` varchar(128) NOT NULL DEFAULT NULL;
+
+ALTER TABLE `employee_data`
+    DROP COLUMN `password`;

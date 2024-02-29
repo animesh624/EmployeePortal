@@ -24,14 +24,14 @@ public class EmployeeData {
     @Column(name = "username")
     private String userName;
 
-    @Column(name = "password")
-    private String password;
-
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "full_name")
+    private String fullName;
 
     @Column(name = "emp_code")
     private String empCode;
@@ -41,6 +41,9 @@ public class EmployeeData {
 
     @Column(name = "level")
     private String level;
+
+    @Column(name = "frequency")
+    private String frequency;
 
     @Column(name = "contact_number")
     private String contactNumber;

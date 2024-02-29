@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
@@ -43,6 +45,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDataManager.save(employeeData);
 
         return employeeData;
+    }
+
+    @Override
+    public List<EmployeeData> searchEmployee(String keyword) throws Exception{
+        return employeeDataManager.searchEmployee(keyword);
     }
 
 

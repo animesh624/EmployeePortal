@@ -6,6 +6,8 @@ import com.example.employeeportal.repo.EmployeeDataRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,String> implements EmployeeDataManager {
 
@@ -16,8 +18,14 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
         this.employeeDataRepo = employeeDataRepo;
         this.repository = employeeDataRepo;
     }
+
     @Override
     public EmployeeData getByUserName (String userName) throws Exception{
         return employeeDataRepo.findFirstByUserName(userName);
+    }
+
+    @Override
+    public List<EmployeeData> searchEmployee(String keyword) throws Exception{
+        return employeeDataRepo.findTop5ByFullNameContainingOrderByFrequencyDesc(keyword);
     }
 }
