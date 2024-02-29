@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
         employeeData.setFirstName(registerUserDto.getFirstName());
         employeeData.setLastName(registerUserDto.getLastName());
         employeeData.setUserName(registerUserDto.getUserName());
-        employeeData.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
         employeeDataManager.save(employeeData);
         return new ResponseEntity<>(HttpStatus.OK);
     }
