@@ -29,6 +29,9 @@ public class UserData {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "is_admin")
+    private Boolean isAdmin;
+
     @Column(name = "date_created")
     private Date dateCreated = new Date();
 

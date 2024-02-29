@@ -58,11 +58,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Object> register(RegisterUserDto registerUserDto) throws Exception{
-        EmployeeData employeeData = employeeDataManager.getByUserName(registerUserDto.getUserName());
-        if(employeeData != null){
+
+        if(!jwtUtil.validateSubject(registerUserDto.getToken(),registerUserDto.getRequestUserName()) || !(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if(employeeDataManager.getByUserName(registerUserDto.getUserName()) != null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        employeeData = new EmployeeData();
+        saveEntryInEmployeeData(registerUserDto);
+        saveEntryInUserData(registerUserDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public void saveEntryInEmployeeData(RegisterUserDto registerUserDto) throws Exception{
+        EmployeeData employeeData = new EmployeeData();
         employeeData.setContactNumber(registerUserDto.getContactNumber());
         employeeData.setEmpCode(registerUserDto.getEmpCode());
         employeeData.setDesignation(registerUserDto.getDesignation());
@@ -71,6 +81,15 @@ public class UserServiceImpl implements UserService {
         employeeData.setLastName(registerUserDto.getLastName());
         employeeData.setUserName(registerUserDto.getUserName());
         employeeDataManager.save(employeeData);
-        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public void saveEntryInUserData(RegisterUserDto registerUserDto) throws Exception{
+        UserData userData = new UserData();
+        userData.setUserName(registerUserDto.getUserName());
+        userData.setLastName(registerUserDto.getLastName());
+        userData.setFirstName(registerUserDto.getFirstName());
+        userData.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
+        userData.setIsAdmin(registerUserDto.getIsAdmin());
+        userDataManager.save(userData);
     }
 }

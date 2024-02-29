@@ -1,8 +1,11 @@
 package com.example.employeeportal.util;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -41,5 +44,22 @@ public class JWTUtil {
             log.error("Could not generate token.. returning null");
             return null;
         }
+    }
+
+    public boolean validateSubject(String token, String subjectKey) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(this.secret);
+            String subject = creteSubject(subjectKey);
+            JWTVerifier verifier = JWT.require(algorithm).withSubject(subject).build();
+            DecodedJWT jwt = verifier.verify(token);
+            return jwt != null;
+        } catch (JWTVerificationException var6) {
+            return false;
+        }
+    }
+
+    public String creteSubject(String subjectKey){
+        int laConfigVersion = 0;
+        return laConfigVersion +"#"+ subjectKey;
     }
 }

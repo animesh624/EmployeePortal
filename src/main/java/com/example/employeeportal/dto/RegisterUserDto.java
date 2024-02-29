@@ -22,10 +22,17 @@ public class RegisterUserDto {
 
     private String level;
 
+    private Boolean isAdmin;
+
     private String password;
 
     @JsonProperty("contact_number")
     private String contactNumber;
+
+    private String token;
+
+    @JsonProperty("request_user_name")
+    private String requestUserName;
 
     //image
 }
