@@ -1,5 +1,6 @@
 package com.example.employeeportal.manager.impl;
 
+import com.example.employeeportal.dto.SearchResultDto;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.repo.EmployeeDataRepo;
@@ -25,7 +26,11 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     }
 
     @Override
-    public List<EmployeeData> searchEmployee(String keyword) throws Exception{
-        return employeeDataRepo.findTop5ByFullNameContainingOrderByFrequencyDesc(keyword);
+    public SearchResultDto searchEmployee(String keyword) throws Exception{
+        SearchResultDto searchResultDto = new SearchResultDto();
+        searchResultDto.setResultByEmail(employeeDataRepo.findTop5ByUserNameContainingOrderByFrequencyDesc(keyword));
+        searchResultDto.setResultByInterest(employeeDataRepo.findTop5ByInterestContainingOrderByFrequencyDesc(keyword));
+        searchResultDto.setResultByName(employeeDataRepo.findTop5ByFullNameContainingOrderByFrequencyDesc(keyword));
+        return searchResultDto;
     }
 }

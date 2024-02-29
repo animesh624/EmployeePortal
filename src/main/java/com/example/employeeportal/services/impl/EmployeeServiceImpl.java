@@ -1,6 +1,7 @@
 package com.example.employeeportal.services.impl;
 
 import com.example.employeeportal.dto.EmployeeDto;
+import com.example.employeeportal.dto.SearchResultDto;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.impl.GenericManagerImpl;
 import com.example.employeeportal.model.EmployeeData;
@@ -48,8 +49,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeData> searchEmployee(String keyword) throws Exception{
-        return employeeDataManager.searchEmployee(keyword);
+    public SearchResultDto searchEmployee(String keyword) throws Exception{
+         return employeeDataManager.searchEmployee(keyword);
     }
 
 

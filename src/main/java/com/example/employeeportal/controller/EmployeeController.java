@@ -2,6 +2,7 @@ package com.example.employeeportal.controller;
 
 
 import com.example.employeeportal.dto.EmployeeDto;
+import com.example.employeeportal.dto.SearchResultDto;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/search")
-    public List<EmployeeData> editEmployee(@RequestParam String keyword) throws Exception{
+    public SearchResultDto searchEmployee(@RequestParam String keyword) throws Exception{
         return employeeService.searchEmployee(keyword);
     }
 }
