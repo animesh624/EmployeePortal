@@ -21,7 +21,7 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     }
 
     @Override
-    public EmployeeData getByUserName (String userName) throws Exception{
+    public EmployeeData getByUserName(String userName) throws Exception{
         return employeeDataRepo.findFirstByUserName(userName);
     }
 
