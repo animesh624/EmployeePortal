@@ -7,6 +7,7 @@ import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.UserService;
+import com.example.employeeportal.util.JWTUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -26,6 +30,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     EmployeeDataManager employeeDataManager;
 
+    @Autowired
+    JWTUtil jwtUtil;
+
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostConstruct
@@ -35,6 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Object> login(LoginUserDto loginUserDto) throws Exception{
 
+        Map<String, Object> result = new HashMap<>();
         UserData userData = userDataManager.getByUserName(loginUserDto.getUserName());
         if(userData == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -42,7 +50,10 @@ public class UserServiceImpl implements UserService {
         if(StringUtils.isEmpty(loginUserDto.getPassword()) || !bCryptPasswordEncoder.matches(loginUserDto.getPassword(), userData.getPassword())){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        String token = jwtUtil.generateToken(loginUserDto.getUserName(),"Token for employee portal");
+        result.put("data", token);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
     @Override

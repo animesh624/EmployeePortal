@@ -11,9 +11,9 @@ public interface EmployeeDataRepo extends JpaRepository<EmployeeData, String> {
 
     EmployeeData findFirstByUserName(String userName) throws Exception;
 
-    List<EmployeeData> findTop5ByFullNameContainingOrderByFrequencyDesc(String keyword);
-
-    List<EmployeeData> findTop5ByUserNameContainingOrderByFrequencyDesc(String keyword);
-
-    List<EmployeeData> findTop5ByInterestContainingOrderByFrequencyDesc(String keyword);
+//    List<EmployeeData> findTop5ByFullNameContainingOrderByFrequencyDesc(String keyword);
+//
+//    List<EmployeeData> findTop5ByUserNameContainingOrderByFrequencyDesc(String keyword);
+//
+//    List<EmployeeData> findTop5ByInterestContainingOrderByFrequencyDesc(String keyword);
 }

@@ -28,9 +28,9 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     @Override
     public SearchResultDto searchEmployee(String keyword) throws Exception{
         SearchResultDto searchResultDto = new SearchResultDto();
-        searchResultDto.setResultByEmail(employeeDataRepo.findTop5ByUserNameContainingOrderByFrequencyDesc(keyword));
-        searchResultDto.setResultByInterest(employeeDataRepo.findTop5ByInterestContainingOrderByFrequencyDesc(keyword));
-        searchResultDto.setResultByName(employeeDataRepo.findTop5ByFullNameContainingOrderByFrequencyDesc(keyword));
+//        searchResultDto.setResultByEmail(employeeDataRepo.findTop5ByUserNameContainingOrderByFrequencyDesc(keyword));
+//        searchResultDto.setResultByInterest(employeeDataRepo.findTop5ByInterestContainingOrderByFrequencyDesc(keyword));
+//        searchResultDto.setResultByName(employeeDataRepo.findTop5ByFullNameContainingOrderByFrequencyDesc(keyword));
         return searchResultDto;
     }
 }
