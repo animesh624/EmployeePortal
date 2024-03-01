@@ -29,8 +29,6 @@ public class RegisterUserDto {
     @JsonProperty("contact_number")
     private String contactNumber;
 
-    private String token;
-
     @JsonProperty("request_user_name")
     private String requestUserName;
 

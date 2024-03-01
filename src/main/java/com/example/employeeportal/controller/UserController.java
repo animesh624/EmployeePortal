@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,8 +22,8 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<Object> resgister(@RequestBody RegisterUserDto registerUserDto) throws Exception {
-        return userService.register(registerUserDto);
+    public ResponseEntity<Object> resgister(@RequestBody RegisterUserDto registerUserDto, @RequestHeader String token) throws Exception {
+        return userService.register(registerUserDto,token);
     }
 
 }

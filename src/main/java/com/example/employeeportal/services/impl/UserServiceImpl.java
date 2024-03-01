@@ -57,9 +57,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Object> register(RegisterUserDto registerUserDto) throws Exception{
+    public ResponseEntity<Object> register(RegisterUserDto registerUserDto,String token) throws Exception{
 
-        if(!jwtUtil.validateSubject(registerUserDto.getToken(),registerUserDto.getRequestUserName()) || !(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin())){
+        if(!jwtUtil.validateSubject(token,registerUserDto.getRequestUserName()) || !(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         if(employeeDataManager.getByUserName(registerUserDto.getUserName()) != null){

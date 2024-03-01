@@ -9,5 +9,5 @@ public interface UserService {
 
     ResponseEntity<Object> login(LoginUserDto loginUserDto) throws Exception;
 
-    ResponseEntity<Object> register(RegisterUserDto registerUserDto) throws Exception;
+    ResponseEntity<Object> register(RegisterUserDto registerUserDto,String token) throws Exception;
 }
