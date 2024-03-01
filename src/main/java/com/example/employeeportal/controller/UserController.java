@@ -26,4 +26,9 @@ public class UserController {
         return userService.register(registerUserDto,token);
     }
 
+    @PostMapping(path = "isLoggedIn")
+    public ResponseEntity<Object> isLoggedIn(@RequestBody String userName, @RequestHeader String token) throws Exception{
+        return userService.isLoggedIn(userName,token);
+    }
+
 }

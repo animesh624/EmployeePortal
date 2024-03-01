@@ -1,7 +1,6 @@
 package com.example.employeeportal.model;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +10,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
+
 
 @Data
 @Table(name = "employee_data")

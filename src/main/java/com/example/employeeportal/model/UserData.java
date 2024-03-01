@@ -9,7 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.Date;
 
 @Data
-@Table(name = "user_data")
+@Table(name = "user_data_temp")
 @Entity
 public class UserData {
 

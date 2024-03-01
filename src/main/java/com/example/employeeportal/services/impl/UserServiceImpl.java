@@ -92,4 +92,11 @@ public class UserServiceImpl implements UserService {
         userData.setIsAdmin(registerUserDto.getIsAdmin());
         userDataManager.save(userData);
     }
+    @Override
+    public ResponseEntity<Object> isLoggedIn(String userName, String token) throws Exception{
+        if(!jwtUtil.validateSubject(token,userName)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
