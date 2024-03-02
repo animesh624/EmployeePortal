@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        String token = jwtUtil.generateToken(loginUserDto.getUserName(),"Token for employee portal");
+        String token = jwtUtil.createJWTToken(loginUserDto.getUserName(),"TokenForEmployeePortal");
         result.put("data", token);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Object> register(RegisterUserDto registerUserDto,String token) throws Exception{
         log.info("Token recieved is {} and {}",token,(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin()));
-        if(jwtUtil.validateSubject(token,registerUserDto.getRequestUserName())
+        if(!jwtUtil.isTokenValid(token,registerUserDto.getRequestUserName())
                 || !(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public ResponseEntity<Object> isLoggedIn(String userName, String token) throws Exception{
-        if(!jwtUtil.validateSubject(token,userName)){
+        if(!jwtUtil.isTokenValid(token,userName)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(HttpStatus.OK);

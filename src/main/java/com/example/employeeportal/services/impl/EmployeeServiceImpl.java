@@ -29,7 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ResponseEntity<Object> getByUserName(GetEmployeeDto getEmployeeDto, String token) throws Exception{
-        if(!jwtUtil.validateSubject(token,getEmployeeDto.getRequestUserName())){
+        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserName())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         EmployeeData employeeData = employeeDataManager.getByUserName(getEmployeeDto.getRequestUserName());
@@ -63,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ResponseEntity<Object> searchEmployee(SearchEmployeeDto searchEmployeeDto,String token) throws Exception{
-         if(!jwtUtil.validateSubject(token,searchEmployeeDto.getRequestedUserName())) {
+         if(!jwtUtil.isTokenValid(token,searchEmployeeDto.getRequestedUserName())) {
              return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
          }
          Map<String,Object> result = new HashMap<>();
