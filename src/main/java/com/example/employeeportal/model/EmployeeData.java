@@ -1,19 +1,18 @@
 package com.example.employeeportal.model;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 
 @Data
-@Table(name = "employee_data")
+@Table(name = "employee_data_temp")
 @Entity
 public class EmployeeData {
     @Id
@@ -21,7 +20,7 @@ public class EmployeeData {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name = "username")
+    @Column(name = "user_name")
     private String userName;
 
     @Column(name = "first_name")

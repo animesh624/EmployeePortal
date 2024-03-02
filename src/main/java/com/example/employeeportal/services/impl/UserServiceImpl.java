@@ -8,7 +8,6 @@ import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.UserService;
 import com.example.employeeportal.util.JWTUtil;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,8 +58,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Object> register(RegisterUserDto registerUserDto,String token) throws Exception{
-
-        if(!jwtUtil.validateSubject(token,registerUserDto.getRequestUserName()) || !(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin())){
+        log.info("Token recieved is {} and {}",token,(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin()));
+        if(jwtUtil.validateSubject(token,registerUserDto.getRequestUserName())
+                || !(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         if(employeeDataManager.getByUserName(registerUserDto.getUserName()) != null){
@@ -80,6 +81,7 @@ public class UserServiceImpl implements UserService {
         employeeData.setFirstName(registerUserDto.getFirstName());
         employeeData.setLastName(registerUserDto.getLastName());
         employeeData.setUserName(registerUserDto.getUserName());
+        employeeData.setFullName(registerUserDto.getFullName());
         employeeDataManager.save(employeeData);
     }
 

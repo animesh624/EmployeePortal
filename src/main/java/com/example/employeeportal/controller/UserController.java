@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<Object> resgister(@RequestBody RegisterUserDto registerUserDto, @RequestHeader String token) throws Exception {
+    public ResponseEntity<Object> register(@RequestBody RegisterUserDto registerUserDto, @RequestHeader String token) throws Exception {
         return userService.register(registerUserDto,token);
     }
 

@@ -14,6 +14,9 @@ public class RegisterUserDto {
     @JsonProperty("last_name")
     private String lastName;
 
+    @JsonProperty("full_name")
+    private String fullName;
+
     @JsonProperty("user_name")
     private String userName;
 
@@ -23,7 +26,7 @@ public class RegisterUserDto {
     private String designation;
 
     private String level;
-
+    @JsonProperty("is_admin")
     private Boolean isAdmin;
 
     private String password;

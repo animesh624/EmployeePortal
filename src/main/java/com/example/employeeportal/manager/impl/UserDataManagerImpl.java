@@ -11,6 +11,12 @@ import org.springframework.stereotype.Component;
 public class UserDataManagerImpl extends GenericManagerImpl<UserData,String> implements UserDataManager{
     UserDataRepo userDataRepo;
 
+    @Autowired
+    public void setUserDataRepo(UserDataRepo userDataRepo){
+        this.userDataRepo = userDataRepo;
+        this.repository = userDataRepo;
+    }
+
     @Override
     public UserData getByUserName(String userName) throws Exception {
         return userDataRepo.getFirstByUserName(userName);

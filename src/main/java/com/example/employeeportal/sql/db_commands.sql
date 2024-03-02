@@ -1,6 +1,6 @@
 CREATE TABLE `user_data_temp` (
                              `id` varchar(64) NOT NULL DEFAULT '',
-                             `username` varchar(64) NOT NULL DEFAULT '',
+                             `user_name` varchar(64) NOT NULL DEFAULT '',
                              `password` varchar(128) NOT NULL DEFAULT '',
                              `first_name` varchar(56) DEFAULT NULL,
                              `last_name` varchar(56) DEFAULT NULL,
@@ -8,13 +8,13 @@ CREATE TABLE `user_data_temp` (
                              `date_created` datetime DEFAULT NULL,
                              `date_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
                              PRIMARY KEY (`id`),
-                             UNIQUE KEY `uk_username` (`username`),
-                             KEY `idx_username` (`username`)
+                             UNIQUE KEY `uk_username` (`user_name`),
+                             KEY `idx_username` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `employee_data` (
+CREATE TABLE `employee_data_temp` (
                              `id` varchar(64) NOT NULL DEFAULT '',
-                             `username` varchar(64) NOT NULL DEFAULT '',
+                             `user_name` varchar(64) NOT NULL DEFAULT '',
                              `first_name` varchar(56) DEFAULT NULL,
                              `last_name` varchar(56) DEFAULT NULL,
                               `full_name` varchar(124) DEFAULT NULL,
@@ -26,9 +26,9 @@ CREATE TABLE `employee_data` (
                              `date_created` datetime DEFAULT NULL,
                              `date_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
                              PRIMARY KEY (`id`),
-                             UNIQUE KEY `uk_username` (`username`),
+                             UNIQUE KEY `uk_username` (`user_name`),
                              UNIQUE KEY `uk_emp_code` (`emp_code`),
-                             KEY `idx_username` (`username`)
+                             KEY `idx_username` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `employee_data`
