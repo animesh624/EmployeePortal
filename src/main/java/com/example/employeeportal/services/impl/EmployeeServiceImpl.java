@@ -32,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserName())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        EmployeeData employeeData = employeeDataManager.getByUserName(getEmployeeDto.getRequestUserName());
+        EmployeeData employeeData = employeeDataManager.getByUserName(getEmployeeDto.getUserName());
 
         if(employeeData == null){
             log.error("User doesnt exist with userName " + getEmployeeDto.getRequestUserName());

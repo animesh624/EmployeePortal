@@ -1,5 +1,6 @@
 package com.example.employeeportal.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,7 +8,8 @@ import lombok.Data;
 @Builder
 public class GetEmployeeDto {
 
+    @JsonProperty("user_name")
     private String userName;
-
+    @JsonProperty("requested_user_name")
     private  String requestUserName;
 }
