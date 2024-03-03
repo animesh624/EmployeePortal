@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping
     public String testing(){
-        return "Hello world here";
+        return "Hello world!!!";
     }
 
     @PostMapping(path = "/login")
