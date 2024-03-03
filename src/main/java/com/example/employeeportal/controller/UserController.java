@@ -17,6 +17,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    // this is only for testing purpose
     @GetMapping
     public String testing(){
         return "Hello world!!!";
