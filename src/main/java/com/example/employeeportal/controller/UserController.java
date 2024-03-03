@@ -30,11 +30,13 @@ public class UserController {
         return userService.login(loginUserDto);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping(path = "/register")
     public ResponseEntity<Object> register(@RequestBody RegisterUserDto registerUserDto, @RequestHeader String token) throws Exception {
         return userService.register(registerUserDto,token);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping(path = "isLoggedIn")
     public ResponseEntity<Object> isLoggedIn(@RequestBody String userName, @RequestHeader String token) throws Exception{
         return userService.isLoggedIn(userName,token);
