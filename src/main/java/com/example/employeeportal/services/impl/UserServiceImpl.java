@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         if(employeeDataManager.getByUserName(registerUserDto.getUserName()) != null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
         saveEntryInEmployeeData(registerUserDto);
         saveEntryInUserData(registerUserDto);
 
