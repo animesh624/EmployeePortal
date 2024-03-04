@@ -52,7 +52,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.error("User doesnt exist with userName " + employeeDto.getUserName());
             return null;
         }
-
         employeeData.setLevel(employeeDto.getLevel());
         employeeData.setDesignation(employeeDto.getDesignation());
         employeeData.setContactNumber(employeeDto.getContactNumber());
