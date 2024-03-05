@@ -3,7 +3,7 @@ package com.example.employeeportal.services.impl;
 import com.example.employeeportal.dto.EmployeeDto;
 import com.example.employeeportal.dto.GetEmployeeDto;
 import com.example.employeeportal.dto.SearchEmployeeDto;
-import com.example.employeeportal.dto.SearchResultDto;
+import com.example.employeeportal.facade.S3Facade;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.services.EmployeeService;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     JWTUtil jwtUtil;
+
+    @Autowired
+    S3Facade s3Facade;
 
     @Override
     public ResponseEntity<Object> getByUserName(GetEmployeeDto getEmployeeDto, String token) throws Exception{
@@ -69,6 +73,12 @@ public class EmployeeServiceImpl implements EmployeeService {
          result.put("data",employeeDataManager.searchEmployee(searchEmployeeDto.getKeyword()));
          return new ResponseEntity<>(result,HttpStatus.OK);
 
+    }
+
+    @Override
+    public ResponseEntity<Object> uploadFile(MultipartFile file) throws Exception{
+        s3Facade.uploadFile(file);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class EmployeeController {
@@ -38,5 +39,12 @@ public class EmployeeController {
     @PostMapping("/search")
     public ResponseEntity<Object> searchEmployee(@RequestParam SearchEmployeeDto searchEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.searchEmployee(searchEmployeeDto,token);
+    }
+
+    // TODO seperate folder for pdf and images.
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/uploadFile")
+    public ResponseEntity<Object> uploadFile(@RequestParam(value = "file") MultipartFile file) throws Exception {
+        return employeeService.uploadFile(file);
     }
 }
