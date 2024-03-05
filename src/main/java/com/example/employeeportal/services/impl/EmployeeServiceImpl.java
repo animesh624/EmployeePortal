@@ -10,11 +10,18 @@ import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,8 +84,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ResponseEntity<Object> uploadFile(MultipartFile file) throws Exception{
-        s3Facade.uploadFile(file);
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("data",s3Facade.uploadFile(file));
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> downloadFile(String fileName) throws Exception{
+        File file = s3Facade.downloadFile(fileName);
+        Path path = Paths.get(file.getAbsolutePath());
+        log.info("Animesh printing file {}",file);
+        log.info("Animesh printing path {}",path);
+        ByteArrayResource resource;
+        try {
+            resource = new ByteArrayResource(Files.readAllBytes(path));
+            log.info("Animesh printing resource {}",resource);
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+
     }
 
 

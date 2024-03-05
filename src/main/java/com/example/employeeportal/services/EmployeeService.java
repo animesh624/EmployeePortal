@@ -19,4 +19,7 @@ public interface EmployeeService {
 
     ResponseEntity<Object> uploadFile(MultipartFile file) throws Exception;
 
+    ResponseEntity<Object> downloadFile(String fileName) throws Exception;
+
+
 }

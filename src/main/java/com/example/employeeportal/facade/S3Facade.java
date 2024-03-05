@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,10 +26,13 @@ public class S3Facade {
 
     @Value("${amazonProperties.endpointUrl}")
     private String endpointUrl;
+
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
+
     @Value("${amazonProperties.accessKey}")
     private String accessKey;
+
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
     @PostConstruct
@@ -54,7 +58,7 @@ public class S3Facade {
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    public String uploadFile(MultipartFile multipartFile) {
+    public String uploadFile(MultipartFile multipartFile){
         log.info("Animesh printing {} and {} and {} and {}",endpointUrl,bucketName,accessKey,secretKey);
         String fileUrl = "";
         try {
@@ -65,10 +69,25 @@ public class S3Facade {
             log.info("Printing file url {}",fileUrl);
             uploadFileTos3bucket(fileName, file);
             file.delete();
+            return fileName;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return fileUrl;
+    }
+
+    public File downloadFile(String fileName) throws IOException {
+        S3Object s3Object = s3client.getObject("employee-portal-file", fileName);
+        File file = new File(fileName);
+        FileOutputStream outputStream = new FileOutputStream(file);
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = s3Object.getObjectContent().read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        outputStream.close();
+        s3Object.close();
+        return file;
     }
 
 }
