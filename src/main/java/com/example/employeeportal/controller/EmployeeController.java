@@ -1,10 +1,7 @@
 package com.example.employeeportal.controller;
 
 
-import com.example.employeeportal.dto.EmployeeDto;
-import com.example.employeeportal.dto.GetEmployeeDto;
-import com.example.employeeportal.dto.SearchEmployeeDto;
-import com.example.employeeportal.dto.SearchResultDto;
+import com.example.employeeportal.dto.*;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,6 @@ public class EmployeeController {
         return employeeService.getByUserName(getEmployeeDto,token);
     }
 
-
     //this will use when bandwidth.
     @PostMapping("/edit/employee")
     public EmployeeData editEmployee(@RequestParam EmployeeDto employeeDto) throws Exception{
@@ -38,5 +34,11 @@ public class EmployeeController {
     @PostMapping("/search")
     public ResponseEntity<Object> searchEmployee(@RequestParam SearchEmployeeDto searchEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.searchEmployee(searchEmployeeDto,token);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/tree/expand")
+    public TreeEmployeeResponseDto treeExpandEmployee(@RequestBody EmployeeCodeDto employeeCodeDto, @RequestHeader String token) throws Exception{
+        return employeeService.treeExpandEmployee(employeeCodeDto,token);
     }
 }

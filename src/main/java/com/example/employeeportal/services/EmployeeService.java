@@ -1,9 +1,6 @@
 package com.example.employeeportal.services;
 
-import com.example.employeeportal.dto.EmployeeDto;
-import com.example.employeeportal.dto.GetEmployeeDto;
-import com.example.employeeportal.dto.SearchEmployeeDto;
-import com.example.employeeportal.dto.SearchResultDto;
+import com.example.employeeportal.dto.*;
 import com.example.employeeportal.model.EmployeeData;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -17,4 +14,5 @@ public interface EmployeeService {
 
     ResponseEntity<Object> searchEmployee(SearchEmployeeDto searchEmployeeDto, String token) throws Exception;
 
+    TreeEmployeeResponseDto treeExpandEmployee(EmployeeCodeDto employeeCodeDto, String token) throws Exception;
 }
