@@ -31,8 +31,8 @@ CREATE TABLE `employee_data_temp` (
                              KEY `idx_username` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `employee_data`
-    ADD COLUMN `password` varchar(128) NOT NULL DEFAULT NULL;
+ALTER TABLE `employee_data_temp`
+    ADD COLUMN `manager_email` varchar(128) NOT NULL;
 
 ALTER TABLE `employee_data`
     ADD COLUMN `full_name` varchar(128) NOT NULL DEFAULT NULL;
@@ -56,7 +56,7 @@ CREATE TABLE `ui_role_master_temp` (
 CREATE TABLE `manager_reportee_temp` (
                                        `reportee_email` varchar(64) NOT NULL,
                                        `manager_email` varchar(64) NOT NULL,
-                                       PRIMARY KEY (`reportee_id`),
+                                       PRIMARY KEY (`reportee_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `ui_role_master_temp`
