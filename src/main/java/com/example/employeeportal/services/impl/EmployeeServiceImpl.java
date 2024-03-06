@@ -82,9 +82,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public  ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserName())) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+//        if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserName())) {
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
         EmployeeData employeeData = employeeDataManager.getByEmpCode(getNeighboursDto.getEmpCode());
         List<ManagerReportee> managerReportee = managerReporteeManager.getAllByManagerEmail(employeeData.getUserName());
         ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
