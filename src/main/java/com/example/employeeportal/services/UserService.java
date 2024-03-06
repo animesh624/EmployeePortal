@@ -11,5 +11,5 @@ public interface UserService {
 
     ResponseEntity<Object> register(RegisterUserDto registerUserDto,String token) throws Exception;
 
-    ResponseEntity<Object> isLoggedIn(String userName, String token) throws Exception;
+    ResponseEntity<Object> isLoggedIn(String userEmail, String token) throws Exception;
 }

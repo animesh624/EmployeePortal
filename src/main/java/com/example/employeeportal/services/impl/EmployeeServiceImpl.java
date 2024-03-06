@@ -5,7 +5,6 @@ import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.ManagerReportee;
-import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 
 import java.util.HashMap;
@@ -37,14 +36,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     JWTUtil jwtUtil;
 
     @Override
-    public ResponseEntity<Object> getByUserName(GetEmployeeDto getEmployeeDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserName())){
+    public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        EmployeeData employeeData = employeeDataManager.getByUserName(getEmployeeDto.getUserName());
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(getEmployeeDto.getUserEmail());
 
         if(employeeData == null){
-            log.error("User doesnt exist with userName " + getEmployeeDto.getRequestUserName());
+            log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Map<String,Object> result = new HashMap<>();
@@ -52,68 +51,63 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
-
-    // to be convered if allowed
     @Override
-    public EmployeeData editEmployee(EmployeeDto employeeDto) throws Exception{
-        EmployeeData employeeData = employeeDataManager.getByUserName(employeeDto.getUserName());
+    public ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
         if(employeeData == null){
-            log.error("User doesnt exist with userName " + employeeDto.getUserName());
+            log.error("User doesnt exist with userEmail " + editEmployeeDto.getUserEmail());
             return null;
         }
-        employeeData.setLevel(employeeDto.getLevel());
-        employeeData.setDesignation(employeeDto.getDesignation());
-        employeeData.setContactNumber(employeeDto.getContactNumber());
+        employeeData.setLevel(editEmployeeDto.getLevel());
+        employeeData.setDesignation(editEmployeeDto.getDesignation());
+        employeeData.setContactNumber(editEmployeeDto.getContactNumber());
         employeeDataManager.save(employeeData);
-
-        return employeeData;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> searchEmployee(SearchEmployeeDto searchEmployeeDto,String token) throws Exception{
-         if(!jwtUtil.isTokenValid(token,searchEmployeeDto.getRequestedUserName())) {
-             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-         }
+    public ResponseEntity<Object> searchEmployee(String name, String designation, String expertise ,String userEmail, String token) throws Exception{
          Map<String,Object> result = new HashMap<>();
-         result.put("data",employeeDataManager.searchEmployee(searchEmployeeDto.getKeyword()));
+//         result.put("data",employeeDataManager.searchEmployee(searchEmployeeDto.getKeyword()));
          return new ResponseEntity<>(result,HttpStatus.OK);
 
     }
 
     @Override
     public  ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception{
-//        if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserName())) {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-        EmployeeData employeeData = employeeDataManager.getByEmpCode(getNeighboursDto.getEmpCode());
-        List<ManagerReportee> managerReportee = managerReporteeManager.getAllByManagerEmail(employeeData.getUserName());
-        ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
-        EmployeeData managerDetails = employeeDataManager.getByUserName(employeeData.getUserName());
-        TreeNodeDto parent = new TreeNodeDto();
-        parent.setDesignation(managerDetails.getDesignation());
-        parent.setName(managerDetails.getFirstName());
-        parent.setEmpCode(managerDetails.getEmpCode());
-        managerReporteeResponseDto.setManager(parent);
+            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserEmail())) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
+            managerReporteeResponseDto.setManager(fillDetailsForEmployeeManager(getNeighboursDto));
+            managerReporteeResponseDto.setReportee(fillDetailsForEmployeeReportee(getNeighboursDto));
+            Map<String, Object> result = new HashMap<>();
+            result.put("data", managerReporteeResponseDto);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    private List<TreeNodeDto> fillDetailsForEmployeeReportee(GetNeighboursDto getNeighboursDto) throws Exception{
         List<TreeNodeDto> finalList = new ArrayList<>();
-        TreeNodeDto child = new TreeNodeDto();
-        managerReportee.forEach(value -> {
-            EmployeeData reporteeDetails = new EmployeeData();
+        List<ManagerReportee> allReporteeOfManager = managerReporteeManager.getAllByManagerEmail(getNeighboursDto.getUserEmail());
+        allReporteeOfManager.forEach(value -> {
             try {
-                reporteeDetails = employeeDataManager.getByUserName(value.getReporteeEmail());
+                TreeNodeDto reporteeDetails = new TreeNodeDto();
+                reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(value.getReporteeEmail());
+                finalList.add(reporteeDetails);
             }
             catch (Exception e){
-
+                log.info("Exception occured while getting reportee details {}",e);
             }
-            child.setEmpCode(reporteeDetails.getEmpCode());
-            child.setDesignation(reporteeDetails.getDesignation());
-            child.setName(reporteeDetails.getFirstName());
-            finalList.add(child);
         });
-        Map<String,Object> result = new HashMap<>();
-        managerReporteeResponseDto.setReportee(finalList);
-        result.put("data",managerReporteeResponseDto);
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        return finalList;
+    }
 
+    private TreeNodeDto fillDetailsForEmployeeManager(GetNeighboursDto getNeighboursDto) throws Exception {
+        String managerEmail = employeeDataManager.getManagerEmailByUserEmail(getNeighboursDto.getUserEmail());
+        return employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
     }
 
 }

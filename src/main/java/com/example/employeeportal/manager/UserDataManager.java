@@ -4,5 +4,5 @@ import com.example.employeeportal.model.UserData;
 
 public interface UserDataManager extends GenericManager<UserData, String> {
 
-    UserData getByUserName(String userName) throws Exception;
+    UserData getByUserEmail(String userEmail) throws Exception;
 }

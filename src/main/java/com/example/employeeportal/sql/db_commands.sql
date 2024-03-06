@@ -1,6 +1,6 @@
 CREATE TABLE `user_data_temp` (
                              `id` varchar(64) NOT NULL DEFAULT '',
-                             `user_name` varchar(64) NOT NULL DEFAULT '',
+                             `user_email` varchar(64) NOT NULL DEFAULT '',
                              `password` varchar(128) NOT NULL DEFAULT '',
                              `first_name` varchar(56) DEFAULT NULL,
                              `last_name` varchar(56) DEFAULT NULL,
@@ -12,9 +12,11 @@ CREATE TABLE `user_data_temp` (
                              KEY `idx_username` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+
 CREATE TABLE `employee_data_temp` (
                              `id` varchar(64) NOT NULL DEFAULT '',
-                             `user_name` varchar(64) NOT NULL DEFAULT '',
+                             `user_email` varchar(64) NOT NULL DEFAULT '',
                              `first_name` varchar(56) DEFAULT NULL,
                              `last_name` varchar(56) DEFAULT NULL,
                               `full_name` varchar(124) DEFAULT NULL,
