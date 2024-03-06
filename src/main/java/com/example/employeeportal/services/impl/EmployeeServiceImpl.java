@@ -116,21 +116,4 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
-    @Override
-    public TreeEmployeeResponseDto treeExpandEmployee(EmployeeCodeDto employeeCodeDto, String token) throws Exception{
-        TreeEmployeeDto manager = new TreeEmployeeDto("Emily Davis", "204", "SDE-2");
-        List<TreeEmployeeDto> children = Arrays.asList(
-                new TreeEmployeeDto("Hello hfd", "205", "SDE-1"),
-                new TreeEmployeeDto("Michael Williams", "206", "SDE-1")
-        );
-
-        // Create the response object
-        TreeEmployeeResponseDto response = new TreeEmployeeResponseDto();
-        response.setManager(manager);
-        response.setChildren(children);
-
-        return response;
-    }
-
-
 }

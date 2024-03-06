@@ -15,6 +15,4 @@ public interface EmployeeService {
     ResponseEntity<Object> searchEmployee(SearchEmployeeDto searchEmployeeDto, String token) throws Exception;
 
     ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception;
-
-    TreeEmployeeResponseDto treeExpandEmployee(EmployeeCodeDto employeeCodeDto, String token) throws Exception;
 }

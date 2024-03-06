@@ -1,7 +1,6 @@
 package com.example.employeeportal.dto;
 
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
