@@ -53,6 +53,12 @@ CREATE TABLE `ui_role_master_temp` (
                                   PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `manager_reportee_temp` (
+                                       `reportee_email` varchar(64) NOT NULL,
+                                       `manager_email` varchar(64) NOT NULL,
+                                       PRIMARY KEY (`reportee_id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO `ui_role_master_temp`
 VALUES ('R1','TOPUP');
 

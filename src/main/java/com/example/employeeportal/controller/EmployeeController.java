@@ -41,4 +41,10 @@ public class EmployeeController {
     public TreeEmployeeResponseDto treeExpandEmployee(@RequestBody EmployeeCodeDto employeeCodeDto, @RequestHeader String token) throws Exception{
         return employeeService.treeExpandEmployee(employeeCodeDto,token);
     }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/getNeighbours")
+    public ResponseEntity<Object> getNeighbours(@RequestBody  GetNeighboursDto getNeighboursDto, @RequestHeader String token) throws Exception{
+        return employeeService.getNeighbours(getNeighboursDto,token);
+    }
 }

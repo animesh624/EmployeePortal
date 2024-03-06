@@ -8,4 +8,6 @@ public interface EmployeeDataManager extends GenericManager<EmployeeData,String>
     EmployeeData getByUserName (String Username) throws Exception;
 
     SearchResultDto searchEmployee(String keyword) throws Exception;
+
+    EmployeeData getByEmpCode(String empCode) throws Exception;
 }

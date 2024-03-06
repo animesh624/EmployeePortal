@@ -41,6 +41,9 @@ public class EmployeeData {
     @Column(name = "level")
     private String level;
 
+    @Column(name = "manager_email")
+    private String managerEmail;
+
     @Column(name = "frequency")
     private String frequency;
 

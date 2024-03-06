@@ -33,4 +33,9 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
 //        searchResultDto.setResultByName(employeeDataRepo.findTop5ByFullNameContainingOrderByFrequencyDesc(keyword));
         return searchResultDto;
     }
+
+    @Override
+    public EmployeeData getByEmpCode(String empCode) throws Exception{
+        return employeeDataRepo.findFirstByEmpCode(empCode);
+    };
 }
