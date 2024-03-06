@@ -83,30 +83,37 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public  ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserName())) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        List<ManagerReportee> allReporteeOfManager = managerReporteeManager.getAllByManagerEmail(getNeighboursDto.getUserName());
-        String managerEmail = employeeDataManager.getManagerEmailByUserName(getNeighboursDto.getUserName());
-        TreeNodeDto managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserName(managerEmail);
-        ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
-        managerReporteeResponseDto.setManager(managerDetails);
+            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserName())) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
+            ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
+            managerReporteeResponseDto.setManager(fillDetailsForEmployeeManager(getNeighboursDto));
+            managerReporteeResponseDto.setReportee(fillDetailsForEmployeeReportee(getNeighboursDto));
+            Map<String, Object> result = new HashMap<>();
+            result.put("data", managerReporteeResponseDto);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    private List<TreeNodeDto> fillDetailsForEmployeeReportee(GetNeighboursDto getNeighboursDto) throws Exception{
         List<TreeNodeDto> finalList = new ArrayList<>();
+        List<ManagerReportee> allReporteeOfManager = managerReporteeManager.getAllByManagerEmail(getNeighboursDto.getUserName());
         allReporteeOfManager.forEach(value -> {
-            TreeNodeDto reporteeDetails = new TreeNodeDto();
             try {
+                TreeNodeDto reporteeDetails = new TreeNodeDto();
                 reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserName(value.getReporteeEmail());
+                finalList.add(reporteeDetails);
             }
             catch (Exception e){
-
+                log.info("Exception occured while getting reportee details {}",e);
             }
-            finalList.add(reporteeDetails);
         });
-        Map<String,Object> result = new HashMap<>();
-        managerReporteeResponseDto.setReportee(finalList);
-        result.put("data",managerReporteeResponseDto);
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        return finalList;
+    }
 
+    private TreeNodeDto fillDetailsForEmployeeManager(GetNeighboursDto getNeighboursDto) throws Exception {
+        String managerEmail = employeeDataManager.getManagerEmailByUserName(getNeighboursDto.getUserName());
+        return employeeDataManager.getEmpCodeDesignationNameByUserName(managerEmail);
     }
 
 }
