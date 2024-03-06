@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserDataRepo extends JpaRepository<UserData, String> {
-    UserData getFirstByUserName(String userName);
+    UserData getFirstByUserEmail(String userEmail);
 }

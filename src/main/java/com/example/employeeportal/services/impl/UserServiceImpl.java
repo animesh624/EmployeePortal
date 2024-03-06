@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Object> login(LoginUserDto loginUserDto) throws Exception{
 
         Map<String, Object> result = new HashMap<>();
-        UserData userData = userDataManager.getByUserName(loginUserDto.getUserName());
+        UserData userData = userDataManager.getByUserEmail(loginUserDto.getUserEmail());
         if(userData == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -51,19 +51,19 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        String token = jwtUtil.createJWTToken(loginUserDto.getUserName(),"TokenForEmployeePortal");
+        String token = jwtUtil.createJWTToken(loginUserDto.getUserEmail(),"TokenForEmployeePortal");
         result.put("data", token);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Object> register(RegisterUserDto registerUserDto,String token) throws Exception{
-        log.info("Token recieved is {} and {}",token,(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin()));
-        if(!jwtUtil.isTokenValid(token,registerUserDto.getRequestUserName())
-                || !(userDataManager.getByUserName(registerUserDto.getRequestUserName()).getIsAdmin())){
+        log.info("Token recieved is {} and {}",token,(userDataManager.getByUserEmail(registerUserDto.getRequestUserEmail()).getIsAdmin()));
+        if(!jwtUtil.isTokenValid(token,registerUserDto.getRequestUserEmail())
+                || !(userDataManager.getByUserEmail(registerUserDto.getRequestUserEmail()).getIsAdmin())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        if(employeeDataManager.getByUserName(registerUserDto.getUserName()) != null){
+        if(employeeDataManager.getByUserEmail(registerUserDto.getUserEmail()) != null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -81,14 +81,14 @@ public class UserServiceImpl implements UserService {
         employeeData.setLevel(registerUserDto.getLevel());
         employeeData.setFirstName(registerUserDto.getFirstName());
         employeeData.setLastName(registerUserDto.getLastName());
-        employeeData.setUserName(registerUserDto.getUserName());
+        employeeData.setUserEmail(registerUserDto.getUserEmail());
         employeeData.setFullName(registerUserDto.getFullName());
         employeeDataManager.save(employeeData);
     }
 
     public void saveEntryInUserData(RegisterUserDto registerUserDto) throws Exception{
         UserData userData = new UserData();
-        userData.setUserName(registerUserDto.getUserName());
+        userData.setUserEmail(registerUserDto.getUserEmail());
         userData.setLastName(registerUserDto.getLastName());
         userData.setFirstName(registerUserDto.getFirstName());
         userData.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
@@ -96,8 +96,8 @@ public class UserServiceImpl implements UserService {
         userDataManager.save(userData);
     }
     @Override
-    public ResponseEntity<Object> isLoggedIn(String userName, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,userName)){
+    public ResponseEntity<Object> isLoggedIn(String userEmail, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,userEmail)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(HttpStatus.OK);

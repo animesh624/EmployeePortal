@@ -18,7 +18,7 @@ public class UserDataManagerImpl extends GenericManagerImpl<UserData,String> imp
     }
 
     @Override
-    public UserData getByUserName(String userName) throws Exception {
-        return userDataRepo.getFirstByUserName(userName);
+    public UserData getByUserEmail(String userEmail) throws Exception {
+        return userDataRepo.getFirstByUserEmail(userEmail);
     }
 }

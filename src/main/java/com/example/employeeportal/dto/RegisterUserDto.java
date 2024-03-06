@@ -17,8 +17,8 @@ public class RegisterUserDto {
     @JsonProperty("full_name")
     private String fullName;
 
-    @JsonProperty("user_name")
-    private String userName;
+    @JsonProperty("user_email")
+    private String userEmail;
 
     @JsonProperty("emp_code")
     private String empCode;
@@ -34,8 +34,8 @@ public class RegisterUserDto {
     @JsonProperty("contact_number")
     private String contactNumber;
 
-    @JsonProperty("request_user_name")
-    private String requestUserName;
+    @JsonProperty("request_user_email")
+    private String requestUserEmail;
 
     //image
 }

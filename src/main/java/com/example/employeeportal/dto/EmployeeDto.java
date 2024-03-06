@@ -9,8 +9,8 @@ import lombok.Data;
 public class EmployeeDto {
     private String name;
 
-    @JsonProperty("user_name")
-    private String userName;
+    @JsonProperty("user_email")
+    private String userEmail;
 
     @JsonProperty("emp_code")
     private String empCode;

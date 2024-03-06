@@ -20,9 +20,9 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/getByUserName")
-    public ResponseEntity<Object> getByUserName(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
-        return employeeService.getByUserName(getEmployeeDto,token);
+    @PostMapping("/getByUserEmail")
+    public ResponseEntity<Object> getByUserEmail(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
+        return employeeService.getByUserEmail(getEmployeeDto,token);
     }
 
     //this will use when bandwidth.

@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 @Builder
 public class GetNeighboursDto {
-    @JsonProperty("user_name")
-    private String userName;
-    @JsonProperty("requested_user_name")
-    private  String requestUserName;
+    @JsonProperty("user_email")
+    private String userEmail;
+    @JsonProperty("requested_user_email")
+    private  String requestUserEmail;
 }

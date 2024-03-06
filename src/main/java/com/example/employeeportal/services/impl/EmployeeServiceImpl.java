@@ -38,14 +38,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     JWTUtil jwtUtil;
 
     @Override
-    public ResponseEntity<Object> getByUserName(GetEmployeeDto getEmployeeDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserName())){
+    public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        EmployeeData employeeData = employeeDataManager.getByUserName(getEmployeeDto.getUserName());
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(getEmployeeDto.getUserEmail());
 
         if(employeeData == null){
-            log.error("User doesnt exist with userName " + getEmployeeDto.getRequestUserName());
+            log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Map<String,Object> result = new HashMap<>();
@@ -57,9 +57,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     // to be convered if allowed
     @Override
     public EmployeeData editEmployee(EmployeeDto employeeDto) throws Exception{
-        EmployeeData employeeData = employeeDataManager.getByUserName(employeeDto.getUserName());
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(employeeDto.getUserEmail());
         if(employeeData == null){
-            log.error("User doesnt exist with userName " + employeeDto.getUserName());
+            log.error("User doesnt exist with userEmail " + employeeDto.getUserEmail());
             return null;
         }
         employeeData.setLevel(employeeDto.getLevel());
@@ -72,7 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ResponseEntity<Object> searchEmployee(SearchEmployeeDto searchEmployeeDto,String token) throws Exception{
-         if(!jwtUtil.isTokenValid(token,searchEmployeeDto.getRequestedUserName())) {
+         if(!jwtUtil.isTokenValid(token,searchEmployeeDto.getRequestedUserEmail())) {
              return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
          }
          Map<String,Object> result = new HashMap<>();
@@ -83,7 +83,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public  ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception{
-            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserName())) {
+            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserEmail())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
 
@@ -97,11 +97,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private List<TreeNodeDto> fillDetailsForEmployeeReportee(GetNeighboursDto getNeighboursDto) throws Exception{
         List<TreeNodeDto> finalList = new ArrayList<>();
-        List<ManagerReportee> allReporteeOfManager = managerReporteeManager.getAllByManagerEmail(getNeighboursDto.getUserName());
+        List<ManagerReportee> allReporteeOfManager = managerReporteeManager.getAllByManagerEmail(getNeighboursDto.getUserEmail());
         allReporteeOfManager.forEach(value -> {
             try {
                 TreeNodeDto reporteeDetails = new TreeNodeDto();
-                reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserName(value.getReporteeEmail());
+                reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(value.getReporteeEmail());
                 finalList.add(reporteeDetails);
             }
             catch (Exception e){
@@ -112,8 +112,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private TreeNodeDto fillDetailsForEmployeeManager(GetNeighboursDto getNeighboursDto) throws Exception {
-        String managerEmail = employeeDataManager.getManagerEmailByUserName(getNeighboursDto.getUserName());
-        return employeeDataManager.getEmpCodeDesignationNameByUserName(managerEmail);
+        String managerEmail = employeeDataManager.getManagerEmailByUserEmail(getNeighboursDto.getUserEmail());
+        return employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
     }
 
 }
