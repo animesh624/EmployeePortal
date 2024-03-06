@@ -1,12 +1,10 @@
 package com.example.employeeportal.services.impl;
 
-import apple.laf.JRSUIUtils;
 import com.example.employeeportal.dto.*;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.ManagerReportee;
-import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 
 import java.util.HashMap;
