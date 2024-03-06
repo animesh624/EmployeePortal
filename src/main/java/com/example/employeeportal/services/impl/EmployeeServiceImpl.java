@@ -53,30 +53,27 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
-
-    // to be convered if allowed
     @Override
-    public EmployeeData editEmployee(EmployeeDto employeeDto) throws Exception{
-        EmployeeData employeeData = employeeDataManager.getByUserEmail(employeeDto.getUserEmail());
+    public ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
         if(employeeData == null){
-            log.error("User doesnt exist with userEmail " + employeeDto.getUserEmail());
+            log.error("User doesnt exist with userEmail " + editEmployeeDto.getUserEmail());
             return null;
         }
-        employeeData.setLevel(employeeDto.getLevel());
-        employeeData.setDesignation(employeeDto.getDesignation());
-        employeeData.setContactNumber(employeeDto.getContactNumber());
+        employeeData.setLevel(editEmployeeDto.getLevel());
+        employeeData.setDesignation(editEmployeeDto.getDesignation());
+        employeeData.setContactNumber(editEmployeeDto.getContactNumber());
         employeeDataManager.save(employeeData);
-
-        return employeeData;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> searchEmployee(SearchEmployeeDto searchEmployeeDto,String token) throws Exception{
-         if(!jwtUtil.isTokenValid(token,searchEmployeeDto.getRequestedUserEmail())) {
-             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-         }
+    public ResponseEntity<Object> searchEmployee(String name, String designation, String expertise ,String userEmail, String token) throws Exception{
          Map<String,Object> result = new HashMap<>();
-         result.put("data",employeeDataManager.searchEmployee(searchEmployeeDto.getKeyword()));
+//         result.put("data",employeeDataManager.searchEmployee(searchEmployeeDto.getKeyword()));
          return new ResponseEntity<>(result,HttpStatus.OK);
 
     }

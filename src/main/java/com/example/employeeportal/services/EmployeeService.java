@@ -10,9 +10,9 @@ public interface EmployeeService {
 
     ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception;
 
-    EmployeeData editEmployee(EmployeeDto employeeDto) throws Exception;
+    ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto,String token) throws Exception;
 
-    ResponseEntity<Object> searchEmployee(SearchEmployeeDto searchEmployeeDto, String token) throws Exception;
+    ResponseEntity<Object> searchEmployee(String name, String designation, String expertise ,String userEmail, String token) throws Exception;
 
     ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception;
 }

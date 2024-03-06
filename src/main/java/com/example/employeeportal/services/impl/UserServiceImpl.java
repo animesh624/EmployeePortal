@@ -82,7 +82,6 @@ public class UserServiceImpl implements UserService {
         employeeData.setFirstName(registerUserDto.getFirstName());
         employeeData.setLastName(registerUserDto.getLastName());
         employeeData.setUserEmail(registerUserDto.getUserEmail());
-        employeeData.setFullName(registerUserDto.getFullName());
         employeeDataManager.save(employeeData);
     }
 

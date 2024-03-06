@@ -25,15 +25,15 @@ public class EmployeeController {
         return employeeService.getByUserEmail(getEmployeeDto,token);
     }
 
-    //this will use when bandwidth.
     @PostMapping("/edit/employee")
-    public EmployeeData editEmployee(@RequestParam EmployeeDto employeeDto) throws Exception{
-        return employeeService.editEmployee(employeeDto);
+    public ResponseEntity<Object> editEmployee(@RequestParam EditEmployeeDto editEmployeeDto, @RequestHeader String token) throws Exception{
+        return employeeService.editEmployee(editEmployeeDto,token);
     }
+
     @CrossOrigin(origins = "*")
     @PostMapping("/search")
-    public ResponseEntity<Object> searchEmployee(@RequestParam SearchEmployeeDto searchEmployeeDto, @RequestHeader String token) throws Exception{
-        return employeeService.searchEmployee(searchEmployeeDto,token);
+    public ResponseEntity<Object> searchEmployee(@RequestParam String name, @RequestParam String designation, @RequestParam String expertise, @RequestParam String userEmail,@RequestHeader String token) throws Exception {
+        return employeeService.searchEmployee(name, designation, expertise, userEmail, token);
     }
 
     @CrossOrigin(origins = "*")
