@@ -1,6 +1,7 @@
 package com.example.employeeportal.manager.impl;
 
 import com.example.employeeportal.dto.SearchResultDto;
+import com.example.employeeportal.dto.TreeNodeDto;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.repo.EmployeeDataRepo;
@@ -38,4 +39,14 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     public EmployeeData getByEmpCode(String empCode) throws Exception{
         return employeeDataRepo.findFirstByEmpCode(empCode);
     };
+
+    @Override
+    public TreeNodeDto getEmpCodeDesignationNameByUserName (String userName) throws Exception{
+        return employeeDataRepo.getEmpCodeDesignationNameByUserName(userName);
+    }
+
+    @Override
+    public String getManagerEmailByUserName (String userName) throws Exception{
+        return employeeDataRepo.getManagerEmailByUserName(userName);
+    }
 }

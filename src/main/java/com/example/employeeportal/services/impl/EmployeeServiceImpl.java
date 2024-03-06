@@ -1,5 +1,6 @@
 package com.example.employeeportal.services.impl;
 
+import apple.laf.JRSUIUtils;
 import com.example.employeeportal.dto.*;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
@@ -85,29 +86,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserName())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        EmployeeData employeeData = employeeDataManager.getByEmpCode(getNeighboursDto.getEmpCode());
-        List<ManagerReportee> managerReportee = managerReporteeManager.getAllByManagerEmail(employeeData.getUserName());
+        List<ManagerReportee> allReporteeOfManager = managerReporteeManager.getAllByManagerEmail(getNeighboursDto.getUserName());
+        String managerEmail = employeeDataManager.getManagerEmailByUserName(getNeighboursDto.getUserName());
+        TreeNodeDto managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserName(managerEmail);
         ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
-        EmployeeData managerDetails = employeeDataManager.getByUserName(employeeData.getUserName());
-        TreeNodeDto parent = new TreeNodeDto();
-        parent.setDesignation(managerDetails.getDesignation());
-        parent.setName(managerDetails.getFirstName());
-        parent.setEmpCode(managerDetails.getEmpCode());
-        managerReporteeResponseDto.setManager(parent);
+        managerReporteeResponseDto.setManager(managerDetails);
         List<TreeNodeDto> finalList = new ArrayList<>();
-        TreeNodeDto child = new TreeNodeDto();
-        managerReportee.forEach(value -> {
-            EmployeeData reporteeDetails = new EmployeeData();
+        allReporteeOfManager.forEach(value -> {
+            TreeNodeDto reporteeDetails = new TreeNodeDto();
             try {
-                reporteeDetails = employeeDataManager.getByUserName(value.getReporteeEmail());
+                reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserName(value.getReporteeEmail());
             }
             catch (Exception e){
 
             }
-            child.setEmpCode(reporteeDetails.getEmpCode());
-            child.setDesignation(reporteeDetails.getDesignation());
-            child.setName(reporteeDetails.getFirstName());
-            finalList.add(child);
+            finalList.add(reporteeDetails);
         });
         Map<String,Object> result = new HashMap<>();
         managerReporteeResponseDto.setReportee(finalList);
