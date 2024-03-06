@@ -83,7 +83,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserEmail())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-
             ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
             managerReporteeResponseDto.setManager(fillDetailsForEmployeeManager(getNeighboursDto));
             managerReporteeResponseDto.setReportee(fillDetailsForEmployeeReportee(getNeighboursDto));
