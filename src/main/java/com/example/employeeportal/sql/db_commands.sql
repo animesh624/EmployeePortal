@@ -85,3 +85,8 @@ INSERT INTO `ui_role_master_temp`
 VALUES ('R6','NACH');
 
 
+UPDATE employee_data_temp
+SET user_email = CONCAT(SUBSTRING_INDEX(user_email, '.', 1), '@example.com')
+WHERE user_email LIKE '%.%.%';
+
+
