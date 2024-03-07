@@ -90,9 +90,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public  ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception{
-            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserEmail())) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
+//            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserEmail())) {
+//                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//            }
             ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
             managerReporteeResponseDto.setManager(fillDetailsForEmployeeManager(getNeighboursDto));
             managerReporteeResponseDto.setReportee(fillDetailsForEmployeeReportee(getNeighboursDto));
@@ -108,7 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             try {
                  TreeNodeDto temp = new TreeNodeDto();
                  EmployeeData reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(value.getReporteeEmail());
-                 temp.setEmpCode(reporteeDetails.getEmpCode());
+                 temp.setUserEmail(reporteeDetails.getUserEmail());
                  temp.setFirstName(reporteeDetails.getFirstName());
                  temp.setDesignation(reporteeDetails.getDesignation());
                 finalList.add(temp);
@@ -125,7 +125,7 @@ public class EmployeeServiceImpl implements EmployeeService {
          TreeNodeDto temp = new TreeNodeDto();
          EmployeeData managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
          temp.setDesignation(managerDetails.getDesignation());
-         temp.setEmpCode(managerDetails.getEmpCode());
+         temp.setUserEmail(managerDetails.getUserEmail());
          temp.setFirstName(managerDetails.getFirstName());
         return temp;
     }

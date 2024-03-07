@@ -9,8 +9,8 @@ public class TreeNodeDto {
 
     @JsonProperty("first_name")
     public String firstName;
-    @JsonProperty("emp_code")
-    public String empCode;
+    @JsonProperty("user_email")
+    public String userEmail;
     @JsonProperty("designation")
     public String designation;
 }
