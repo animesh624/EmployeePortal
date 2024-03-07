@@ -20,8 +20,8 @@ public class UserData {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "user_email")
+    private String userEmail;
 
     @Column(name = "password")
     private String password;

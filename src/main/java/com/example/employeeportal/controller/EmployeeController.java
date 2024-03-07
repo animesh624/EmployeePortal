@@ -1,10 +1,7 @@
 package com.example.employeeportal.controller;
 
 
-import com.example.employeeportal.dto.EmployeeDto;
-import com.example.employeeportal.dto.GetEmployeeDto;
-import com.example.employeeportal.dto.SearchEmployeeDto;
-import com.example.employeeportal.dto.SearchResultDto;
+import com.example.employeeportal.dto.*;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +22,26 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/getByUserName")
-    public ResponseEntity<Object> getByUserName(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
-        return employeeService.getByUserName(getEmployeeDto,token);
+    @PostMapping("/getByUserEmail")
+    public ResponseEntity<Object> getByUserEmail(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
+        return employeeService.getByUserEmail(getEmployeeDto,token);
     }
 
-
-    //this will use when bandwidth.
     @PostMapping("/edit/employee")
-    public EmployeeData editEmployee(@RequestParam EmployeeDto employeeDto) throws Exception{
-        return employeeService.editEmployee(employeeDto);
+    public ResponseEntity<Object> editEmployee(@RequestParam EditEmployeeDto editEmployeeDto, @RequestHeader String token) throws Exception{
+        return employeeService.editEmployee(editEmployeeDto,token);
     }
+
     @CrossOrigin(origins = "*")
     @PostMapping("/search")
-    public ResponseEntity<Object> searchEmployee(@RequestParam SearchEmployeeDto searchEmployeeDto, @RequestHeader String token) throws Exception{
-        return employeeService.searchEmployee(searchEmployeeDto,token);
+    public ResponseEntity<Object> searchEmployee(@RequestParam String name, @RequestParam String designation, @RequestParam String expertise, @RequestParam String userEmail,@RequestHeader String token) throws Exception {
+        return employeeService.searchEmployee(name, designation, expertise, userEmail, token);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/getNeighbours")
+    public ResponseEntity<Object> getNeighbours(@RequestBody  GetNeighboursDto getNeighboursDto, @RequestHeader String token) throws Exception{
+        return employeeService.getNeighbours(getNeighboursDto,token);
     }
 
     // TODO seperate folder for pdf and images.

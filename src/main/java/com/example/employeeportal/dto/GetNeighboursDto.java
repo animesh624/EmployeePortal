@@ -6,8 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GetEmployeeDto {
-
+public class GetNeighboursDto {
     @JsonProperty("user_email")
     private String userEmail;
     @JsonProperty("requested_user_email")

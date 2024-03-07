@@ -38,8 +38,8 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "isLoggedIn")
-    public ResponseEntity<Object> isLoggedIn(@RequestBody String userName, @RequestHeader String token) throws Exception{
-        return userService.isLoggedIn(userName,token);
+    public ResponseEntity<Object> isLoggedIn(@RequestBody String userEmail, @RequestHeader String token) throws Exception{
+        return userService.isLoggedIn(userEmail,token);
     }
 
 }

@@ -20,17 +20,14 @@ public class EmployeeData {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "user_email")
+    private String userEmail;
 
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
-
-    @Column(name = "full_name")
-    private String fullName;
 
     @Column(name = "emp_code")
     private String empCode;
@@ -40,6 +37,9 @@ public class EmployeeData {
 
     @Column(name = "level")
     private String level;
+
+    @Column(name = "manager_email")
+    private String managerEmail;
 
     @Column(name = "frequency")
     private String frequency;

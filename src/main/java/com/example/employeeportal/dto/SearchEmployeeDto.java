@@ -9,5 +9,5 @@ import lombok.Data;
 public class SearchEmployeeDto {
     private String keyword;
 
-    private String requestedUserName;
+    private String requestedUserEmail;
 }

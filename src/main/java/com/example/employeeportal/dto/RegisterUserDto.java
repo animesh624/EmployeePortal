@@ -14,28 +14,30 @@ public class RegisterUserDto {
     @JsonProperty("last_name")
     private String lastName;
 
-    @JsonProperty("full_name")
-    private String fullName;
-
-    @JsonProperty("user_name")
-    private String userName;
+    @JsonProperty("user_email")
+    private String userEmail;
 
     @JsonProperty("emp_code")
     private String empCode;
 
+    @JsonProperty("designation")
     private String designation;
 
+    @JsonProperty("level")
     private String level;
+
     @JsonProperty("is_admin")
     private Boolean isAdmin;
 
+    @JsonProperty("password")
     private String password;
 
     @JsonProperty("contact_number")
     private String contactNumber;
 
-    @JsonProperty("request_user_name")
-    private String requestUserName;
+    @JsonProperty("request_user_email")
+    private String requestUserEmail;
 
-    //image
+    @JsonProperty("manager_email")
+    private String managerEmail;
 }
