@@ -29,9 +29,6 @@ public class EmployeeData {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "full_name")
-    private String fullName;
-
     @Column(name = "emp_code")
     private String empCode;
 

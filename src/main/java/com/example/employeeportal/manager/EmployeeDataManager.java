@@ -14,7 +14,7 @@ public interface EmployeeDataManager extends GenericManager<EmployeeData,String>
 
     EmployeeData getByEmpCode(String empCode) throws Exception;
 
-    TreeNodeDto getEmpCodeDesignationNameByUserEmail (String userEmail) throws Exception;
+    EmployeeData getEmpCodeDesignationNameByUserEmail (String userEmail) throws Exception;
 
     String getManagerEmailByUserEmail (String userEmail) throws Exception;
 }

@@ -15,8 +15,8 @@ public interface EmployeeDataRepo extends JpaRepository<EmployeeData, String> {
 
     EmployeeData findFirstByEmpCode(String empCode) throws Exception;
 
-    @Query(value="SELECT e.first_name, e.designation, e.emp_code  FROM employee_data_temp e WHERE e.user_email = ?1", nativeQuery = true)
-    TreeNodeDto getEmpCodeDesignationNameByUserEmail(String userEmail) throws Exception;
+    @Query(value="SELECT e.*  FROM employee_data_temp e WHERE e.user_email = ?1 LIMIT 1", nativeQuery = true)
+    EmployeeData getEmpCodeDesignationNameByUserEmail(String userEmail) throws Exception;
 
     @Query(value="SELECT e.manager_email FROM employee_data_temp e WHERE e.user_email = ?1", nativeQuery = true)
     String getManagerEmailByUserEmail (String userEmail) throws Exception;

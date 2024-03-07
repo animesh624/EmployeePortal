@@ -5,11 +5,13 @@ import com.example.employeeportal.dto.TreeNodeDto;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.repo.EmployeeDataRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,String> implements EmployeeDataManager {
 
@@ -41,7 +43,7 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     };
 
     @Override
-    public TreeNodeDto getEmpCodeDesignationNameByUserEmail (String userEmail) throws Exception{
+    public EmployeeData getEmpCodeDesignationNameByUserEmail (String userEmail) throws Exception{
         return employeeDataRepo.getEmpCodeDesignationNameByUserEmail(userEmail);
     }
 
