@@ -90,9 +90,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public  ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception{
-//            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserEmail())) {
-//                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//            }
+            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserEmail())) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
             ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
             managerReporteeResponseDto.setManager(fillDetailsForEmployeeManager(getNeighboursDto));
             managerReporteeResponseDto.setReportee(fillDetailsForEmployeeReportee(getNeighboursDto));
