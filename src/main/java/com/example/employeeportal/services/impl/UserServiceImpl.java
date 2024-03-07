@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
         if(userData == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        log.info("Animesh here");
         if(StringUtils.isEmpty(loginUserDto.getPassword()) || !bCryptPasswordEncoder.matches(loginUserDto.getPassword(), userData.getPassword())){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

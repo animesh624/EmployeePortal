@@ -5,6 +5,7 @@ import com.example.employeeportal.dto.RegisterUserDto;
 import com.example.employeeportal.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/login")
-    public ResponseEntity<Object> login(@RequestBody LoginUserDto loginUserDto) throws Exception {
+    public ResponseEntity<Object> login(@Validated @RequestBody LoginUserDto loginUserDto) throws Exception {
         return userService.login(loginUserDto);
     }
 
