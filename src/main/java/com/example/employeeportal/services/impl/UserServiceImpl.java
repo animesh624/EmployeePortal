@@ -3,8 +3,10 @@ package com.example.employeeportal.services.impl;
 import com.example.employeeportal.dto.LoginUserDto;
 import com.example.employeeportal.dto.RegisterUserDto;
 import com.example.employeeportal.manager.EmployeeDataManager;
+import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.model.EmployeeData;
+import com.example.employeeportal.model.ManagerReportee;
 import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.UserService;
 import com.example.employeeportal.util.JWTUtil;
@@ -32,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     JWTUtil jwtUtil;
+
+    @Autowired
+    ManagerReporteeManager managerReporteeManager;
 
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -69,11 +74,12 @@ public class UserServiceImpl implements UserService {
 
         saveEntryInEmployeeData(registerUserDto);
         saveEntryInUserData(registerUserDto);
+        createMapping(registerUserDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public void saveEntryInEmployeeData(RegisterUserDto registerUserDto) throws Exception{
+    private void saveEntryInEmployeeData(RegisterUserDto registerUserDto) throws Exception{
         EmployeeData employeeData = new EmployeeData();
         employeeData.setContactNumber(registerUserDto.getContactNumber());
         employeeData.setEmpCode(registerUserDto.getEmpCode());
@@ -82,10 +88,11 @@ public class UserServiceImpl implements UserService {
         employeeData.setFirstName(registerUserDto.getFirstName());
         employeeData.setLastName(registerUserDto.getLastName());
         employeeData.setUserEmail(registerUserDto.getUserEmail());
+        employeeData.setManagerEmail(registerUserDto.getManagerEmail());
         employeeDataManager.save(employeeData);
     }
 
-    public void saveEntryInUserData(RegisterUserDto registerUserDto) throws Exception{
+    private void saveEntryInUserData(RegisterUserDto registerUserDto) throws Exception{
         UserData userData = new UserData();
         userData.setUserEmail(registerUserDto.getUserEmail());
         userData.setLastName(registerUserDto.getLastName());
@@ -93,6 +100,15 @@ public class UserServiceImpl implements UserService {
         userData.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
         userData.setIsAdmin(registerUserDto.getIsAdmin());
         userDataManager.save(userData);
+    }
+
+    private void createMapping(RegisterUserDto registerUserDto) throws Exception{
+        if(!StringUtils.isEmpty(registerUserDto.getManagerEmail())){
+            ManagerReportee managerReportee = new ManagerReportee();
+            managerReportee.setManagerEmail(registerUserDto.getManagerEmail());
+            managerReportee.setReporteeEmail(registerUserDto.getUserEmail());
+            managerReporteeManager.save(managerReportee);
+        }
     }
     @Override
     public ResponseEntity<Object> isLoggedIn(String userEmail, String token) throws Exception{
