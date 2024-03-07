@@ -59,14 +59,11 @@ public class S3Facade {
     }
 
     public String uploadFile(MultipartFile multipartFile){
-        log.info("Animesh printing {} and {} and {} and {}",endpointUrl,bucketName,accessKey,secretKey);
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
-            log.info("Printing fileName {}",fileName);
             fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
-            log.info("Printing file url {}",fileUrl);
             uploadFileTos3bucket(fileName, file);
             file.delete();
             return fileName;

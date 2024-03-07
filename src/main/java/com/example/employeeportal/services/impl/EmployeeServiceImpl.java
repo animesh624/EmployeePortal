@@ -94,12 +94,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public ResponseEntity<Object> downloadFile(String fileName) throws Exception{
         File file = s3Facade.downloadFile(fileName);
         Path path = Paths.get(file.getAbsolutePath());
-        log.info("Animesh printing file {}",file);
-        log.info("Animesh printing path {}",path);
         ByteArrayResource resource;
         try {
             resource = new ByteArrayResource(Files.readAllBytes(path));
-            log.info("Animesh printing resource {}",resource);
         } catch (IOException e) {
             return ResponseEntity.notFound().build();
         }
@@ -109,6 +106,5 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .body(resource);
 
     }
-
 
 }
