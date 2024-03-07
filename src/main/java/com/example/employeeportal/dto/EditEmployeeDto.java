@@ -8,11 +8,17 @@ import lombok.Data;
 @Data
 public class EditEmployeeDto {
 
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("first_name")
+    private String firstName;
+
+    @JsonProperty("last_name")
+    private String lastName;
 
     @JsonProperty("user_email")
     private String userEmail;
+
+    @JsonProperty("manager_email")
+    private String managerEmail;
 
     @JsonProperty("emp_code")
     private String empCode;

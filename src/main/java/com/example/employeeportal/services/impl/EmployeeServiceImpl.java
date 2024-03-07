@@ -76,6 +76,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeData.setLevel(editEmployeeDto.getLevel());
         employeeData.setDesignation(editEmployeeDto.getDesignation());
         employeeData.setContactNumber(editEmployeeDto.getContactNumber());
+        employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());
+        employeeData.setFirstName(editEmployeeDto.getFirstName());
+        employeeData.setLastName(editEmployeeDto.getLastName());
         employeeDataManager.save(employeeData);
         return new ResponseEntity<>(HttpStatus.OK);
     }
