@@ -8,13 +8,14 @@ import java.util.List;
 
 public interface EmployeeDataManager extends GenericManager<EmployeeData,String>{
 
-    EmployeeData getByUserEmail (String userEmail) throws Exception;
+    EmployeeData getByUserEmail(String userEmail) throws Exception;
 
-    SearchResultDto searchEmployee(String keyword) throws Exception;
+    Object searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception;
 
     EmployeeData getByEmpCode(String empCode) throws Exception;
 
-    EmployeeData getEmpCodeDesignationNameByUserEmail (String userEmail) throws Exception;
+    EmployeeData getEmpCodeDesignationNameByUserEmail(String userEmail) throws Exception;
 
-    String getManagerEmailByUserEmail (String userEmail) throws Exception;
+    String getManagerEmailByUserEmail(String userEmail) throws Exception;
+
 }

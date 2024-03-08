@@ -86,7 +86,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public ResponseEntity<Object> searchEmployee(String name, String designation, String expertise ,String userEmail, String token) throws Exception{
          Map<String,Object> result = new HashMap<>();
-//         result.put("data",employeeDataManager.searchEmployee(searchEmployeeDto.getKeyword()));
+         log.info("Animesh");
+         result.put("data",employeeDataManager.searchEmployee(name,designation,expertise,userEmail));
          return new ResponseEntity<>(result,HttpStatus.OK);
 
     }
