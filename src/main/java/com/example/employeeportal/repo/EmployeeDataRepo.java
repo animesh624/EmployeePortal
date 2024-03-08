@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EmployeeDataRepo extends JpaRepository<EmployeeData, String> {
 
@@ -19,12 +21,12 @@ public interface EmployeeDataRepo extends JpaRepository<EmployeeData, String> {
     String getManagerEmailByUserEmail (String userEmail) throws Exception;
 
     @Query(value = "Select e.first_name, e.user_email, e.designation FROM employee_data_temp e WHERE e.user_email LIKE %?1%",nativeQuery = true)
-    Object searchEmployeeByEmail(String userEmail) throws Exception;
+    List<Object> searchEmployeeByEmail(String userEmail) throws Exception;
 
     @Query(value = "Select e.first_name, e.user_email, e.designation FROM employee_data_temp e WHERE e.designation LIKE %?1%",nativeQuery = true)
-    Object searchEmployeeByDesignation(String designation) throws Exception;
+    List<Object> searchEmployeeByDesignation(String designation) throws Exception;
 
     @Query(value = "Select e.first_name, e.user_email, e.designation FROM employee_data_temp e WHERE e.first_name LIKE %?1% OR e.last_name LIKE %?1%",nativeQuery = true)
-    Object searchEmployeeByName(String Name) throws Exception;
+    List<Object> searchEmployeeByName(String Name) throws Exception;
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -31,7 +32,7 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     }
 
     @Override
-    public Object searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception{
+    public List<Object> searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception{
 
         if(name != null) {
             return employeeDataRepo.searchEmployeeByName(name);
@@ -43,7 +44,7 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
             return employeeDataRepo.searchEmployeeByEmail(userEmail);
         }
 
-        return new Object();
+        return new ArrayList<>();
 
     }
 
