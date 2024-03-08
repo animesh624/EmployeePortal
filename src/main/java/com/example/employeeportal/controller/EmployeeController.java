@@ -2,7 +2,6 @@ package com.example.employeeportal.controller;
 
 
 import com.example.employeeportal.dto.*;
-import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

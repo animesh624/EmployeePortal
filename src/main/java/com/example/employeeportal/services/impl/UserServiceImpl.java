@@ -2,11 +2,10 @@ package com.example.employeeportal.services.impl;
 
 import com.example.employeeportal.dto.LoginUserDto;
 import com.example.employeeportal.dto.RegisterUserDto;
+import com.example.employeeportal.facade.UserDataFacade;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.manager.UserDataManager;
-import com.example.employeeportal.model.EmployeeData;
-import com.example.employeeportal.model.ManagerReportee;
 import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.UserService;
 import com.example.employeeportal.util.JWTUtil;
@@ -37,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     ManagerReporteeManager managerReporteeManager;
+
+    @Autowired
+    UserDataFacade userDataFacade;
 
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -72,44 +74,13 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        saveEntryInEmployeeData(registerUserDto);
-        saveEntryInUserData(registerUserDto);
-        createMapping(registerUserDto);
+        userDataFacade.saveEntryInEmployeeData(registerUserDto);
+        userDataFacade.saveEntryInUserData(registerUserDto);
+        userDataFacade.createMapping(registerUserDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void saveEntryInEmployeeData(RegisterUserDto registerUserDto) throws Exception{
-        EmployeeData employeeData = new EmployeeData();
-        employeeData.setContactNumber(registerUserDto.getContactNumber());
-        employeeData.setEmpCode(registerUserDto.getEmpCode());
-        employeeData.setDesignation(registerUserDto.getDesignation());
-        employeeData.setLevel(registerUserDto.getLevel());
-        employeeData.setFirstName(registerUserDto.getFirstName());
-        employeeData.setLastName(registerUserDto.getLastName());
-        employeeData.setUserEmail(registerUserDto.getUserEmail());
-        employeeData.setManagerEmail(registerUserDto.getManagerEmail());
-        employeeDataManager.save(employeeData);
-    }
-
-    private void saveEntryInUserData(RegisterUserDto registerUserDto) throws Exception{
-        UserData userData = new UserData();
-        userData.setUserEmail(registerUserDto.getUserEmail());
-        userData.setLastName(registerUserDto.getLastName());
-        userData.setFirstName(registerUserDto.getFirstName());
-        userData.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
-        userData.setIsAdmin(registerUserDto.getIsAdmin());
-        userDataManager.save(userData);
-    }
-
-    private void createMapping(RegisterUserDto registerUserDto) throws Exception{
-        if(!StringUtils.isEmpty(registerUserDto.getManagerEmail())){
-            ManagerReportee managerReportee = new ManagerReportee();
-            managerReportee.setManagerEmail(registerUserDto.getManagerEmail());
-            managerReportee.setReporteeEmail(registerUserDto.getUserEmail());
-            managerReporteeManager.save(managerReportee);
-        }
-    }
     @Override
     public ResponseEntity<Object> isLoggedIn(String userEmail, String token) throws Exception{
         if(!jwtUtil.isTokenValid(token,userEmail)){

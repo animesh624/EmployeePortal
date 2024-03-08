@@ -1,6 +1,7 @@
 package com.example.employeeportal.services.impl;
 
 import com.example.employeeportal.dto.*;
+import com.example.employeeportal.facade.EmployeeDataFacade;
 import com.example.employeeportal.facade.S3Facade;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
@@ -47,6 +48,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     S3Facade s3Facade;
 
+    @Autowired
+    EmployeeDataFacade employeeDataFacade;
+
     @Override
     public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
         if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
@@ -73,13 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.error("User doesnt exist with userEmail " + editEmployeeDto.getUserEmail());
             return null;
         }
-        employeeData.setLevel(editEmployeeDto.getLevel());
-        employeeData.setDesignation(editEmployeeDto.getDesignation());
-        employeeData.setContactNumber(editEmployeeDto.getContactNumber());
-        employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());
-        employeeData.setFirstName(editEmployeeDto.getFirstName());
-        employeeData.setLastName(editEmployeeDto.getLastName());
-        employeeDataManager.save(employeeData);
+        employeeDataFacade.saveEditDetails(employeeData,editEmployeeDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
