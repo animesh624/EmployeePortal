@@ -14,6 +14,6 @@ public class ManagerReporteeResponseDto {
     @JsonProperty("reportee")
     public List<TreeNodeDto> reportee;
 
-    @JsonProperty("user_email")
-    public String userEmail;
+    @JsonProperty("node")
+    public TreeNodeDto node;
 }

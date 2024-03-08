@@ -100,7 +100,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
             managerReporteeResponseDto.setManager(fillDetailsForEmployeeManager(getNeighboursDto));
             managerReporteeResponseDto.setReportee(fillDetailsForEmployeeReportee(getNeighboursDto));
-            managerReporteeResponseDto.setUserEmail(managerReporteeResponseDto.getUserEmail());
+            managerReporteeResponseDto.setNode(fillDetailsForNode(getNeighboursDto));
             Map<String, Object> result = new HashMap<>();
             result.put("data", managerReporteeResponseDto);
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -133,6 +133,15 @@ public class EmployeeServiceImpl implements EmployeeService {
          temp.setUserEmail(managerDetails.getUserEmail());
          temp.setFirstName(managerDetails.getFirstName());
         return temp;
+    }
+
+    private TreeNodeDto fillDetailsForNode(GetNeighboursDto getNeighboursDto) throws Exception{
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(getNeighboursDto.getUserEmail());
+        TreeNodeDto treeNodeDto = new TreeNodeDto();
+        treeNodeDto.setUserEmail(employeeData.getUserEmail());
+        treeNodeDto.setDesignation(employeeData.getDesignation());
+        treeNodeDto.setFirstName(employeeData.getFirstName());
+        return treeNodeDto;
     }
     @Override
     public ResponseEntity<Object> uploadFile(MultipartFile file) throws Exception{
