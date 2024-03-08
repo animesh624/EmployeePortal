@@ -21,9 +21,11 @@ public interface EmployeeDataRepo extends JpaRepository<EmployeeData, String> {
     @Query(value="SELECT e.manager_email FROM employee_data_temp e WHERE e.user_email = ?1", nativeQuery = true)
     String getManagerEmailByUserEmail (String userEmail) throws Exception;
 
-//    List<EmployeeData> findTop5ByFullNameContainingOrderByFrequencyDesc(String keyword);
-//
-//    List<EmployeeData> findTop5ByUserEmailContainingOrderByFrequencyDesc(String keyword);
-//
-//    List<EmployeeData> findTop5ByInterestContainingOrderByFrequencyDesc(String keyword);
+    @Query(value = "Select e.first_name, e.user_email, e.")
+    EmployeeData searchEmployeeByEmail(String userEmail) throws Exception;
+
+    EmployeeData searchEmployeeByDesignation(String designation) throws Exception;
+
+    EmployeeData searchEmployeeByName(String Name) throws Exception;
+
 }

@@ -34,7 +34,11 @@ public class EmployeeController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/search")
-    public ResponseEntity<Object> searchEmployee(@RequestParam String name, @RequestParam String designation, @RequestParam String expertise, @RequestParam String userEmail,@RequestHeader String token) throws Exception {
+    public ResponseEntity<Object> searchEmployee(@RequestParam(value = "name") String name,
+                                                 @RequestParam(value = "designation") String designation,
+                                                 @RequestParam(value = "expertise") String expertise,
+                                                 @RequestParam(value = "user_email") String userEmail,
+                                                 @RequestHeader String token) throws Exception {
         return employeeService.searchEmployee(name, designation, expertise, userEmail, token);
     }
 
