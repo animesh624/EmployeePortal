@@ -100,6 +100,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
             managerReporteeResponseDto.setManager(fillDetailsForEmployeeManager(getNeighboursDto));
             managerReporteeResponseDto.setReportee(fillDetailsForEmployeeReportee(getNeighboursDto));
+            managerReporteeResponseDto.setUserEmail(managerReporteeResponseDto.getUserEmail());
             Map<String, Object> result = new HashMap<>();
             result.put("data", managerReporteeResponseDto);
             return new ResponseEntity<>(result, HttpStatus.OK);
