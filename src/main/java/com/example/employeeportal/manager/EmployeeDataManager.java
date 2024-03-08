@@ -10,19 +10,12 @@ public interface EmployeeDataManager extends GenericManager<EmployeeData,String>
 
     EmployeeData getByUserEmail(String userEmail) throws Exception;
 
-    SearchResultDto searchEmployee(String keyword) throws Exception;
+    SearchResultDto searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception;
 
     EmployeeData getByEmpCode(String empCode) throws Exception;
 
     EmployeeData getEmpCodeDesignationNameByUserEmail(String userEmail) throws Exception;
 
     String getManagerEmailByUserEmail(String userEmail) throws Exception;
-
-    EmployeeData searchEmployeeByEmail(String userEmail) throws Exception;
-
-    EmployeeData searchEmployeeByDesignation(String designation) throws Exception;
-
-    EmployeeData searchEmployeeByName(String Name) throws Exception;
-
 
 }

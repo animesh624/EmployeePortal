@@ -22,18 +22,17 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
         this.repository = employeeDataRepo;
     }
 
+
+
     @Override
     public EmployeeData getByUserEmail(String userEmail) throws Exception{
         return employeeDataRepo.findFirstByUserEmail(userEmail);
     }
 
     @Override
-    public SearchResultDto searchEmployee(String keyword) throws Exception{
-        SearchResultDto searchResultDto = SearchResultDto.builder().build();
-//        searchResultDto.setResultByEmail(employeeDataRepo.findTop5ByUserEmailContainingOrderByFrequencyDesc(keyword));
-//        searchResultDto.setResultByInterest(employeeDataRepo.findTop5ByInterestContainingOrderByFrequencyDesc(keyword));
-//        searchResultDto.setResultByName(employeeDataRepo.findTop5ByFullNameContainingOrderByFrequencyDesc(keyword));
-        return searchResultDto;
+    public SearchResultDto searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception{
+
+
     }
 
     @Override
@@ -51,18 +50,18 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
         return employeeDataRepo.getManagerEmailByUserEmail(userEmail);
     }
 
-    @Override
-    public EmployeeData searchEmployeeByEmail(String userEmail) throws Exception{
-        return employeeDataRepo.searchEmployeeByEmail(userEmail);
-    };
-
-    @Override
-    public EmployeeData searchEmployeeByDesignation(String designation) throws Exception{
-        return employeeDataRepo.searchEmployeeByDesignation(designation);
-    };
-
-    @Override
-    public EmployeeData searchEmployeeByName(String Name) throws Exception{
-        return employeeDataRepo.searchEmployeeByName(Name);
-    };
+//    @Override
+//    public EmployeeData searchEmployeeByEmail(String userEmail) throws Exception{
+//        return employeeDataRepo.searchEmployeeByEmail(userEmail);
+//    };
+//
+//    @Override
+//    public EmployeeData searchEmployeeByDesignation(String designation) throws Exception{
+//        return employeeDataRepo.searchEmployeeByDesignation(designation);
+//    };
+//
+//    @Override
+//    public EmployeeData searchEmployeeByName(String Name) throws Exception{
+//        return employeeDataRepo.searchEmployeeByName(Name);
+//    };
 }
