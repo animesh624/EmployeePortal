@@ -129,6 +129,10 @@ public class EmployeeServiceImpl implements EmployeeService {
          String managerEmail = employeeDataManager.getManagerEmailByUserEmail(getNeighboursDto.getUserEmail());
          TreeNodeDto temp = new TreeNodeDto();
          EmployeeData managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
+         if(managerDetails == null)
+         {
+             return null;
+         }
          temp.setDesignation(managerDetails.getDesignation());
          temp.setUserEmail(managerDetails.getUserEmail());
          temp.setFirstName(managerDetails.getFirstName());
@@ -138,6 +142,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private TreeNodeDto fillDetailsForNode(GetNeighboursDto getNeighboursDto) throws Exception{
         EmployeeData employeeData = employeeDataManager.getByUserEmail(getNeighboursDto.getUserEmail());
         TreeNodeDto treeNodeDto = new TreeNodeDto();
+        if(employeeData == null)
+             return treeNodeDto;
         treeNodeDto.setUserEmail(employeeData.getUserEmail());
         treeNodeDto.setDesignation(employeeData.getDesignation());
         treeNodeDto.setFirstName(employeeData.getFirstName());
