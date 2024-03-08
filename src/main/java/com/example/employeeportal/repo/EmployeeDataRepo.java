@@ -19,12 +19,12 @@ public interface EmployeeDataRepo extends JpaRepository<EmployeeData, String> {
     String getManagerEmailByUserEmail (String userEmail) throws Exception;
 
     @Query(value = "Select e.first_name, e.user_email, e.designation FROM employee_data_temp e WHERE e.user_email LIKE %?%",nativeQuery = true)
-    EmployeeData searchEmployeeByEmail(String userEmail) throws Exception;
+    Object searchEmployeeByEmail(String userEmail) throws Exception;
 
     @Query(value = "Select e.first_name, e.user_email, e.designation FROM employee_data_temp e WHERE e.designation LIKE %?%",nativeQuery = true)
-    EmployeeData searchEmployeeByDesignation(String designation) throws Exception;
+    Object searchEmployeeByDesignation(String designation) throws Exception;
 
     @Query(value = "Select e.first_name, e.user_email, e.designation FROM employee_data_temp e WHERE e.first_name LIKE %?% OR e.last_name LIKE %?%",nativeQuery = true)
-    EmployeeData searchEmployeeByName(String Name) throws Exception;
+    Object searchEmployeeByName(String Name) throws Exception;
 
 }

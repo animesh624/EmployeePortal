@@ -7,6 +7,7 @@ import com.example.employeeportal.repo.EmployeeDataRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -30,8 +31,19 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     }
 
     @Override
-    public SearchResultDto searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception{
+    public Object searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception{
 
+        if(name != null) {
+            return employeeDataRepo.searchEmployeeByName(name);
+        }
+        else if(designation != null){
+            return employeeDataRepo.searchEmployeeByDesignation(designation);
+        }
+        else if(userEmail != null){
+            return employeeDataRepo.searchEmployeeByEmail(userEmail);
+        }
+
+        return new Object();
 
     }
 
