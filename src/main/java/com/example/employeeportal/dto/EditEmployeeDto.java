@@ -35,6 +35,6 @@ public class EditEmployeeDto {
     @JsonProperty("requested_user_email")
     private String requestedUserEmail;
 
-    //image
+    //images
 
 }
