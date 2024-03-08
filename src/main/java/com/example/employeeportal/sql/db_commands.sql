@@ -90,3 +90,7 @@ SET user_email = CONCAT(SUBSTRING_INDEX(user_email, '.', 1), '@example.com')
 WHERE user_email LIKE '%.%.%';
 
 
+ALTER TABLE `employee_data_temp`
+    ADD COLUMN `dob` varchar(50) NOT NULL;
+
+

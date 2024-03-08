@@ -47,6 +47,9 @@ public class EmployeeData {
     @Column(name = "contact_number")
     private String contactNumber;
 
+    @Column(name = "dob")
+    private String DOB;
+
     @Column(name = "date_created")
     private Date dateCreated = new Date();
 

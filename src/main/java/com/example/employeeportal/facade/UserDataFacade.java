@@ -44,6 +44,7 @@ public class UserDataFacade {
         employeeData.setLastName(registerUserDto.getLastName());
         employeeData.setUserEmail(registerUserDto.getUserEmail());
         employeeData.setManagerEmail(registerUserDto.getManagerEmail());
+        employeeData.setDOB(registerUserDto.getDOB());
         employeeDataManager.save(employeeData);
     }
 

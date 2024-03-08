@@ -40,4 +40,7 @@ public class RegisterUserDto {
 
     @JsonProperty("manager_email")
     private String managerEmail;
+
+    @JsonProperty("dob")
+    private String DOB;
 }
