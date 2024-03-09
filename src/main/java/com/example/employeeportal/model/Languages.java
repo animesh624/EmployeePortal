@@ -10,9 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
-@Table(name = "language_temp")
+@Table(name = "languages_temp")
 @Entity
-public class Language {
+public class Languages {
 
     @Id
     @GeneratedValue(generator = "system-uuid")

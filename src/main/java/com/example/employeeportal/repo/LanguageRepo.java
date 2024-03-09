@@ -1,11 +1,11 @@
 package com.example.employeeportal.repo;
 
-import com.example.employeeportal.model.Language;
+import com.example.employeeportal.model.Languages;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface LanguageRepo extends JpaRepository<Language,String> {
+public interface LanguageRepo extends JpaRepository<Languages,String> {
 
-    List<Language> findAllByUserEmail(String userEmail) throws Exception;
+    List<Languages> findAllByUserEmail(String userEmail) throws Exception;
 }

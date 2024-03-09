@@ -1,8 +1,7 @@
 package com.example.employeeportal.manager.impl;
 
-import com.example.employeeportal.manager.GenericManager;
-import com.example.employeeportal.manager.LanguageManager;
-import com.example.employeeportal.model.Language;
+import com.example.employeeportal.manager.LanguagesManager;
+import com.example.employeeportal.model.Languages;
 import com.example.employeeportal.repo.LanguageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class LanguageManagerImpl extends GenericManagerImpl<Language,String> implements LanguageManager {
+public class LanguagesManagerImpl extends GenericManagerImpl<Languages,String> implements LanguagesManager {
 
     LanguageRepo languageRepo;
 
@@ -21,7 +20,7 @@ public class LanguageManagerImpl extends GenericManagerImpl<Language,String> imp
     }
 
     @Override
-    public List<Language> findAllByUserEmail (String userEmail) throws Exception{
+    public List<Languages> getAllByUserEmail(String userEmail) throws Exception{
         return languageRepo.findAllByUserEmail(userEmail);
     }
 }
