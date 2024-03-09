@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @Table(name = "interests_temp")
 @Entity
 public class Interests {
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
