@@ -93,6 +93,23 @@ WHERE user_email LIKE '%.%.%';
 ALTER TABLE `employee_data_temp`
     ADD COLUMN `dob` varchar(50) NOT NULL;
 
+CREATE TABLE `languages_temp` (
+                                         `user_email` varchar(64) NOT NULL,
+                                         `language` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `skills_temp` (
+                               `user_email` varchar(64) NOT NULL,
+                               `skill` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `interests_temp` (
+                                  `user_email` varchar(64) NOT NULL,
+                                  `interest` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 ALTER TABLE `employee_data_temp`
     ADD COLUMN `profile_image_url` varchar(150);
 

@@ -4,9 +4,15 @@ import com.example.employeeportal.dto.*;
 import com.example.employeeportal.facade.EmployeeDataFacade;
 import com.example.employeeportal.facade.S3Facade;
 import com.example.employeeportal.manager.EmployeeDataManager;
+import com.example.employeeportal.manager.InterestsManager;
+import com.example.employeeportal.manager.LanguagesManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
+import com.example.employeeportal.manager.SkillsManager;
 import com.example.employeeportal.model.EmployeeData;
+import com.example.employeeportal.model.Interests;
+import com.example.employeeportal.model.Languages;
 import com.example.employeeportal.model.ManagerReportee;
+import com.example.employeeportal.model.Skills;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -51,12 +57,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmployeeDataFacade employeeDataFacade;
 
+    @Autowired
+    SkillsManager skillsManager;
+
+    @Autowired
+    LanguagesManager languagesManager;
+
+    @Autowired
+    InterestsManager interestsManager;
+
     @Override
     public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
         if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         EmployeeData employeeData = employeeDataManager.getByUserEmail(getEmployeeDto.getUserEmail());
+        List<Interests> interests = interestsManager.getAllByUserEmail(employeeData.getUserEmail());
+        List<Languages> languages = languagesManager.getAllByUserEmail(employeeData.getUserEmail());
+        List<Skills> skills = skillsManager.getAllByUserEmail(employeeData.getUserEmail());
 
         if(employeeData == null){
             log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
@@ -64,6 +82,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         Map<String,Object> result = new HashMap<>();
         result.put("data",employeeData);
+        result.put("languages",languages);
+        result.put("skills",skills);
+        result.put("interests",interests);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
@@ -77,7 +98,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.error("User doesnt exist with userEmail " + editEmployeeDto.getUserEmail());
             return null;
         }
-        employeeDataFacade.saveEditDetails(employeeData,editEmployeeDto);
+        employeeDataFacade.saveEditEmployeeDetails(employeeData,editEmployeeDto);
+        employeeDataFacade.saveSkillsLanguagesInterests(editEmployeeDto.getUserEmail(),editEmployeeDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
