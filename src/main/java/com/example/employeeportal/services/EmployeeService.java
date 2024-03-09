@@ -21,5 +21,7 @@ public interface EmployeeService {
 
     ResponseEntity<Object> downloadFile(String fileName) throws Exception;
 
+    ResponseEntity<Object> saveFeedback(String type, FeedbackDto feedbackDto, String token) throws Exception;
+
 
 }

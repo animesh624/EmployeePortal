@@ -6,7 +6,9 @@ import com.example.employeeportal.facade.S3Facade;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.model.EmployeeData;
+import com.example.employeeportal.model.Feedback;
 import com.example.employeeportal.model.ManagerReportee;
+import com.example.employeeportal.repo.FeedbackRepo;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +52,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     EmployeeDataFacade employeeDataFacade;
+
+    @Autowired
+    private FeedbackRepo feedbackRepo;
 
     @Override
     public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
@@ -171,6 +176,28 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
 
+    }
+
+    @Override
+    public ResponseEntity<Object> saveFeedback(String type, FeedbackDto feedbackDto, String token) throws Exception {
+        if(!jwtUtil.isTokenValid(token,feedbackDto.getUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(feedbackDto.getUserEmail());
+        if(employeeData == null){
+            log.error("User doesnt exist with userEmail " + feedbackDto.getUserEmail());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Feedback feedback = Feedback.builder()
+                .userEmail(feedbackDto.getUserEmail())
+                .type(type)
+                .message(feedbackDto.getMessage())
+                .build();
+
+        feedbackRepo.save(feedback);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Feedback submitted successfully");
     }
 
 }
