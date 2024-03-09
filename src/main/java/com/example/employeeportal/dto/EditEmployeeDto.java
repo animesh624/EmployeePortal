@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Builder
 @Data
 public class EditEmployeeDto {
@@ -34,6 +36,15 @@ public class EditEmployeeDto {
 
     @JsonProperty("requested_user_email")
     private String requestedUserEmail;
+
+    @JsonProperty("skills")
+    private List<String> skills;
+
+    @JsonProperty("languages")
+    private List<String> languages;
+
+    @JsonProperty("interests")
+    private List<String> interests;
 
     //images
 
