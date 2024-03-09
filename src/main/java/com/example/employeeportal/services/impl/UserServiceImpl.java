@@ -2,6 +2,7 @@ package com.example.employeeportal.services.impl;
 
 import com.example.employeeportal.dto.LoginUserDto;
 import com.example.employeeportal.dto.RegisterUserDto;
+import com.example.employeeportal.facade.S3Facade;
 import com.example.employeeportal.facade.UserDataFacade;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
@@ -9,13 +10,18 @@ import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.UserService;
 import com.example.employeeportal.util.JWTUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.xml.internal.ws.encoding.xml.XMLMessage;
+import jdk.nashorn.internal.parser.JSONParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -28,6 +34,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDataManager userDataManager;
 
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     @Autowired
     EmployeeDataManager employeeDataManager;
 
@@ -39,6 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDataFacade userDataFacade;
+
+    @Autowired
+    S3Facade s3Facade;
 
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -64,8 +75,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Object> register(RegisterUserDto registerUserDto,String token) throws Exception{
-        log.info("Token recieved is {} and {}",token,(userDataManager.getByUserEmail(registerUserDto.getRequestUserEmail()).getIsAdmin()));
+    public ResponseEntity<Object> register(MultipartFile file, String data, String token) throws Exception{
+
+        RegisterUserDto registerUserDto = objectMapper.readValue(data, RegisterUserDto.class);
         if(!jwtUtil.isTokenValid(token,registerUserDto.getRequestUserEmail())
                 || !(userDataManager.getByUserEmail(registerUserDto.getRequestUserEmail()).getIsAdmin())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -74,7 +86,8 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        userDataFacade.saveEntryInEmployeeData(registerUserDto);
+        String fileUrl = s3Facade.uploadFile(file);
+        userDataFacade.saveEntryInEmployeeData(registerUserDto,fileUrl);
         userDataFacade.saveEntryInUserData(registerUserDto);
         userDataFacade.createMapping(registerUserDto);
 

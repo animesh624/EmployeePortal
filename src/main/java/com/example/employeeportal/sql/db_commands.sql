@@ -93,4 +93,7 @@ WHERE user_email LIKE '%.%.%';
 ALTER TABLE `employee_data_temp`
     ADD COLUMN `dob` varchar(50) NOT NULL;
 
+ALTER TABLE `employee_data_temp`
+    ADD COLUMN `profile_image_url` varchar(150);
+
 

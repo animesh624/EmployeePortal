@@ -50,6 +50,9 @@ public class EmployeeData {
     @Column(name = "dob")
     private String DOB;
 
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
     @Column(name = "date_created")
     private Date dateCreated = new Date();
 
