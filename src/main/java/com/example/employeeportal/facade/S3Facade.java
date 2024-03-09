@@ -63,10 +63,10 @@ public class S3Facade {
         try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
-            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
+            fileUrl = endpointUrl + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
-            return fileName;
+            return fileUrl;
         } catch (Exception e) {
             e.printStackTrace();
         }

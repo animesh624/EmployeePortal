@@ -24,19 +24,18 @@ public class UserController {
         return "Hello world!!!";
     }
 
-    @CrossOrigin(origins = "*")
+
     @PostMapping(path = "/login")
     public ResponseEntity<Object> login(@RequestBody LoginUserDto loginUserDto) throws Exception {
         return userService.login(loginUserDto);
     }
 
-    @CrossOrigin(origins = "*")
+
     @PostMapping(path = "/register")
     public ResponseEntity<Object> register(@RequestBody RegisterUserDto registerUserDto, @RequestHeader String token) throws Exception {
         return userService.register(registerUserDto,token);
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping(path = "isLoggedIn")
     public ResponseEntity<Object> isLoggedIn(@RequestBody String userEmail, @RequestHeader String token) throws Exception{
         return userService.isLoggedIn(userEmail,token);

@@ -153,7 +153,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Map<String,Object> result = new HashMap<>();
         result.put("data",s3Facade.uploadFile(file));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
     @Override

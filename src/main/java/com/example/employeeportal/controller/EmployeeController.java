@@ -20,7 +20,6 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @CrossOrigin(origins = "*")
     @PostMapping("/getByUserEmail")
     public ResponseEntity<Object> getByUserEmail(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.getByUserEmail(getEmployeeDto,token);
@@ -31,7 +30,6 @@ public class EmployeeController {
         return employeeService.editEmployee(editEmployeeDto,token);
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping("/search")
     public ResponseEntity<Object> searchEmployee(@RequestParam(value = "name",required = false) String name,
                                                  @RequestParam(value = "designation",required = false) String designation,
@@ -41,20 +39,17 @@ public class EmployeeController {
         return employeeService.searchEmployee(name, designation, expertise, userEmail, token);
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping("/getNeighbours")
     public ResponseEntity<Object> getNeighbours(@RequestBody  GetNeighboursDto getNeighboursDto, @RequestHeader String token) throws Exception{
         return employeeService.getNeighbours(getNeighboursDto,token);
     }
 
     // TODO seperate folder for pdf and images.
-    @CrossOrigin(origins = "*")
     @PostMapping(path = "/uploadFile")
     public ResponseEntity<Object> uploadFile(@RequestParam(value = "file") MultipartFile file) throws Exception {
         return employeeService.uploadFile(file);
     }
 
-    @CrossOrigin(origins = "*")
     @GetMapping(path = "/downloadFile")
     public ResponseEntity<Object> downloadFile(@RequestParam(value = "file") String fileName) throws Exception {
         return employeeService.downloadFile(fileName);
