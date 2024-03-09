@@ -25,6 +25,11 @@ public class EmployeeController {
         return employeeService.getByUserEmail(getEmployeeDto,token);
     }
 
+    @PostMapping("/getAll")
+    public ResponseEntity<Object> getAll(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
+        return employeeService.getAll(getEmployeeDto,token);
+    }
+
     @PostMapping("/edit/employee")
     public ResponseEntity<Object> editEmployee(@RequestParam EditEmployeeDto editEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.editEmployee(editEmployeeDto,token);

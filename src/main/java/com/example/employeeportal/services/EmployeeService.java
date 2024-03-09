@@ -11,6 +11,8 @@ public interface EmployeeService {
 
     ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception;
 
+    ResponseEntity<Object> getAll(GetEmployeeDto getEmployeeDto, String token) throws Exception;
+
     ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto,String token) throws Exception;
 
     ResponseEntity<Object> searchEmployee(String name, String designation, String expertise ,String userEmail, String token) throws Exception;

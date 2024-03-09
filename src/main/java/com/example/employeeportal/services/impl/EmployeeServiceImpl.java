@@ -93,6 +93,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
+    public ResponseEntity<Object> getAll(GetEmployeeDto getEmployeeDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        List<EmployeeData> listEmployeeData = employeeDataManager.getAll();
+
+        if(listEmployeeData == null){
+            log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Map<String,Object> result = new HashMap<>();
+        result.put("data",listEmployeeData);
+
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
     @Override
     public ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto, String token) throws Exception{
         if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
