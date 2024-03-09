@@ -28,18 +28,15 @@ public class UserController {
         return "Hello world!!!";
     }
 
-
     @PostMapping(path = "/login")
     public ResponseEntity<Object> login(@RequestBody LoginUserDto loginUserDto) throws Exception {
         return userService.login(loginUserDto);
     }
 
-
     @PostMapping(path = "/register")
     public ResponseEntity<Object> register(@RequestParam("file") MultipartFile file,
                                            @RequestParam("data") String data,
                                            @RequestHeader String token) throws Exception {
-        log.info("Animesh printint {} and {} and {}",file,data,token);
         return userService.register(file,data,token);
     }
 
