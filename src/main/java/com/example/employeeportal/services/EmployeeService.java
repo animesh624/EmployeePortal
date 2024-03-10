@@ -23,7 +23,7 @@ public interface EmployeeService {
 
     ResponseEntity<Object> saveFeedback(String type, FeedbackDto feedbackDto, String token) throws Exception;
 
-    ResponseEntity<Object> getAll(GetEmployeeDto getEmployeeDto, String token) throws Exception;
+    ResponseEntity<Object> getAll(GetEmailDto getMailDto, String token) throws Exception;
 
 
 

@@ -200,14 +200,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return ResponseEntity.status(HttpStatus.CREATED).body("Feedback submitted successfully");
     }
 
-    public ResponseEntity<Object> getAll(GetEmployeeDto getEmployeeDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
+    public ResponseEntity<Object> getAll(GetEmailDto getMailDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,getMailDto.getUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         List<EmployeeData> listEmployeeData = employeeDataManager.getAll();
 
         if(listEmployeeData == null){
-            log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
+            log.error("User doesnt exist with userEmail " + getMailDto.getUserEmail());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Map<String,Object> result = new HashMap<>();
