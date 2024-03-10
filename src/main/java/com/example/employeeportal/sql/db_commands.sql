@@ -104,13 +104,20 @@ CREATE TABLE `skills_temp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `interests_temp` (
+                                  `id` varchar(50) NOT NULL,
                                   `user_email` varchar(64) NOT NULL,
-                                  `interest` varchar(64) NOT NULL
+                                  `interest` varchar(64) NOT NULL,
+                                  PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
 ALTER TABLE `employee_data_temp`
     ADD COLUMN `profile_image_url` varchar(150);
+
+ALTER TABLE `interests_temp`
+    ADD COLUMN `id` varchar(50), PRIMARY KEY;
+
+
 
 
