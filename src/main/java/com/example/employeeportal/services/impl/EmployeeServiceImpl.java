@@ -13,8 +13,11 @@ import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.manager.SkillsManager;
 import com.example.employeeportal.model.DocumentUrl;
 import com.example.employeeportal.model.EmployeeData;
+import com.example.employeeportal.model.Feedback;
 import com.example.employeeportal.model.Interests;
 import com.example.employeeportal.model.Languages;
+import com.example.employeeportal.model.ManagerReportee;
+import com.example.employeeportal.repo.FeedbackRepo;
 import com.example.employeeportal.model.Skills;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
@@ -56,6 +59,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     EmployeeDataFacade employeeDataFacade;
+
+    @Autowired
+    private FeedbackRepo feedbackRepo;
 
     @Autowired
     SkillsManager skillsManager;
@@ -163,6 +169,44 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
 
+    }
+
+    @Override
+    public ResponseEntity<Object> saveFeedback(String type, FeedbackDto feedbackDto, String token) throws Exception {
+        if(!jwtUtil.isTokenValid(token,feedbackDto.getUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(feedbackDto.getUserEmail());
+        if(employeeData == null){
+            log.error("User doesnt exist with userEmail " + feedbackDto.getUserEmail());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Feedback feedback = Feedback.builder()
+                .userEmail(feedbackDto.getUserEmail())
+                .type(type)
+                .message(feedbackDto.getMessage())
+                .build();
+
+        feedbackRepo.save(feedback);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Feedback submitted successfully");
+    }
+
+    public ResponseEntity<Object> getAll(GetEmployeeDto getEmployeeDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        List<EmployeeData> listEmployeeData = employeeDataManager.getAll();
+
+        if(listEmployeeData == null){
+            log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Map<String,Object> result = new HashMap<>();
+        result.put("data",listEmployeeData);
+
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
 }

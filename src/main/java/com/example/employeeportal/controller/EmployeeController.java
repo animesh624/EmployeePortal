@@ -69,4 +69,13 @@ public class EmployeeController {
         result.put("url","https://employee-portal-file.s3.ap-south-1.amazonaws.com/1710002013462-aefa701f1a7a22d4c4ff6d63486f781e.jpg");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+    @PostMapping("/feedback")
+    public ResponseEntity<Object> submitFeedback(@RequestParam(value = "type") String type, @RequestBody FeedbackDto feedbackRequest, @RequestHeader String token) throws Exception {
+        return employeeService.saveFeedback(type,feedbackRequest,token);
+    }
+
+    @PostMapping("/getAll")
+    public ResponseEntity<Object> getAll(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
+        return employeeService.getAll(getEmployeeDto,token);
+    }
 }
