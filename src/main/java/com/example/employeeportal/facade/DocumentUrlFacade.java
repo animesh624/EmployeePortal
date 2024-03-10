@@ -21,7 +21,7 @@ public class DocumentUrlFacade {
             return ;
         }
         DocumentUrl documentUrl = new DocumentUrl();
-        documentUrl.setRoleId(userRoleMasterManager.getRoleIdByName(uploadDocumentDto.getFileName()));
+        documentUrl.setDocumentName(uploadDocumentDto.getFileName());
         documentUrl.setUrl(fileUrl);
         documentUrl.setUserEmail(uploadDocumentDto.getUserEmail());
         documentUrlManager.save(documentUrl);

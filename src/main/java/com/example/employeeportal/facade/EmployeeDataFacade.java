@@ -2,7 +2,6 @@ package com.example.employeeportal.facade;
 
 
 import com.example.employeeportal.dto.EditEmployeeDto;
-import com.example.employeeportal.dto.NameUrlMapDto;
 import com.example.employeeportal.manager.DocumentUrlManager;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.InterestsManager;
@@ -80,18 +79,26 @@ public class EmployeeDataFacade {
 //                .collect(Collectors.toList());
 //        log.info("Animesh printing name {}",profileLinkNames);
 
-        editEmployeeDto.getProfileUrls().forEach( nameUrlMapDto -> {
-                     try{
-                         String roleId = userRoleMasterManager.getRoleIdByName(nameUrlMapDto.getName());
-                         DocumentUrl documentUrl = new DocumentUrl();
-                         documentUrl.setUrl(nameUrlMapDto.getUrl());
-                         documentUrl.setRoleId(roleId);
-                         documentUrlManager.save(documentUrl);
-                     } catch (Exception e){
+//        editEmployeeDto.getProfileUrls().forEach( nameUrlMapDto -> {
+//                     try{
+//                         String roleId = userRoleMasterManager.getRoleIdByName(nameUrlMapDto.getName());
+//                         DocumentUrl documentUrl = new DocumentUrl();
+//                         documentUrl.setUrl(nameUrlMapDto.getUrl());
+//                         documentUrl.setRoleId(roleId);
+//                         documentUrlManager.save(documentUrl);
+//                     } catch (Exception e){
+//
+//                     }
+//             }
+//        );
 
-                     }
-             }
-        );
+        editEmployeeDto.getProfileUrls().forEach(nameUrlMapDto -> {
+            DocumentUrl documentUrl = new DocumentUrl();
+            documentUrl.setDocumentName(nameUrlMapDto.getName());
+            documentUrl.setUrl(nameUrlMapDto.getUrl());
+            documentUrl.setUserEmail(editEmployeeDto.getUserEmail());
+            documentUrlManager.save(documentUrl);
+        });
     }
 
     private void saveEntryForSkill(String userEmail,String skill) {
