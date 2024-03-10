@@ -11,6 +11,7 @@ import com.example.employeeportal.manager.InterestsManager;
 import com.example.employeeportal.manager.LanguagesManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.manager.SkillsManager;
+import com.example.employeeportal.manager.UserRoleMasterManager;
 import com.example.employeeportal.model.DocumentUrl;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.Feedback;
@@ -81,15 +82,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     DocumentUrlFacade documentUrlFacade;
 
+    @Autowired
+    UserRoleMasterManager userRoleMasterManager;
+
     @Override
     public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
         if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         EmployeeData employeeData = employeeDataManager.getByUserEmail(getEmployeeDto.getUserEmail());
-        List<Interests> interests = interestsManager.getAllByUserEmail(employeeData.getUserEmail());
-        List<Languages> languages = languagesManager.getAllByUserEmail(employeeData.getUserEmail());
-        List<Skills> skills = skillsManager.getAllByUserEmail(employeeData.getUserEmail());
+        List<String> interestsIds = interestsManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
+        List<String> languagesIds = languagesManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
+        List<String> skillsIds = skillsManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
+        List<String> interests = userRoleMasterManager.getAllNameByRoleId(interestsIds);
+        List<String> skills = userRoleMasterManager.getAllNameByRoleId(skillsIds);
+        List<String> languages = userRoleMasterManager.getAllNameByRoleId(languagesIds);
         List<Object> documentUrls = documentUrlManager.getAllByUserEmail(employeeData.getUserEmail());
 
         if(employeeData == null){

@@ -6,12 +6,15 @@ import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.InterestsManager;
 import com.example.employeeportal.manager.LanguagesManager;
 import com.example.employeeportal.manager.SkillsManager;
+import com.example.employeeportal.manager.UserRoleMasterManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.Interests;
 import com.example.employeeportal.model.Languages;
 import com.example.employeeportal.model.Skills;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class EmployeeDataFacade {
@@ -28,6 +31,9 @@ public class EmployeeDataFacade {
     @Autowired
     InterestsManager interestsManager;
 
+    @Autowired
+    UserRoleMasterManager userRoleMasterManager;
+
     public void saveEditEmployeeDetails(EmployeeData employeeData, EditEmployeeDto editEmployeeDto) throws Exception{
         employeeData.setLevel(editEmployeeDto.getLevel());
         employeeData.setDesignation(editEmployeeDto.getDesignation());
@@ -40,15 +46,20 @@ public class EmployeeDataFacade {
 
     public void saveSkillsLanguagesInterests(String userEmail, EditEmployeeDto editEmployeeDto) throws Exception{
 
-        editEmployeeDto.getSkills().forEach(skill -> {
-            saveEntryForSkill(userEmail,skill);
+
+        List<String> interestIds = userRoleMasterManager.getAllRoleIdByName(editEmployeeDto.getInterests());
+        List<String> languageIds = userRoleMasterManager.getAllRoleIdByName(editEmployeeDto.getLanguages());
+        List<String> skillIds = userRoleMasterManager.getAllRoleIdByName(editEmployeeDto.getSkills());
+
+        interestIds.forEach(roleId -> {
+            saveEntryForSkill(userEmail,roleId);
         });
 
-        editEmployeeDto.getLanguages().forEach(language -> {
-            saveEntryForLanguage(userEmail,language);
+        languageIds.forEach(roleId -> {
+            saveEntryForLanguage(userEmail,roleId);
         });
 
-        editEmployeeDto.getInterests().forEach(interest -> {
+        skillIds.forEach(interest -> {
             saveEntryForInterest(userEmail,interest);
         });
     }
@@ -62,7 +73,7 @@ public class EmployeeDataFacade {
 
     private void saveEntryForLanguage(String userEmail,String language) {
         Languages languages = new Languages();
-        languages.setLanguage(userEmail);
+        languages.setUserEmail(userEmail);
         languages.setLanguage(language);
     }
 

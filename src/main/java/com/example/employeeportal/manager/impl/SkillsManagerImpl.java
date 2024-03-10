@@ -21,7 +21,7 @@ public class SkillsManagerImpl extends GenericManagerImpl<Skills,String> impleme
     }
 
     @Override
-    public List<Skills> getAllByUserEmail (String userEmail) throws Exception{
-        return skillsRepo.findAllByUserEmail(userEmail);
+    public List<String> getAllRoleIdByUserEmail (String userEmail) throws Exception{
+        return skillsRepo.getAllRoleIdByUserEmail(userEmail);
     }
 }

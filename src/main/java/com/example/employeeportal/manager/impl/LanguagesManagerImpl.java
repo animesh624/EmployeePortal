@@ -20,7 +20,7 @@ public class LanguagesManagerImpl extends GenericManagerImpl<Languages,String> i
     }
 
     @Override
-    public List<Languages> getAllByUserEmail(String userEmail) throws Exception{
-        return languageRepo.findAllByUserEmail(userEmail);
+    public List<String> getAllRoleIdByUserEmail(String userEmail) throws Exception{
+        return languageRepo.getAllRoleIdByUserEmail(userEmail);
     }
 }

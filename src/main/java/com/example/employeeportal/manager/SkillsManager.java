@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface SkillsManager extends GenericManager<Skills,String> {
 
-    List<Skills> getAllByUserEmail (String userEmail) throws Exception;
+    List<String> getAllRoleIdByUserEmail (String userEmail) throws Exception;
 
 }

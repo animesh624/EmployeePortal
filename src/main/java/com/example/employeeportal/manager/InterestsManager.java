@@ -5,5 +5,5 @@ import com.example.employeeportal.model.Interests;
 import java.util.List;
 
 public interface InterestsManager extends GenericManager<Interests,String> {
-    List<Interests> getAllByUserEmail (String userEmail) throws Exception;
+    List<String> getAllRoleIdByUserEmail (String userEmail) throws Exception;
 }

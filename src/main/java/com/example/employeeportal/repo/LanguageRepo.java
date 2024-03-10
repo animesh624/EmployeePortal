@@ -2,6 +2,7 @@ package com.example.employeeportal.repo;
 
 import com.example.employeeportal.model.Languages;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,5 +10,7 @@ import java.util.List;
 @Repository
 public interface LanguageRepo extends JpaRepository<Languages,String> {
 
-    List<Languages> findAllByUserEmail(String userEmail) throws Exception;
+
+    @Query(value="SELECT l.language FROM languages_temp l WHERE l.user_email = ?1", nativeQuery = true)
+    List<String> getAllRoleIdByUserEmail(String userEmail) throws Exception;
 }

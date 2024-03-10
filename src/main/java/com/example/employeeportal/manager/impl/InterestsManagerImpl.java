@@ -20,8 +20,8 @@ public class InterestsManagerImpl extends GenericManagerImpl<Interests,String> i
     }
 
     @Override
-    public List<Interests> getAllByUserEmail (String userEmail) throws Exception{
-        return interestsRepo.findAllByUserEmail(userEmail);
+    public List<String> getAllRoleIdByUserEmail (String userEmail) throws Exception{
+        return interestsRepo.getAllRoleIdByUserEmail(userEmail);
     }
 
 

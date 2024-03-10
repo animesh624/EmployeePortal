@@ -2,12 +2,15 @@ package com.example.employeeportal.repo;
 
 import com.example.employeeportal.model.Interests;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface InterestsRepo extends JpaRepository<Interests,String> {
-    List<Interests> findAllByUserEmail(String userEmail);
+
+    @Query(value="SELECT i.interest FROM interests_temp e WHERE e.user_email = ?1", nativeQuery = true)
+    List<String> getAllRoleIdByUserEmail(String userEmail);
 
 }
