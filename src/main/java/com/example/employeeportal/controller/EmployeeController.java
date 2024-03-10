@@ -4,6 +4,7 @@ package com.example.employeeportal.controller;
 import com.example.employeeportal.dto.*;
 import com.example.employeeportal.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class EmployeeController {
@@ -45,13 +49,24 @@ public class EmployeeController {
     }
 
     // TODO seperate folder for pdf and images.
-    @PostMapping(path = "/uploadFile")
-    public ResponseEntity<Object> uploadFile(@RequestParam(value = "file") MultipartFile file) throws Exception {
-        return employeeService.uploadFile(file);
+    @PostMapping(path = "/uploadDocument")
+    public ResponseEntity<Object> uploadDocument(@RequestParam("file") MultipartFile file,
+                                             @RequestParam("uploadDocumentDto") UploadDocumentDto uploadDocumentDto,
+                                             @RequestHeader String token) throws Exception {
+        return employeeService.uploadDocument(file,uploadDocumentDto,token);
     }
 
     @GetMapping(path = "/downloadFile")
     public ResponseEntity<Object> downloadFile(@RequestParam(value = "file") String fileName) throws Exception {
         return employeeService.downloadFile(fileName);
+    }
+
+
+    // this is only for testing purpose.
+    @GetMapping(path="/downloadCheck")
+    public ResponseEntity<Object> downloadCheck() throws Exception{
+        Map<String, Object> result = new HashMap<>();
+        result.put("url","https://employee-portal-file.s3.ap-south-1.amazonaws.com/1710002013462-aefa701f1a7a22d4c4ff6d63486f781e.jpg");
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

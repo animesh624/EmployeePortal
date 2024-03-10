@@ -1,17 +1,20 @@
 package com.example.employeeportal.services.impl;
 
 import com.example.employeeportal.dto.*;
+import com.example.employeeportal.facade.DocumentUrlFacade;
 import com.example.employeeportal.facade.EmployeeDataFacade;
+import com.example.employeeportal.facade.ManagerReporteeFacade;
 import com.example.employeeportal.facade.S3Facade;
+import com.example.employeeportal.manager.DocumentUrlManager;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.InterestsManager;
 import com.example.employeeportal.manager.LanguagesManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.manager.SkillsManager;
+import com.example.employeeportal.model.DocumentUrl;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.Interests;
 import com.example.employeeportal.model.Languages;
-import com.example.employeeportal.model.ManagerReportee;
 import com.example.employeeportal.model.Skills;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
@@ -29,9 +32,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import java.util.ArrayList;
-
 
 
 import java.util.HashMap;
@@ -66,6 +66,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     InterestsManager interestsManager;
 
+    @Autowired
+    DocumentUrlManager documentUrlManager;
+
+    @Autowired
+    ManagerReporteeFacade managerReporteeFacade;
+
+    @Autowired
+    DocumentUrlFacade documentUrlFacade;
+
     @Override
     public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
         if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
@@ -75,6 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Interests> interests = interestsManager.getAllByUserEmail(employeeData.getUserEmail());
         List<Languages> languages = languagesManager.getAllByUserEmail(employeeData.getUserEmail());
         List<Skills> skills = skillsManager.getAllByUserEmail(employeeData.getUserEmail());
+        List<Object> documentUrls = documentUrlManager.getAllByUserEmail(employeeData.getUserEmail());
 
         if(employeeData == null){
             log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
@@ -85,6 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         result.put("languages",languages);
         result.put("skills",skills);
         result.put("interests",interests);
+        result.put("documentUrls",documentUrls);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
@@ -106,7 +117,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public ResponseEntity<Object> searchEmployee(String name, String designation, String expertise ,String userEmail, String token) throws Exception{
          Map<String,Object> result = new HashMap<>();
-         log.info("Animesh");
          result.put("data",employeeDataManager.searchEmployee(name,designation,expertise,userEmail));
          return new ResponseEntity<>(result,HttpStatus.OK);
 
@@ -119,63 +129,23 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
 
             ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
-            managerReporteeResponseDto.setManager(fillDetailsForEmployeeManager(getNeighboursDto));
-            managerReporteeResponseDto.setReportee(fillDetailsForEmployeeReportee(getNeighboursDto));
-            managerReporteeResponseDto.setNode(fillDetailsForNode(getNeighboursDto));
+            managerReporteeResponseDto.setManager(managerReporteeFacade.getDetailsForEmployeeManager(getNeighboursDto));
+            managerReporteeResponseDto.setReportee(managerReporteeFacade.getDetailsForEmployeeReportee(getNeighboursDto));
+            managerReporteeResponseDto.setNode(managerReporteeFacade.getDetailsForNode(getNeighboursDto));
             Map<String, Object> result = new HashMap<>();
             result.put("data", managerReporteeResponseDto);
             return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    private List<TreeNodeDto> fillDetailsForEmployeeReportee(GetNeighboursDto getNeighboursDto) throws Exception{
-        List<TreeNodeDto> finalList = new ArrayList<>();
-        List<ManagerReportee> allReporteeOfManager = managerReporteeManager.getAllByManagerEmail(getNeighboursDto.getUserEmail());
-        allReporteeOfManager.forEach(value -> {
-            try {
-                 TreeNodeDto temp = new TreeNodeDto();
-                 EmployeeData reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(value.getReporteeEmail());
-                 temp.setUserEmail(reporteeDetails.getUserEmail());
-                 temp.setFirstName(reporteeDetails.getFirstName());
-                 temp.setDesignation(reporteeDetails.getDesignation());
-                finalList.add(temp);
-            }
-            catch (Exception e){
-                log.info("Exception occured while getting reportee details {}",e);
-            }
-        });
-        return finalList;
-    }
-
-    private TreeNodeDto fillDetailsForEmployeeManager(GetNeighboursDto getNeighboursDto) throws Exception {
-         String managerEmail = employeeDataManager.getManagerEmailByUserEmail(getNeighboursDto.getUserEmail());
-         TreeNodeDto temp = new TreeNodeDto();
-         EmployeeData managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
-         if(managerDetails == null)
-         {
-             return null;
-         }
-         temp.setDesignation(managerDetails.getDesignation());
-         temp.setUserEmail(managerDetails.getUserEmail());
-         temp.setFirstName(managerDetails.getFirstName());
-        return temp;
-    }
-
-    private TreeNodeDto fillDetailsForNode(GetNeighboursDto getNeighboursDto) throws Exception{
-        EmployeeData employeeData = employeeDataManager.getByUserEmail(getNeighboursDto.getUserEmail());
-        TreeNodeDto treeNodeDto = new TreeNodeDto();
-        if(employeeData == null)
-             return treeNodeDto;
-        treeNodeDto.setUserEmail(employeeData.getUserEmail());
-        treeNodeDto.setDesignation(employeeData.getDesignation());
-        treeNodeDto.setFirstName(employeeData.getFirstName());
-        return treeNodeDto;
-    }
     @Override
-    public ResponseEntity<Object> uploadFile(MultipartFile file) throws Exception{
+    public ResponseEntity<Object> uploadDocument(MultipartFile file, UploadDocumentDto uploadDocumentDto, String token) throws Exception{
 
-        Map<String,Object> result = new HashMap<>();
-        result.put("data",s3Facade.uploadFile(file));
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        if(!jwtUtil.isTokenValid(token,uploadDocumentDto.getRequestedUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        String fileUrl = s3Facade.uploadFile(file);
+        documentUrlFacade.builDocumentUrlData(uploadDocumentDto,fileUrl);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
