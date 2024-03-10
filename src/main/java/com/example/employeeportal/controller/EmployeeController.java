@@ -73,8 +73,8 @@ public class EmployeeController {
         return employeeService.saveFeedback(type,feedbackRequest,token);
     }
 
-    @PostMapping("/getAll")
-    public ResponseEntity<Object> getAll(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
-        return employeeService.getAll(getEmployeeDto,token);
+    @PostMapping("/get-all")
+    public ResponseEntity<Object> getAll(@RequestBody GetEmailDto getMailDto, @RequestHeader String token) throws Exception{
+        return employeeService.getAll(getMailDto,token);
     }
 }
