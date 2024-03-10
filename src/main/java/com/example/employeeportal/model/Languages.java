@@ -22,6 +22,6 @@ public class Languages {
     @Column(name = "user_email")
     private String userEmail;
 
-    @Column(name = "skill")
+    @Column(name = "language")
     private String language;
 }
