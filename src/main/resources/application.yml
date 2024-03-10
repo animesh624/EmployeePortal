@@ -3,3 +3,16 @@ amazonProperties:
   accessKey: AKIAU6GDXF3NGP562HFQ
   secretKey: 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
   bucketName: employee-portal-file
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "moneylessempportal@gmail.com"
+    password: "rkjg trho qmuk zhwg"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
