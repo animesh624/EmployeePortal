@@ -34,7 +34,7 @@ public class UserDataFacade {
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
 
-    public void saveEntryInEmployeeData(RegisterUserDto registerUserDto) throws Exception{
+    public void saveEntryInEmployeeData(RegisterUserDto registerUserDto,String fileUrl) throws Exception{
         EmployeeData employeeData = new EmployeeData();
         employeeData.setContactNumber(registerUserDto.getContactNumber());
         employeeData.setEmpCode(registerUserDto.getEmpCode());
@@ -45,6 +45,7 @@ public class UserDataFacade {
         employeeData.setUserEmail(registerUserDto.getUserEmail());
         employeeData.setManagerEmail(registerUserDto.getManagerEmail());
         employeeData.setDOB(registerUserDto.getDOB());
+        employeeData.setProfileImageUrl(fileUrl);
         employeeDataManager.save(employeeData);
     }
 

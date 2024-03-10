@@ -1,6 +1,5 @@
 package com.example.employeeportal.model;
 
-
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,10 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Data
-@Table(name = "interests_temp")
+@Table(name = "document_url_temp")
 @Entity
-public class Interests {
+public class DocumentUrl {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -23,6 +23,9 @@ public class Interests {
     @Column(name = "user_email")
     private String userEmail;
 
-    @Column(name = "interest")
-    private String interest;
+    @Column(name = "document_name")
+    private String documentName;
+
+    @Column(name = "url")
+    private String url;
 }
