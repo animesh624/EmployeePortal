@@ -9,4 +9,6 @@ public interface UserRoleMasterManager extends GenericManager<UserRoleMaster,Str
     List<String> getAllNameByRoleId(List<String> roleId) throws Exception;
 
     List<String> getAllRoleIdByName(List<String> names) throws Exception;
+
+    String getRoleIdByName (String name) throws Exception;
 }

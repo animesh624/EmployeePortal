@@ -16,4 +16,7 @@ public interface UserRoleMasterRepo extends JpaRepository<UserRoleMaster,String>
     @Query(value="SELECT u.role_id  FROM user_role_master_temp u WHERE u.name IN ?1", nativeQuery = true)
     List<String> getAllRoleIdByName(List<String> names) throws Exception;
 
+    @Query(value="SELECT u.role_id  FROM user_role_master_temp u WHERE u.name = ?1", nativeQuery = true)
+    String getRoleIdByName(String names) throws Exception;
+
 }

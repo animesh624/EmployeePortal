@@ -23,8 +23,8 @@ public class DocumentUrl {
     @Column(name = "user_email")
     private String userEmail;
 
-    @Column(name = "document_name")
-    private String documentName;
+    @Column(name = "role_id")
+    private String roleId;
 
     @Column(name = "url")
     private String url;

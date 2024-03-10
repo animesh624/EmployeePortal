@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface InterestsRepo extends JpaRepository<Interests,String> {
 
-    @Query(value="SELECT i.interest FROM interests_temp e WHERE e.user_email = ?1", nativeQuery = true)
+    @Query(value="SELECT i.interest FROM interests_temp i WHERE i.user_email = ?1", nativeQuery = true)
     List<String> getAllRoleIdByUserEmail(String userEmail);
 
 }

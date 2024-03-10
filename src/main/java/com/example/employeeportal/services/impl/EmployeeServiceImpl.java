@@ -12,14 +12,9 @@ import com.example.employeeportal.manager.LanguagesManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.manager.SkillsManager;
 import com.example.employeeportal.manager.UserRoleMasterManager;
-import com.example.employeeportal.model.DocumentUrl;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.Feedback;
-import com.example.employeeportal.model.Interests;
-import com.example.employeeportal.model.Languages;
-import com.example.employeeportal.model.ManagerReportee;
 import com.example.employeeportal.repo.FeedbackRepo;
-import com.example.employeeportal.model.Skills;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -124,6 +119,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         employeeDataFacade.saveEditEmployeeDetails(employeeData,editEmployeeDto);
         employeeDataFacade.saveSkillsLanguagesInterests(editEmployeeDto.getUserEmail(),editEmployeeDto);
+        employeeDataFacade.saveProfileUrls(editEmployeeDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

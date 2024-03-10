@@ -46,6 +46,8 @@ public class EditEmployeeDto {
     @JsonProperty("interests")
     private List<String> interests;
 
+    @JsonProperty("profile_urls")
+    private List<NameUrlMapDto> profileUrls;
     //images
 
 }

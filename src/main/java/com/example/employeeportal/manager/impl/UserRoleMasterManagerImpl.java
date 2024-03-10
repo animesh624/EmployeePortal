@@ -29,4 +29,9 @@ public class UserRoleMasterManagerImpl extends GenericManagerImpl<UserRoleMaster
     public List<String> getAllRoleIdByName(List<String> names) throws Exception{
         return userRoleMasterRepo.getAllRoleIdByName(names);
     }
+
+    @Override
+    public String getRoleIdByName (String name) throws Exception{
+        return userRoleMasterRepo.getRoleIdByName(name);
+    }
 }

@@ -2,20 +2,27 @@ package com.example.employeeportal.facade;
 
 
 import com.example.employeeportal.dto.EditEmployeeDto;
+import com.example.employeeportal.dto.NameUrlMapDto;
+import com.example.employeeportal.manager.DocumentUrlManager;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.InterestsManager;
 import com.example.employeeportal.manager.LanguagesManager;
 import com.example.employeeportal.manager.SkillsManager;
 import com.example.employeeportal.manager.UserRoleMasterManager;
+import com.example.employeeportal.model.DocumentUrl;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.Interests;
 import com.example.employeeportal.model.Languages;
 import com.example.employeeportal.model.Skills;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
+
+@Slf4j
 @Component
 public class EmployeeDataFacade {
 
@@ -34,13 +41,16 @@ public class EmployeeDataFacade {
     @Autowired
     UserRoleMasterManager userRoleMasterManager;
 
+    @Autowired
+    DocumentUrlManager documentUrlManager;
+
     public void saveEditEmployeeDetails(EmployeeData employeeData, EditEmployeeDto editEmployeeDto) throws Exception{
+        employeeData.setFirstName(editEmployeeDto.getFirstName());
+        employeeData.setLastName(editEmployeeDto.getLastName());
         employeeData.setLevel(editEmployeeDto.getLevel());
         employeeData.setDesignation(editEmployeeDto.getDesignation());
         employeeData.setContactNumber(editEmployeeDto.getContactNumber());
         employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());
-        employeeData.setFirstName(editEmployeeDto.getFirstName());
-        employeeData.setLastName(editEmployeeDto.getLastName());
         employeeDataManager.save(employeeData);
     }
 
@@ -62,6 +72,26 @@ public class EmployeeDataFacade {
         skillIds.forEach(interest -> {
             saveEntryForInterest(userEmail,interest);
         });
+    }
+
+    public void saveProfileUrls(EditEmployeeDto editEmployeeDto) throws Exception{
+//        List<String> profileLinkNames = editEmployeeDto.getProfileUrls().stream()
+//                .map(NameUrlMapDto::getName)
+//                .collect(Collectors.toList());
+//        log.info("Animesh printing name {}",profileLinkNames);
+
+        editEmployeeDto.getProfileUrls().forEach( nameUrlMapDto -> {
+                     try{
+                         String roleId = userRoleMasterManager.getRoleIdByName(nameUrlMapDto.getName());
+                         DocumentUrl documentUrl = new DocumentUrl();
+                         documentUrl.setUrl(nameUrlMapDto.getUrl());
+                         documentUrl.setRoleId(roleId);
+                         documentUrlManager.save(documentUrl);
+                     } catch (Exception e){
+
+                     }
+             }
+        );
     }
 
     private void saveEntryForSkill(String userEmail,String skill) {
