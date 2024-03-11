@@ -41,7 +41,6 @@ public class EmployeeController {
                                                  @RequestHeader String token) throws Exception {
         return employeeService.searchEmployee(name, designation, expertise, userEmail, token);
     }
-
     @PostMapping("/getNeighbours")
     public ResponseEntity<Object> getNeighbours(@RequestBody  GetNeighboursDto getNeighboursDto, @RequestHeader String token) throws Exception{
         return employeeService.getNeighbours(getNeighboursDto,token);
