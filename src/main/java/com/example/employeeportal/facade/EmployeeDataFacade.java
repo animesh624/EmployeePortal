@@ -49,7 +49,7 @@ public class EmployeeDataFacade {
         employeeData.setLevel(editEmployeeDto.getLevel());
         employeeData.setDesignation(editEmployeeDto.getDesignation());
         employeeData.setContactNumber(editEmployeeDto.getContactNumber());
-        employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());
+        employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());   // TODO : for mapping table also we need to change the logic here
         employeeDataManager.save(employeeData);
     }
 
@@ -60,6 +60,10 @@ public class EmployeeDataFacade {
         List<String> languageIds = userRoleMasterManager.getAllRoleIdByName(editEmployeeDto.getLanguages());
         List<String> skillIds = userRoleMasterManager.getAllRoleIdByName(editEmployeeDto.getSkills());
 
+        log.info("Animesh 63 {}",interestIds);
+        log.info("Animesh 64 {}",languageIds);
+        log.info("Animesh 65 {}",skillIds);
+        // TODO : Duplicate entry need to be stopped either through integrtity constraints or through checking whether it exists or not.
         interestIds.forEach(roleId -> {
             saveEntryForSkill(userEmail,roleId);
         });
@@ -68,7 +72,7 @@ public class EmployeeDataFacade {
             saveEntryForLanguage(userEmail,roleId);
         });
 
-        skillIds.forEach(interest -> {
+        interestIds.forEach(interest -> {
             saveEntryForInterest(userEmail,interest);
         });
     }
@@ -112,11 +116,13 @@ public class EmployeeDataFacade {
         Languages languages = new Languages();
         languages.setUserEmail(userEmail);
         languages.setLanguage(language);
+        languagesManager.save(languages);
     }
 
     private void saveEntryForInterest(String userEmail,String interest) {
         Interests interests = new Interests();
         interests.setUserEmail(userEmail);
         interests.setInterest(interest);
+        interestsManager.save(interests);
     }
 }

@@ -17,6 +17,8 @@ import com.example.employeeportal.model.Feedback;
 import com.example.employeeportal.repo.FeedbackRepo;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -40,6 +42,8 @@ import java.util.Map;
 @Service
 @Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     EmployeeDataManager employeeDataManager;
@@ -109,15 +113,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+//        if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+        log.info("Animesh recieved {}",editEmployeeDto);
+//        List<NameUrlMapDto> newDto = objectMapper.readValue(editEmployeeDto.getProfileUrls(), new TypeReference<List<NameUrlMapDto>>() {});
         EmployeeData employeeData = employeeDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
         if(employeeData == null){
             log.error("User doesnt exist with userEmail " + editEmployeeDto.getUserEmail());
             return null;
         }
-        employeeDataFacade.saveEditEmployeeDetails(employeeData,editEmployeeDto);
+//        employeeDataFacade.saveEditEmployeeDetails(employeeData,editEmployeeDto);
         employeeDataFacade.saveSkillsLanguagesInterests(editEmployeeDto.getUserEmail(),editEmployeeDto);
         employeeDataFacade.saveProfileUrls(editEmployeeDto);
         return new ResponseEntity<>(HttpStatus.OK);
