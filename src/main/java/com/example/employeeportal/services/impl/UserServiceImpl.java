@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDataManager userDataManager;
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper;
 
     @Autowired
     EmployeeDataManager employeeDataManager;
@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService {
     @PostConstruct
     public void init() {
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        objectMapper = new ObjectMapper();
     }
     @Override
     public ResponseEntity<Object> login(LoginUserDto loginUserDto) throws Exception{
