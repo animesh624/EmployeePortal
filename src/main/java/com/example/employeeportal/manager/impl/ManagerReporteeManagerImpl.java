@@ -23,4 +23,9 @@ public class ManagerReporteeManagerImpl extends GenericManagerImpl<ManagerReport
     public List<ManagerReportee> getAllByManagerEmail(String managerEmail) throws Exception{
         return managerReporteeRepo.getAllByManagerEmail(managerEmail);
     }
+
+    @Override
+    public ManagerReportee getByReporteeEmailAndManagerEmail(String reporteeEmail, String managerEmail) throws Exception{
+        return managerReporteeRepo.getFirstByReporteeEmailAndManagerEmail(reporteeEmail,managerEmail);
+    }
 }

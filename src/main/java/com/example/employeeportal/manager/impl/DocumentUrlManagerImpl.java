@@ -23,4 +23,9 @@ public class DocumentUrlManagerImpl extends GenericManagerImpl<DocumentUrl,Strin
     public List<Object> getAllByUserEmail (String userEmail) throws Exception{
         return documentUrlRepo.findAllByUserEmail(userEmail);
     }
+
+    @Override
+    public DocumentUrl getByUserEmailAndName (String userEmail, String name) throws Exception{
+        return documentUrlRepo.findFirstByUserEmailAndDocumentName(userEmail,name);
+    }
 }

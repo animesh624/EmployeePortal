@@ -8,4 +8,6 @@ public interface SkillsManager extends GenericManager<Skills,String> {
 
     List<String> getAllRoleIdByUserEmail (String userEmail) throws Exception;
 
+    Skills getByUserEmailAndRoleId (String userEmail, String roleId) throws Exception;
+
 }

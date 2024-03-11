@@ -24,5 +24,10 @@ public class InterestsManagerImpl extends GenericManagerImpl<Interests,String> i
         return interestsRepo.getAllRoleIdByUserEmail(userEmail);
     }
 
+    @Override
+    public Interests getByUserEmailAndRoleId(String userEmail,String roleId) throws Exception{
+        return interestsRepo.getFirstByUserEmailAndInterest(userEmail,roleId);
+    }
+
 
 }

@@ -24,4 +24,9 @@ public class SkillsManagerImpl extends GenericManagerImpl<Skills,String> impleme
     public List<String> getAllRoleIdByUserEmail (String userEmail) throws Exception{
         return skillsRepo.getAllRoleIdByUserEmail(userEmail);
     }
+
+    @Override
+    public Skills getByUserEmailAndRoleId (String userEmail, String roleId) throws Exception{
+        return skillsRepo.findFirstByUserEmailAndSkill(userEmail,roleId);
+    }
 }

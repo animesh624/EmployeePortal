@@ -12,4 +12,6 @@ public interface DocumentUrlRepo extends JpaRepository<DocumentUrl,String> {
 
     @Query(value="SELECT d.document_name, d.url FROM document_url_temp d WHERE d.user_email = ?1", nativeQuery = true)
     List<Object> findAllByUserEmail(String userEmail);
+
+    DocumentUrl findFirstByUserEmailAndDocumentName(String userEmail, String name) throws Exception;
 }

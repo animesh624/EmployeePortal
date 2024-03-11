@@ -9,5 +9,9 @@ import java.util.List;
 @Repository
 public interface ManagerReporteeRepo extends JpaRepository<ManagerReportee,String> {
 
-    List<ManagerReportee> getAllByManagerEmail(String managerEmail);
+    List<ManagerReportee> getAllByManagerEmail(String managerEmail) throws Exception;
+
+    ManagerReportee getFirstByReporteeEmailAndManagerEmail(String reporteeEmail, String managerEmail) throws Exception;
+
+
 }

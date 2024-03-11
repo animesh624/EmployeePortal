@@ -113,9 +113,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto, String token) throws Exception{
-//        if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
+        if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         log.info("Animesh recieved {}",editEmployeeDto);
 //        List<NameUrlMapDto> newDto = objectMapper.readValue(editEmployeeDto.getProfileUrls(), new TypeReference<List<NameUrlMapDto>>() {});
         EmployeeData employeeData = employeeDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
@@ -123,7 +123,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.error("User doesnt exist with userEmail " + editEmployeeDto.getUserEmail());
             return null;
         }
-//        employeeDataFacade.saveEditEmployeeDetails(employeeData,editEmployeeDto);
+        employeeDataFacade.saveEditEmployeeDetails(employeeData,editEmployeeDto);
         employeeDataFacade.saveSkillsLanguagesInterests(editEmployeeDto.getUserEmail(),editEmployeeDto);
         employeeDataFacade.saveProfileUrls(editEmployeeDto);
         return new ResponseEntity<>(HttpStatus.OK);

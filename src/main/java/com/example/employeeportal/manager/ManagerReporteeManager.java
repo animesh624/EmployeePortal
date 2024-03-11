@@ -7,4 +7,6 @@ import java.util.List;
 public interface ManagerReporteeManager extends GenericManager<ManagerReportee,String> {
 
     List<ManagerReportee> getAllByManagerEmail(String managerEmail) throws Exception;
+
+    ManagerReportee getByReporteeEmailAndManagerEmail(String reporteeEmail, String managerEmail) throws Exception;
 }

@@ -13,4 +13,6 @@ public interface LanguageRepo extends JpaRepository<Languages,String> {
 
     @Query(value="SELECT l.language FROM languages_temp l WHERE l.user_email = ?1", nativeQuery = true)
     List<String> getAllRoleIdByUserEmail(String userEmail) throws Exception;
+
+    Languages getFirstByUserEmailAndLanguage(String userEmail, String roleId) throws Exception;
 }

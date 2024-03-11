@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class LanguagesManagerImpl extends GenericManagerImpl<Languages,String> implements LanguagesManager {
+public class LanguagesManagerImpl extends GenericManagerImpl<Languages, String> implements LanguagesManager {
 
     LanguageRepo languageRepo;
 
@@ -20,7 +20,12 @@ public class LanguagesManagerImpl extends GenericManagerImpl<Languages,String> i
     }
 
     @Override
-    public List<String> getAllRoleIdByUserEmail(String userEmail) throws Exception{
+    public List<String> getAllRoleIdByUserEmail(String userEmail) throws Exception {
         return languageRepo.getAllRoleIdByUserEmail(userEmail);
+    }
+
+    @Override
+    public Languages getByUserEmailAndRoleId(String userEmail, String roleId) throws Exception {
+        return languageRepo.getFirstByUserEmailAndLanguage(userEmail, roleId);
     }
 }

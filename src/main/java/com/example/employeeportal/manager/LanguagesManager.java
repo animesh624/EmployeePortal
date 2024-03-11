@@ -7,4 +7,6 @@ import java.util.List;
 public interface LanguagesManager extends GenericManager<Languages,String> {
 
     List<String> getAllRoleIdByUserEmail (String userEmail) throws Exception;
+
+    Languages getByUserEmailAndRoleId(String userEmail, String roleId) throws Exception;
 }
