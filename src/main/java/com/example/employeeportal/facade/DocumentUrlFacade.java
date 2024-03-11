@@ -20,7 +20,10 @@ public class DocumentUrlFacade {
         if(fileUrl == null){
             return ;
         }
-        DocumentUrl documentUrl = new DocumentUrl();
+        DocumentUrl documentUrl = documentUrlManager.getByUserEmailAndName(uploadDocumentDto.getUserEmail(),uploadDocumentDto.getFileName());
+        if(documentUrl == null){
+            documentUrl = new DocumentUrl();
+        }
         documentUrl.setDocumentName(uploadDocumentDto.getFileName());
         documentUrl.setUrl(fileUrl);
         documentUrl.setUserEmail(uploadDocumentDto.getUserEmail());

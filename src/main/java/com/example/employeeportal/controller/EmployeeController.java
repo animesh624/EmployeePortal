@@ -1,7 +1,11 @@
 package com.example.employeeportal.controller;
 
-
-import com.example.employeeportal.dto.*;
+import com.example.employeeportal.dto.EditEmployeeDto;
+import com.example.employeeportal.dto.FeedbackDto;
+import com.example.employeeportal.dto.GetEmailDto;
+import com.example.employeeportal.dto.GetEmployeeDto;
+import com.example.employeeportal.dto.GetNeighboursDto;
+import com.example.employeeportal.dto.UploadDocumentDto;
 import com.example.employeeportal.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,16 +47,16 @@ public class EmployeeController {
     }
 
     @PostMapping("/getNeighbours")
-    public ResponseEntity<Object> getNeighbours(@RequestBody  GetNeighboursDto getNeighboursDto, @RequestHeader String token) throws Exception{
+    public ResponseEntity<Object> getNeighbours(@RequestBody GetNeighboursDto getNeighboursDto, @RequestHeader String token) throws Exception{
         return employeeService.getNeighbours(getNeighboursDto,token);
     }
 
     // TODO seperate folder for pdf and images.
     @PostMapping(path = "/uploadDocument")
     public ResponseEntity<Object> uploadDocument(@RequestParam("file") MultipartFile file,
-                                             @RequestParam("uploadDocumentDto") UploadDocumentDto uploadDocumentDto,
+                                             @RequestParam("data") String data,
                                              @RequestHeader String token) throws Exception {
-        return employeeService.uploadDocument(file,uploadDocumentDto,token);
+        return employeeService.uploadDocument(file,data,token);
     }
 
     @GetMapping(path = "/downloadFile")

@@ -28,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,7 +44,7 @@ import java.util.Map;
 @Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper;
 
     @Autowired
     EmployeeDataManager employeeDataManager;
@@ -83,6 +84,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     UserRoleMasterManager userRoleMasterManager;
+
+    @PostConstruct
+    public void init(){
+        objectMapper = new ObjectMapper();
+    }
 
     @Override
     public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
@@ -153,8 +159,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public ResponseEntity<Object> uploadDocument(MultipartFile file, UploadDocumentDto uploadDocumentDto, String token) throws Exception{
-
+    public ResponseEntity<Object> uploadDocument(MultipartFile file, String data, String token) throws Exception{
+        UploadDocumentDto uploadDocumentDto = objectMapper.readValue(data, UploadDocumentDto.class);
+        log.info("Animesh printing uploadDocumentDto {}",uploadDocumentDto);
         if(!jwtUtil.isTokenValid(token,uploadDocumentDto.getRequestedUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
