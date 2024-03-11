@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<Object> forgotPassword(@RequestBody GetEmailDto getEmailDto, @RequestHeader String token) throws Exception {
-        return userService.forgotPassword(getEmailDto,token);
+    public ResponseEntity<Object> forgotPassword(@RequestBody GetEmailDto getEmailDto) throws Exception {
+        return userService.forgotPassword(getEmailDto);
     }
 
     @GetMapping("/verify-otp")

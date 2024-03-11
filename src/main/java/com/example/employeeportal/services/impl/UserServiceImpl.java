@@ -111,6 +111,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Object> isLoggedIn(GetEmailDto getEmailDto, String token) throws Exception{
         String userEmail = getEmailDto.getUserEmail();
+
+        log.info("UsEReMAIL : " + userEmail);
+
         if(!jwtUtil.isTokenValid(token,userEmail)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -123,12 +126,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Object> forgotPassword(GetEmailDto getEmailDto, String token) throws Exception{
+    public ResponseEntity<Object> forgotPassword(GetEmailDto getEmailDto) throws Exception{
         String userEmail = getEmailDto.getUserEmail();
 
-        if(!jwtUtil.isTokenValid(token,userEmail)){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         EmployeeData employeeData = employeeDataManager.getByUserEmail(userEmail);
 
         if (userEmail == null || employeeData == null) {

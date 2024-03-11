@@ -15,7 +15,7 @@ public interface UserService {
 
     ResponseEntity<Object> isLoggedIn(GetEmailDto getEmailDto, String token) throws Exception;
 
-    ResponseEntity<Object> forgotPassword(GetEmailDto getEmailDto, String token) throws Exception;
+    ResponseEntity<Object> forgotPassword(GetEmailDto getEmailDto) throws Exception;
 
     ResponseEntity<Object> verifyOtp(String otp, GetEmailDto getEmailDto) throws Exception;
 
