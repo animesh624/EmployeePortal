@@ -45,12 +45,12 @@ public class UserController {
         return userService.forgotPassword(getEmailDto);
     }
 
-    @GetMapping("/verify-otp")
+    @PostMapping("/verify-otp")
     public ResponseEntity<Object> verifyOtp(@RequestParam(value = "otp")String otp, @RequestBody GetEmailDto getEmailDto) throws Exception {
         return userService.verifyOtp(otp, getEmailDto);
     }
 
-    @PostMapping("/reset-password")
+    @PutMapping("/reset-password")
     public ResponseEntity<Object> resetPassword(@RequestParam(value = "otp")String otp, @RequestBody LoginUserDto loginUserDto) throws Exception {
         return userService.resetPassword(otp,loginUserDto);
     }
