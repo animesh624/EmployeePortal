@@ -187,6 +187,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userDataRepo.updatePassword(userEmail,bCryptPasswordEncoder.encode(userPassword));
+        forgotPasswordRepo.deleteById(fp.getId());
 
         return ResponseEntity.ok("Changed password");
     }
