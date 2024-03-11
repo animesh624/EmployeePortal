@@ -13,7 +13,7 @@ public interface UserService {
 
     ResponseEntity<Object> register(MultipartFile file, String data, String token) throws Exception;
 
-    ResponseEntity<Object> isLoggedIn(String userEmail, String token) throws Exception;
+    ResponseEntity<Object> isLoggedIn(GetEmailDto getEmailDto, String token) throws Exception;
 
     ResponseEntity<Object> forgotPassword(GetEmailDto getEmailDto, String token) throws Exception;
 

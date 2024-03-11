@@ -36,8 +36,8 @@ public class UserController {
     }
 
     @PostMapping(path = "isLoggedIn")
-    public ResponseEntity<Object> isLoggedIn(@RequestBody String userEmail, @RequestHeader String token) throws Exception{
-        return userService.isLoggedIn(userEmail,token);
+    public ResponseEntity<Object> isLoggedIn(@RequestBody GetEmailDto getEmailDto, @RequestHeader String token) throws Exception{
+        return userService.isLoggedIn(getEmailDto,token);
     }
 
     @PostMapping("/forgot-password")

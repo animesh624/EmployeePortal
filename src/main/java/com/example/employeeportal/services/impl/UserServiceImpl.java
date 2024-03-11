@@ -109,9 +109,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Object> isLoggedIn(String userEmail, String token) throws Exception{
+    public ResponseEntity<Object> isLoggedIn(GetEmailDto getEmailDto, String token) throws Exception{
+        String userEmail = getEmailDto.getUserEmail();
         if(!jwtUtil.isTokenValid(token,userEmail)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(userEmail);
+
+        if (userEmail == null || employeeData == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
