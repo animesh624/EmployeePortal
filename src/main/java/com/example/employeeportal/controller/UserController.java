@@ -35,7 +35,7 @@ public class UserController {
         return userService.register(file,data,token);
     }
 
-    @PostMapping(path = "isLoggedIn")
+    @PostMapping(path = "/isLoggedIn")
     public ResponseEntity<Object> isLoggedIn(@RequestBody GetEmailDto getEmailDto, @RequestHeader String token) throws Exception{
         return userService.isLoggedIn(getEmailDto,token);
     }
