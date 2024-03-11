@@ -17,7 +17,7 @@ public interface EmployeeService {
 
     ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception;
 
-    ResponseEntity<Object> uploadDocument(MultipartFile file, UploadDocumentDto uploadDocumentDto, String token) throws Exception;
+    ResponseEntity<Object> uploadDocument(MultipartFile file, String data, String token) throws Exception;
 
     ResponseEntity<Object> downloadFile(String fileName) throws Exception;
 

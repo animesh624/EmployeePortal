@@ -54,9 +54,9 @@ public class EmployeeController {
     // TODO seperate folder for pdf and images.
     @PostMapping(path = "/uploadDocument")
     public ResponseEntity<Object> uploadDocument(@RequestParam("file") MultipartFile file,
-                                             @RequestParam("uploadDocumentDto") UploadDocumentDto uploadDocumentDto,
+                                             @RequestParam("data") String data,
                                              @RequestHeader String token) throws Exception {
-        return employeeService.uploadDocument(file,uploadDocumentDto,token);
+        return employeeService.uploadDocument(file,data,token);
     }
 
     @GetMapping(path = "/downloadFile")
