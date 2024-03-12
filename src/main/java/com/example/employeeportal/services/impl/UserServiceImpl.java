@@ -112,8 +112,8 @@ public class UserServiceImpl implements UserService {
         }
 
         String fileUrl = s3Facade.uploadFile(file);
-        userDataFacade.saveEntryInEmployeeData(registerUserDto,fileUrl);
         userDataFacade.saveEntryInUserData(registerUserDto);
+        userDataFacade.saveEntryInEmployeeData(registerUserDto,fileUrl);
         userDataFacade.createMapping(registerUserDto);
 
         return new ResponseEntity<>(HttpStatus.OK);

@@ -48,7 +48,7 @@ public class EmployeeData {
     private String managerEmail;
 
     @Column(name = "frequency")
-    private String frequency;
+    private int frequency;
 
     @Column(name = "contact_number")
     private String contactNumber;

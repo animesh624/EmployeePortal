@@ -145,4 +145,9 @@ ALTER TABLE employee_data_temp
 
 
 
+ALTER TABLE employee_data_temp
+    ALTER COLUMN frequency SET DEFAULT 0;
+
+
+
 

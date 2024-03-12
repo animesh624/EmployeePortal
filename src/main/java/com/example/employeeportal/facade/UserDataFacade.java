@@ -31,10 +31,13 @@ public class UserDataFacade {
 
     private static String defaultFileUrl;
 
+    private static int zeroValue;
+
     @PostConstruct
     public void init() {
         defaultFileUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fin.linkedin.com%2Fcompany%2Fmoney-view&psig=AOvVaw2YvgLNG5srKt6lybVl6Lns&ust=1710301590312000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCMD2w4jo7YQDFQAAAAAdAAAAABAD";
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        zeroValue = 0;
     }
 
     public void saveEntryInEmployeeData(RegisterUserDto registerUserDto,String fileUrl) throws Exception{
@@ -58,6 +61,7 @@ public class UserDataFacade {
                 .managerEmail(registerUserDto.getManagerEmail())
                 .DOB(registerUserDto.getDOB())
                 .profileImageUrl(fileUrl)
+                .frequency(zeroValue)
                 .build();
     }
 
