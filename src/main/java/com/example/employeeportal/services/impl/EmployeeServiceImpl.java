@@ -110,6 +110,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<String> languages = userRoleMasterManager.getAllNameByRoleId(languagesIds);
         List<Object> documentUrls = documentUrlManager.getAllByUserEmail(employeeData.getUserEmail());
 
+        employeeDataFacade.updateFrequency(employeeData);
+
         Map<String,Object> result = new HashMap<>();
         result.put("data",employeeData);
         result.put("languages",languages);
@@ -141,7 +143,6 @@ public class EmployeeServiceImpl implements EmployeeService {
          Map<String,Object> result = new HashMap<>();
 
          List<EmployeeData> employeeData = employeeDataManager.searchEmployee(name,designation,expertise,userEmail);
-         employeeDataFacade.updateFrequency(employeeData);
          result.put("data",employeeData);
          return new ResponseEntity<>(result,HttpStatus.OK);
 

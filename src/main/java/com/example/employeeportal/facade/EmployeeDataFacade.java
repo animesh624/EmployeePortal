@@ -175,10 +175,8 @@ public class EmployeeDataFacade {
         }
     }
 
-    public void updateFrequency(List<EmployeeData> employeeData) throws Exception{
-        employeeData.forEach(data -> {
-            data.setFrequency(data.getFrequency()+1);
-            employeeDataManager.save(data);
-        });
+    public void updateFrequency(EmployeeData employeeData) throws Exception{
+        employeeData.setFrequency(employeeData.getFrequency()+1);
+        employeeDataManager.save(employeeData);
     }
 }
