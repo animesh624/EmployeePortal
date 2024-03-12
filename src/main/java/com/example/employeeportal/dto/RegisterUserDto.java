@@ -27,8 +27,8 @@ public class RegisterUserDto {
     @JsonProperty("designation")
     private String designation;
 
-    @JsonProperty("level")
-    private String level;
+    @JsonProperty("pod")
+    private String pod;
 
     @JsonProperty("is_admin")
     private Boolean isAdmin;

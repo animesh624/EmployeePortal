@@ -7,6 +7,7 @@ import com.example.employeeportal.dto.GetEmployeeDto;
 import com.example.employeeportal.dto.GetNeighboursDto;
 import com.example.employeeportal.dto.UploadDocumentDto;
 import com.example.employeeportal.services.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Slf4j
 public class EmployeeController {
 
     @Autowired
@@ -43,6 +45,7 @@ public class EmployeeController {
                                                  @RequestParam(value = "expertise",required = false) String expertise,
                                                  @RequestParam(value = "user_email",required = false) String userEmail,
                                                  @RequestHeader String token) throws Exception {
+        log.info("Animesh here with {}",name);
         return employeeService.searchEmployee(name, designation, expertise, userEmail, token);
     }
 

@@ -32,8 +32,8 @@ public class EditEmployeeDto {
     @JsonProperty("designation")
     private String designation;
 
-    @JsonProperty("level")
-    private String level;
+    @JsonProperty("pod")
+    private String pod;
 
     @JsonProperty("contact_number")
     private String contactNumber;

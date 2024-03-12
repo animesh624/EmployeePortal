@@ -51,7 +51,7 @@ public class UserDataFacade {
                 .contactNumber(registerUserDto.getContactNumber())
                 .empCode(registerUserDto.getEmpCode())
                 .designation(registerUserDto.getDesignation())
-                .level(registerUserDto.getLevel())
+                .pod(registerUserDto.getPod())
                 .firstName(registerUserDto.getFirstName())
                 .lastName(registerUserDto.getLastName())
                 .userEmail(registerUserDto.getUserEmail())

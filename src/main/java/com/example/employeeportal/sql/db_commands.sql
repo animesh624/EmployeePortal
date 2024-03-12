@@ -22,7 +22,7 @@ CREATE TABLE `employee_data_temp` (
                               `full_name` varchar(124) DEFAULT NULL,
                              `emp_code` varchar(56) DEFAULT NULL,
                              `designation` varchar(56) DEFAULT NULL,
-                             `level` varchar(56) DEFAULT NULL,
+                             `pod` varchar(56) DEFAULT NULL,
                              `frequency` int DEFAULT 0,
                              `contact_number` varchar(56) DEFAULT NULL,
                              `date_created` datetime DEFAULT NULL,

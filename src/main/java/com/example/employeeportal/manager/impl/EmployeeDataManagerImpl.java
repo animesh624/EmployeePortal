@@ -32,7 +32,7 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     }
 
     @Override
-    public List<Object> searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception{
+    public List<EmployeeData> searchEmployee(String name, String designation, String expertise ,String userEmail) throws Exception{
 
         if(name != null) {
             return employeeDataRepo.searchEmployeeByName(name);

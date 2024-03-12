@@ -41,8 +41,8 @@ public class EmployeeData {
     @Column(name = "designation")
     private String designation;
 
-    @Column(name = "level")
-    private String level;
+    @Column(name = "pod")
+    private String pod;
 
     @Column(name = "manager_email")
     private String managerEmail;

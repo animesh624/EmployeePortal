@@ -56,7 +56,7 @@ public class EmployeeDataFacade {
         }
         employeeData.setFirstName(editEmployeeDto.getFirstName());
         employeeData.setLastName(editEmployeeDto.getLastName());
-        employeeData.setLevel(editEmployeeDto.getLevel());
+        employeeData.setPod(editEmployeeDto.getPod());
         employeeData.setDesignation(editEmployeeDto.getDesignation());
         employeeData.setContactNumber(editEmployeeDto.getContactNumber());
         employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());   // TODO : for mapping_table also we need to change the logic here
@@ -173,6 +173,12 @@ public class EmployeeDataFacade {
                                  .build();
             interestsManager.save(interests);
         }
+    }
 
+    public void updateFrequency(List<EmployeeData> employeeData) throws Exception{
+        employeeData.forEach(data -> {
+            data.setFrequency(data.getFrequency()+1);
+            employeeDataManager.save(data);
+        });
     }
 }
