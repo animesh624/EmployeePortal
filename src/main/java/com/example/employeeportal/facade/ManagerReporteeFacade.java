@@ -49,9 +49,8 @@ public class ManagerReporteeFacade {
         String managerEmail = employeeDataManager.getManagerEmailByUserEmail(getNeighboursDto.getUserEmail());
 
         EmployeeData managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
-        if(managerDetails == null) {
+        if(managerDetails == null)
             return null;
-        }
         return TreeNodeDto.builder()
                 .designation(managerDetails.getDesignation())
                 .userEmail(managerDetails.getUserEmail())
@@ -65,9 +64,9 @@ public class ManagerReporteeFacade {
         if(employeeData == null)
             return TreeNodeDto.builder().build();
         return TreeNodeDto.builder()
-                                    .userEmail(employeeData.getUserEmail())
-                                    .designation(employeeData.getDesignation())
-                                    .firstName(employeeData.getFirstName())
-                                    .build();
+                .userEmail(employeeData.getUserEmail())
+                .designation(employeeData.getDesignation())
+                .firstName(employeeData.getFirstName())
+                .build();
     }
 }
