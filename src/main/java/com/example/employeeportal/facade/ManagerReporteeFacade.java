@@ -52,12 +52,11 @@ public class ManagerReporteeFacade {
         if(managerDetails == null) {
             return null;
         }
-        TreeNodeDto temp = TreeNodeDto.builder()
+        return TreeNodeDto.builder()
                 .designation(managerDetails.getDesignation())
                 .userEmail(managerDetails.getUserEmail())
                 .firstName(managerDetails.getFirstName())
                 .build();
-        return temp;
     }
 
     public TreeNodeDto getDetailsForNode(GetNeighboursDto getNeighboursDto) throws Exception{
@@ -65,11 +64,10 @@ public class ManagerReporteeFacade {
 
         if(employeeData == null)
             return TreeNodeDto.builder().build();
-        TreeNodeDto treeNodeDto = TreeNodeDto.builder()
+        return TreeNodeDto.builder()
                                     .userEmail(employeeData.getUserEmail())
                                     .designation(employeeData.getDesignation())
                                     .firstName(employeeData.getFirstName())
                                     .build();
-        return treeNodeDto;
     }
 }
