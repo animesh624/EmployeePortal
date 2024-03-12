@@ -74,12 +74,9 @@ public class EmployeeDataFacade {
         List<String> languageIds = userRoleMasterManager.getAllRoleIdByName(editEmployeeDto.getLanguages());
         List<String> skillIds = userRoleMasterManager.getAllRoleIdByName(editEmployeeDto.getSkills());
 
-        log.info("Animesh 63 {}",interestIds);
-        log.info("Animesh 64 {}",languageIds);
-        log.info("Animesh 65 {}",skillIds);
         interestIds.forEach(roleId ->{
             try {
-                saveEntryForSkill(userEmail,roleId);
+                saveEntryForInterest(userEmail,roleId);
             }catch (Exception e){
 
             }
@@ -93,9 +90,9 @@ public class EmployeeDataFacade {
             }
         });
 
-        interestIds.forEach(interest -> {
+        skillIds.forEach(roleId -> {
             try {
-                saveEntryForInterest(userEmail, interest);
+                saveEntryForSkill(userEmail, roleId);
             } catch (Exception e) {
 
             }
@@ -160,7 +157,7 @@ public class EmployeeDataFacade {
 
     private void saveEntryForInterest(String userEmail,String interest) throws Exception{
         Interests interests = interestsManager.getByUserEmailAndRoleId(userEmail,interest);
-        if(interest == null){
+        if(interests == null){
             interests = new Interests();
             interests.setUserEmail(userEmail);
             interests.setInterest(interest);
