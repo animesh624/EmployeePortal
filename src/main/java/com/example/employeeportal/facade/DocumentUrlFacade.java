@@ -16,7 +16,7 @@ public class DocumentUrlFacade {
 
     @Autowired
     UserRoleMasterManager userRoleMasterManager;
-    public void builDocumentUrlData (UploadDocumentDto uploadDocumentDto, String fileUrl) throws Exception{
+    public void saveDocumentUrlData (UploadDocumentDto uploadDocumentDto, String fileUrl) throws Exception{
         if(fileUrl == null){
             return ;
         }

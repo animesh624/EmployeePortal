@@ -120,4 +120,29 @@ ALTER TABLE `interests_temp`
 
 
 
+INSERT INTO `user_role_master_temp` (`role_id`, `name`)
+VALUES
+    ('R28', 'Instagram');
+
+
+ALTER TABLE document_url_temp
+    RENAME COLUMN role_id TO document_name;
+
+ALTER table employee_data_temp
+drop column manager_code;
+
+ALTER table `user_data_temp` drop index uk_username;
+
+ALTER TABLE user_data_temp
+    MODIFY user_email VARCHAR(128) NOT NULL,
+    ADD CONSTRAINT uc_user_email UNIQUE (user_email);
+
+
+ALTER TABLE employee_data_temp
+    ADD CONSTRAINT fk_user_email
+        FOREIGN KEY (user_email)
+            REFERENCES user_data_temp(user_email);
+
+
+
 

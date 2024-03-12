@@ -122,8 +122,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        log.info("Animesh recieved {}",editEmployeeDto);
-//        List<NameUrlMapDto> newDto = objectMapper.readValue(editEmployeeDto.getProfileUrls(), new TypeReference<List<NameUrlMapDto>>() {});
         EmployeeData employeeData = employeeDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
         if(employeeData == null){
             log.error("User doesnt exist with userEmail " + editEmployeeDto.getUserEmail());
@@ -166,7 +164,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         String fileUrl = s3Facade.uploadFile(file);
-        documentUrlFacade.builDocumentUrlData(uploadDocumentDto,fileUrl);
+        documentUrlFacade.saveDocumentUrlData(uploadDocumentDto,fileUrl);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
