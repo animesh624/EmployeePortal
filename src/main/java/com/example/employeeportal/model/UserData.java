@@ -1,6 +1,9 @@
 package com.example.employeeportal.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -13,6 +16,9 @@ import java.util.Date;
 @Data
 @Table(name = "user_data_temp")
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserData {
 
     @Id

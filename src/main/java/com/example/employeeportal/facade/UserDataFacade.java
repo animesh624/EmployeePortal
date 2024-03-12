@@ -42,37 +42,51 @@ public class UserDataFacade {
         if (StringUtils.isEmpty(fileUrl)){
             fileUrl = defaultFileUrl;
         }
-        EmployeeData employeeData = new EmployeeData();
-        employeeData.setContactNumber(registerUserDto.getContactNumber());
-        employeeData.setEmpCode(registerUserDto.getEmpCode());
-        employeeData.setDesignation(registerUserDto.getDesignation());
-        employeeData.setLevel(registerUserDto.getLevel());
-        employeeData.setFirstName(registerUserDto.getFirstName());
-        employeeData.setLastName(registerUserDto.getLastName());
-        employeeData.setUserEmail(registerUserDto.getUserEmail());
-        employeeData.setManagerEmail(registerUserDto.getManagerEmail());
-        employeeData.setDOB(registerUserDto.getDOB());
-        employeeData.setProfileImageUrl(fileUrl);
+        EmployeeData employeeData = buildEmployeeData(registerUserDto, fileUrl);
         employeeDataManager.save(employeeData);
     }
 
+    private EmployeeData buildEmployeeData(RegisterUserDto registerUserDto, String fileUrl) throws Exception{
+        return EmployeeData.builder()
+                .contactNumber(registerUserDto.getContactNumber())
+                .empCode(registerUserDto.getEmpCode())
+                .designation(registerUserDto.getDesignation())
+                .level(registerUserDto.getLevel())
+                .firstName(registerUserDto.getFirstName())
+                .lastName(registerUserDto.getLastName())
+                .userEmail(registerUserDto.getUserEmail())
+                .managerEmail(registerUserDto.getManagerEmail())
+                .DOB(registerUserDto.getDOB())
+                .profileImageUrl(fileUrl)
+                .build();
+    }
+
     public void saveEntryInUserData(RegisterUserDto registerUserDto) throws Exception{
-        UserData userData = new UserData();
-        userData.setUserEmail(registerUserDto.getUserEmail());
-        userData.setLastName(registerUserDto.getLastName());
-        userData.setFirstName(registerUserDto.getFirstName());
-        userData.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
-        userData.setIsAdmin(registerUserDto.getIsAdmin());
+        UserData userData = buildUserData(registerUserDto);
         userDataManager.save(userData);
+    }
+
+    private UserData buildUserData(RegisterUserDto registerUserDto) throws Exception{
+        return UserData.builder()
+                .userEmail(registerUserDto.getUserEmail())
+                .lastName(registerUserDto.getLastName())
+                .firstName(registerUserDto.getFirstName())
+                .password(bCryptPasswordEncoder.encode(registerUserDto.getPassword()))
+                .build();
     }
 
     public void createMapping(RegisterUserDto registerUserDto) throws Exception{
         if(!StringUtils.isEmpty(registerUserDto.getManagerEmail())){
-            ManagerReportee managerReportee = new ManagerReportee();
-            managerReportee.setManagerEmail(registerUserDto.getManagerEmail());
-            managerReportee.setReporteeEmail(registerUserDto.getUserEmail());
+            ManagerReportee managerReportee = buildManagerReportee(registerUserDto);
             managerReporteeManager.save(managerReportee);
         }
+    }
+
+    private ManagerReportee buildManagerReportee(RegisterUserDto registerUserDto) throws Exception{
+        return ManagerReportee.builder()
+                .reporteeEmail(registerUserDto.getUserEmail())
+                .managerEmail(registerUserDto.getManagerEmail())
+                .build();
     }
 
 }

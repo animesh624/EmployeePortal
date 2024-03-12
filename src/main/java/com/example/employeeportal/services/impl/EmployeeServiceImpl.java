@@ -150,10 +150,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
 
-            ManagerReporteeResponseDto managerReporteeResponseDto = new ManagerReporteeResponseDto();
-            managerReporteeResponseDto.setManager(managerReporteeFacade.getDetailsForEmployeeManager(getNeighboursDto));
-            managerReporteeResponseDto.setReportee(managerReporteeFacade.getDetailsForEmployeeReportee(getNeighboursDto));
-            managerReporteeResponseDto.setNode(managerReporteeFacade.getDetailsForNode(getNeighboursDto));
+            ManagerReporteeResponseDto managerReporteeResponseDto = ManagerReporteeResponseDto.builder()
+                                                                    .manager(managerReporteeFacade.getDetailsForEmployeeManager(getNeighboursDto))
+                                                                    .reportee(managerReporteeFacade.getDetailsForEmployeeReportee(getNeighboursDto))
+                                                                    .node(managerReporteeFacade.getDetailsForNode(getNeighboursDto))
+                                                                    .build();
             Map<String, Object> result = new HashMap<>();
             result.put("data", managerReporteeResponseDto);
             return new ResponseEntity<>(result, HttpStatus.OK);

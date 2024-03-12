@@ -62,12 +62,19 @@ public class EmployeeDataFacade {
         employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());   // TODO : for mapping_table also we need to change the logic here
         employeeDataManager.save(employeeData);
 
-        managerReportee = new ManagerReportee();
-        managerReportee.setReporteeEmail(employeeData.getUserEmail());
-        managerReportee.setManagerEmail(employeeData.getManagerEmail());
+        managerReportee = buildManagerReportee(employeeData);
         managerReporteeManager.save(managerReportee);
     }
 
+    private ManagerReportee buildManagerReportee(EmployeeData employeeData) throws Exception{
+        return ManagerReportee.builder()
+                .reporteeEmail(employeeData.getUserEmail())
+                .managerEmail(employeeData.getManagerEmail())
+                .build();
+    }
+
+
+    // TODO : Please see if any map or something can be applied for better code quality
     public void saveSkillsLanguagesInterests(String userEmail, EditEmployeeDto editEmployeeDto) throws Exception{
 
         List<String> interestIds = userRoleMasterManager.getAllRoleIdByName(editEmployeeDto.getInterests());
@@ -122,7 +129,7 @@ public class EmployeeDataFacade {
             try {
                 DocumentUrl documentUrl = documentUrlManager.getByUserEmailAndName(editEmployeeDto.getUserEmail(), nameUrlMapDto.getName());
                 if(documentUrl == null){
-                    documentUrl = new DocumentUrl();
+                    documentUrl = DocumentUrl.builder().build();
                 }
                 documentUrl.setDocumentName(nameUrlMapDto.getName());
                 documentUrl.setUrl(nameUrlMapDto.getUrl());
@@ -137,9 +144,10 @@ public class EmployeeDataFacade {
     private void saveEntryForSkill(String userEmail,String skill) throws Exception{
         Skills skills = skillsManager.getByUserEmailAndRoleId(userEmail,skill);
         if(skills == null) {
-             skills = new Skills();
-             skills.setUserEmail(userEmail);
-             skills.setSkill(skill);
+             skills = Skills.builder()
+                            .skill(skill)
+                            .userEmail(userEmail)
+                            .build();
              skillsManager.save(skills);
         }
     }
@@ -147,9 +155,10 @@ public class EmployeeDataFacade {
     private void saveEntryForLanguage(String userEmail,String language) throws Exception{
         Languages languages = languagesManager.getByUserEmailAndRoleId(userEmail,language);
         if(languages == null){
-            languages = new Languages();
-            languages.setUserEmail(userEmail);
-            languages.setLanguage(language);
+            languages = Languages.builder()
+                                .userEmail(userEmail)
+                                .language(language)
+                                .build();
             languagesManager.save(languages);
         }
 
@@ -158,9 +167,10 @@ public class EmployeeDataFacade {
     private void saveEntryForInterest(String userEmail,String interest) throws Exception{
         Interests interests = interestsManager.getByUserEmailAndRoleId(userEmail,interest);
         if(interests == null){
-            interests = new Interests();
-            interests.setUserEmail(userEmail);
-            interests.setInterest(interest);
+            interests = Interests.builder()
+                                 .userEmail(userEmail)
+                                 .interest(interest)
+                                 .build();
             interestsManager.save(interests);
         }
 

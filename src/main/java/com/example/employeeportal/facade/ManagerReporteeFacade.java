@@ -29,11 +29,13 @@ public class ManagerReporteeFacade {
         List<ManagerReportee> allReporteeOfManager = managerReporteeManager.getAllByManagerEmail(getNeighboursDto.getUserEmail());
         allReporteeOfManager.forEach(value -> {
             try {
-                TreeNodeDto temp = new TreeNodeDto();
+
                 EmployeeData reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(value.getReporteeEmail());
-                temp.setUserEmail(reporteeDetails.getUserEmail());
-                temp.setFirstName(reporteeDetails.getFirstName());
-                temp.setDesignation(reporteeDetails.getDesignation());
+                TreeNodeDto temp = TreeNodeDto.builder()
+                                .userEmail(reporteeDetails.getUserEmail())
+                                .firstName(reporteeDetails.getFirstName())
+                                .designation(reporteeDetails.getDesignation())
+                                .build();
                 finalList.add(temp);
             }
             catch (Exception e){
@@ -45,25 +47,29 @@ public class ManagerReporteeFacade {
 
     public TreeNodeDto getDetailsForEmployeeManager(GetNeighboursDto getNeighboursDto) throws Exception {
         String managerEmail = employeeDataManager.getManagerEmailByUserEmail(getNeighboursDto.getUserEmail());
-        TreeNodeDto temp = new TreeNodeDto();
+
         EmployeeData managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
         if(managerDetails == null) {
             return null;
         }
-        temp.setDesignation(managerDetails.getDesignation());
-        temp.setUserEmail(managerDetails.getUserEmail());
-        temp.setFirstName(managerDetails.getFirstName());
+        TreeNodeDto temp = TreeNodeDto.builder()
+                .designation(managerDetails.getDesignation())
+                .userEmail(managerDetails.getUserEmail())
+                .firstName(managerDetails.getFirstName())
+                .build();
         return temp;
     }
 
     public TreeNodeDto getDetailsForNode(GetNeighboursDto getNeighboursDto) throws Exception{
         EmployeeData employeeData = employeeDataManager.getByUserEmail(getNeighboursDto.getUserEmail());
-        TreeNodeDto treeNodeDto = new TreeNodeDto();
+
         if(employeeData == null)
-            return treeNodeDto;
-        treeNodeDto.setUserEmail(employeeData.getUserEmail());
-        treeNodeDto.setDesignation(employeeData.getDesignation());
-        treeNodeDto.setFirstName(employeeData.getFirstName());
+            return TreeNodeDto.builder().build();
+        TreeNodeDto treeNodeDto = TreeNodeDto.builder()
+                                    .userEmail(employeeData.getUserEmail())
+                                    .designation(employeeData.getDesignation())
+                                    .firstName(employeeData.getFirstName())
+                                    .build();
         return treeNodeDto;
     }
 }
