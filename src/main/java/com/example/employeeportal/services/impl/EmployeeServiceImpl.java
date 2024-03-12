@@ -121,6 +121,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto, String token) throws Exception{
+        log.info("Animesh here {}",editEmployeeDto);
         if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

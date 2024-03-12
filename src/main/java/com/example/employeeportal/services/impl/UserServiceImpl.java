@@ -95,6 +95,7 @@ public class UserServiceImpl implements UserService {
 
         String token = jwtUtil.createJWTToken(loginUserDto.getUserEmail(),"TokenForEmployeePortal");
         result.put("data", token);
+        result.put("isAdmin",userData.getIsAdmin());
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
