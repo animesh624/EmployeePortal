@@ -19,13 +19,13 @@ public interface EmployeeDataRepo extends JpaRepository<EmployeeData, String> {
     @Query(value="SELECT e.manager_email FROM employee_data_temp e WHERE e.user_email = ?1", nativeQuery = true)
     String getManagerEmailByUserEmail (String userEmail) throws Exception;
 
-    @Query(value = "Select e.* FROM employee_data_temp e WHERE e.user_email LIKE %?1% limit 10",nativeQuery = true)
+    @Query(value = "Select e.* FROM employee_data_temp e WHERE e.user_email LIKE %?1% ORDER BY e.frequency desc limit 10",nativeQuery = true)
     List<EmployeeData> searchEmployeeByEmail(String userEmail) throws Exception;
 
-    @Query(value = "Select e.first_name, e.last_name , e.user_email, e.designation FROM employee_data_temp e WHERE e.designation LIKE %?1% limit 10",nativeQuery = true)
+    @Query(value = "Select e.* FROM employee_data_temp e WHERE e.designation LIKE %?1% ORDER BY e.frequency desc limit 10",nativeQuery = true)
     List<EmployeeData> searchEmployeeByDesignation(String designation) throws Exception;
 
-    @Query(value = "Select e.* FROM employee_data_temp e WHERE e.first_name LIKE %?1% OR e.last_name LIKE %?1% limit 10",nativeQuery = true)
+    @Query(value = "Select e.* FROM employee_data_temp e WHERE e.first_name LIKE %?1% OR e.last_name LIKE %?1% ORDER BY e.frequency desc limit 10",nativeQuery = true)
     List<EmployeeData> searchEmployeeByName(String Name) throws Exception;
 
 }
