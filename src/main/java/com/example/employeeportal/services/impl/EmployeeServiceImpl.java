@@ -96,6 +96,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         EmployeeData employeeData = employeeDataManager.getByUserEmail(getEmployeeDto.getUserEmail());
+
+        if(employeeData == null){
+            log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         List<String> interestsIds = interestsManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
         List<String> languagesIds = languagesManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
         List<String> skillsIds = skillsManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
@@ -104,10 +110,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<String> languages = userRoleMasterManager.getAllNameByRoleId(languagesIds);
         List<Object> documentUrls = documentUrlManager.getAllByUserEmail(employeeData.getUserEmail());
 
-        if(employeeData == null){
-            log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         Map<String,Object> result = new HashMap<>();
         result.put("data",employeeData);
         result.put("languages",languages);
