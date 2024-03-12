@@ -23,10 +23,10 @@ public interface EmployeeDataRepo extends JpaRepository<EmployeeData, String> {
     @Query(value = "Select e.first_name,e.last_name e.user_email, e.designation FROM employee_data_temp e WHERE e.user_email LIKE %?1%",nativeQuery = true)
     List<Object> searchEmployeeByEmail(String userEmail) throws Exception;
 
-    @Query(value = "Select e.first_name, e.last_name e.user_email, e.designation FROM employee_data_temp e WHERE e.designation LIKE %?1%",nativeQuery = true)
+    @Query(value = "Select e.first_name, e.last_name , e.user_email, e.designation FROM employee_data_temp e WHERE e.designation LIKE %?1%",nativeQuery = true)
     List<Object> searchEmployeeByDesignation(String designation) throws Exception;
 
-    @Query(value = "Select e.first_name, e.last_name e.user_email, e.designation FROM employee_data_temp e WHERE e.first_name LIKE %?1% OR e.last_name LIKE %?1%",nativeQuery = true)
+    @Query(value = "Select e.first_name, e.last_name , e.user_email, e.designation FROM employee_data_temp e WHERE e.first_name LIKE %?1% OR e.last_name LIKE %?1%",nativeQuery = true)
     List<Object> searchEmployeeByName(String Name) throws Exception;
 
 }
