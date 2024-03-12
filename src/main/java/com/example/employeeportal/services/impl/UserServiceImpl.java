@@ -71,6 +71,16 @@ public class UserServiceImpl implements UserService {
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
         objectMapper = new ObjectMapper();
     }
+
+    @Override
+    public ResponseEntity<Object> isLoggedIn(GetEmailDto getEmailDto, String token) throws Exception{
+
+        if(!jwtUtil.isTokenValid(token,getEmailDto.getUserEmail())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @Override
     public ResponseEntity<Object> login(LoginUserDto loginUserDto) throws Exception{
 
@@ -105,23 +115,6 @@ public class UserServiceImpl implements UserService {
         userDataFacade.saveEntryInUserData(registerUserDto);
         userDataFacade.createMapping(registerUserDto);
 
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Object> isLoggedIn(GetEmailDto getEmailDto, String token) throws Exception{
-        String userEmail = getEmailDto.getUserEmail();
-
-        log.info("UsEReMAIL : " + userEmail);
-
-        if(!jwtUtil.isTokenValid(token,userEmail)){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        EmployeeData employeeData = employeeDataManager.getByUserEmail(userEmail);
-
-        if (userEmail == null || employeeData == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

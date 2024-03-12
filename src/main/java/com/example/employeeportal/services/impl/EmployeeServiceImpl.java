@@ -159,7 +159,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public ResponseEntity<Object> uploadDocument(MultipartFile file, String data, String token) throws Exception{
         UploadDocumentDto uploadDocumentDto = objectMapper.readValue(data, UploadDocumentDto.class);
-        log.info("Animesh printing uploadDocumentDto {}",uploadDocumentDto);
         if(!jwtUtil.isTokenValid(token,uploadDocumentDto.getRequestedUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
