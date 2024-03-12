@@ -18,15 +18,21 @@ public class DocumentUrlFacade {
     UserRoleMasterManager userRoleMasterManager;
     public void saveDocumentUrlData (UploadDocumentDto uploadDocumentDto, String fileUrl) throws Exception{
         if(fileUrl == null){
-            return ;
+            throw new Exception("Error while saving file to S3");
         }
         DocumentUrl documentUrl = documentUrlManager.getByUserEmailAndName(uploadDocumentDto.getUserEmail(),uploadDocumentDto.getFileName());
-        if(documentUrl == null){
-            documentUrl = new DocumentUrl();
+        if(documentUrl != null){
+            documentUrl.setUrl(fileUrl);
         }
-        documentUrl.setDocumentName(uploadDocumentDto.getFileName());
-        documentUrl.setUrl(fileUrl);
-        documentUrl.setUserEmail(uploadDocumentDto.getUserEmail());
+        documentUrl = buildDocumentUrlRequest(uploadDocumentDto, fileUrl);
         documentUrlManager.save(documentUrl);
+    }
+
+    private DocumentUrl buildDocumentUrlRequest(UploadDocumentDto uploadDocumentDto,String fileUrl){
+        return DocumentUrl.builder()
+                .userEmail(uploadDocumentDto.getUserEmail())
+                .documentName(uploadDocumentDto.getFileName())
+                .url(fileUrl)
+                .build();
     }
 }
