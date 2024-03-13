@@ -1,13 +1,12 @@
 package com.example.employeeportal.manager.impl;
 
-import com.example.employeeportal.dto.SearchResultDto;
+
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.repo.EmployeeDataRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

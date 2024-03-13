@@ -35,7 +35,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/edit/employee")
-    public ResponseEntity<Object> editEmployee(@RequestBody(required = false) EditEmployeeDto editEmployeeDto, @RequestHeader String token) throws Exception{
+    public ResponseEntity<Object> editEmployee(@RequestBody EditEmployeeDto editEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.editEmployee(editEmployeeDto,token);
     }
 

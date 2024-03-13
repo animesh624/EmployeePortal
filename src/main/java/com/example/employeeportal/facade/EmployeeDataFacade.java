@@ -18,6 +18,7 @@ import com.example.employeeportal.model.Skills;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -50,16 +51,21 @@ public class EmployeeDataFacade {
 
     public void saveEditEmployeeDetails(EmployeeData employeeData, EditEmployeeDto editEmployeeDto) throws Exception{
 
+        if(StringUtils.isEmpty(employeeDataManager.getManagerEmailByUserEmail(editEmployeeDto.getManagerEmail()))){
+            return;
+        }
+
         ManagerReportee managerReportee = managerReporteeManager.getByReporteeEmailAndManagerEmail(employeeData.getManagerEmail(),employeeData.getUserEmail());
         if (managerReportee != null){
             managerReporteeManager.delete(managerReportee);
         }
+
         employeeData.setFirstName(editEmployeeDto.getFirstName());
         employeeData.setLastName(editEmployeeDto.getLastName());
         employeeData.setPod(editEmployeeDto.getPod());
         employeeData.setDesignation(editEmployeeDto.getDesignation());
         employeeData.setContactNumber(editEmployeeDto.getContactNumber());
-        employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());   // TODO : for mapping_table also we need to change the logic here
+        employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());  // TODO : for mapping_table also we need to change the logic here
         employeeDataManager.save(employeeData);
 
         managerReportee = buildManagerReportee(employeeData);
@@ -107,6 +113,7 @@ public class EmployeeDataFacade {
     }
 
     public void saveProfileUrls(EditEmployeeDto editEmployeeDto) throws Exception{
+        log.info("{}",editEmployeeDto);
 //        List<String> profileLinkNames = editEmployeeDto.getProfileUrls().stream()
 //                .map(NameUrlMapDto::getName)
 //                .collect(Collectors.toList());
@@ -175,8 +182,11 @@ public class EmployeeDataFacade {
         }
     }
 
-    public void updateFrequency(EmployeeData employeeData) throws Exception{
-        employeeData.setFrequency(employeeData.getFrequency()+1);
-        employeeDataManager.save(employeeData);
+    public void updateFrequency(EmployeeData employeeData,boolean isSearched) throws Exception{
+        if(isSearched) {
+            employeeData.setFrequency(employeeData.getFrequency());
+            employeeDataManager.save(employeeData);
+        }
+
     }
 }

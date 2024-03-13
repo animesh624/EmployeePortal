@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,10 +43,12 @@ public class UserData {
     @Column(name = "is_admin")
     private Boolean isAdmin;
 
+    @CreationTimestamp
     @Column(name = "date_created")
-    private Date dateCreated = new Date();
+    private Date dateCreated;
 
+    @UpdateTimestamp
     @Column(name ="date_modified")
-    private Date dateModified = new Date();
+    private Date dateModified;
 
 }

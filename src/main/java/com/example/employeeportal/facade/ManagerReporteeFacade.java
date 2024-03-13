@@ -35,6 +35,7 @@ public class ManagerReporteeFacade {
                                 .userEmail(reporteeDetails.getUserEmail())
                                 .firstName(reporteeDetails.getFirstName())
                                 .designation(reporteeDetails.getDesignation())
+                                .profileImageUrl(reporteeDetails.getProfileImageUrl())
                                 .build();
                 finalList.add(temp);
             }
@@ -55,18 +56,20 @@ public class ManagerReporteeFacade {
                 .designation(managerDetails.getDesignation())
                 .userEmail(managerDetails.getUserEmail())
                 .firstName(managerDetails.getFirstName())
+                .profileImageUrl(managerDetails.getProfileImageUrl())
                 .build();
     }
 
     public TreeNodeDto getDetailsForNode(GetNeighboursDto getNeighboursDto) throws Exception{
-        EmployeeData employeeData = employeeDataManager.getByUserEmail(getNeighboursDto.getUserEmail());
+            EmployeeData employeeData = employeeDataManager.getByUserEmail(getNeighboursDto.getUserEmail());
 
-        if(employeeData == null)
-            return TreeNodeDto.builder().build();
-        return TreeNodeDto.builder()
-                .userEmail(employeeData.getUserEmail())
-                .designation(employeeData.getDesignation())
-                .firstName(employeeData.getFirstName())
-                .build();
+            if(employeeData == null)
+                return TreeNodeDto.builder().build();
+            return TreeNodeDto.builder()
+                    .userEmail(employeeData.getUserEmail())
+                    .designation(employeeData.getDesignation())
+                    .firstName(employeeData.getFirstName())
+                    .profileImageUrl(employeeData.getProfileImageUrl())
+                    .build();
     }
 }

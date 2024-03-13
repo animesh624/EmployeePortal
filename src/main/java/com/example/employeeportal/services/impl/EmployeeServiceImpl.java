@@ -11,13 +11,13 @@ import com.example.employeeportal.manager.InterestsManager;
 import com.example.employeeportal.manager.LanguagesManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.manager.SkillsManager;
+import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.manager.UserRoleMasterManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.Feedback;
 import com.example.employeeportal.repo.FeedbackRepo;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +44,6 @@ import java.util.Map;
 @Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private static ObjectMapper objectMapper;
-
     @Autowired
     EmployeeDataManager employeeDataManager;
 
@@ -60,9 +58,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     EmployeeDataFacade employeeDataFacade;
-
-    @Autowired
-    private FeedbackRepo feedbackRepo;
 
     @Autowired
     SkillsManager skillsManager;
@@ -85,6 +80,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     UserRoleMasterManager userRoleMasterManager;
 
+    @Autowired
+    UserDataManager userDataManager;
+
+    @Autowired
+    private FeedbackRepo feedbackRepo;
+
+    private static ObjectMapper objectMapper;
+
     @PostConstruct
     public void init(){
         objectMapper = new ObjectMapper();
@@ -105,19 +108,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<String> interestsIds = interestsManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
         List<String> languagesIds = languagesManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
         List<String> skillsIds = skillsManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
-        List<String> interests = userRoleMasterManager.getAllNameByRoleId(interestsIds);
-        List<String> skills = userRoleMasterManager.getAllNameByRoleId(skillsIds);
-        List<String> languages = userRoleMasterManager.getAllNameByRoleId(languagesIds);
-        List<Object> documentUrls = documentUrlManager.getAllByUserEmail(employeeData.getUserEmail());
 
-        employeeDataFacade.updateFrequency(employeeData);
+        employeeDataFacade.updateFrequency(employeeData,getEmployeeDto.isSearched());
 
         Map<String,Object> result = new HashMap<>();
         result.put("data",employeeData);
-        result.put("languages",languages);
-        result.put("skills",skills);
-        result.put("interests",interests);
-        result.put("documentUrls",documentUrls);
+        result.put("languages",userRoleMasterManager.getAllNameByRoleId(languagesIds));
+        result.put("skills",userRoleMasterManager.getAllNameByRoleId(skillsIds));
+        result.put("interests",userRoleMasterManager.getAllNameByRoleId(interestsIds));
+        result.put("documentUrls",documentUrlManager.getAllByUserEmail(employeeData.getUserEmail()));
+        result.put("isAdmin",userDataManager.getByUserEmail(employeeData.getUserEmail()).getIsAdmin());
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
@@ -155,10 +155,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
 
             ManagerReporteeResponseDto managerReporteeResponseDto = ManagerReporteeResponseDto.builder()
-                                                                    .manager(managerReporteeFacade.getDetailsForEmployeeManager(getNeighboursDto))
-                                                                    .reportee(managerReporteeFacade.getDetailsForEmployeeReportee(getNeighboursDto))
-                                                                    .node(managerReporteeFacade.getDetailsForNode(getNeighboursDto))
-                                                                    .build();
+                    .manager(managerReporteeFacade.getDetailsForEmployeeManager(getNeighboursDto))
+                    .reportee(managerReporteeFacade.getDetailsForEmployeeReportee(getNeighboursDto))
+                    .node(managerReporteeFacade.getDetailsForNode(getNeighboursDto))
+                    .build();
             Map<String, Object> result = new HashMap<>();
             result.put("data", managerReporteeResponseDto);
             return new ResponseEntity<>(result, HttpStatus.OK);

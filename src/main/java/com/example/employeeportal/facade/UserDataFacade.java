@@ -76,6 +76,7 @@ public class UserDataFacade {
                 .lastName(registerUserDto.getLastName())
                 .firstName(registerUserDto.getFirstName())
                 .password(bCryptPasswordEncoder.encode(registerUserDto.getPassword()))
+                .isAdmin(registerUserDto.getIsAdmin())
                 .build();
     }
 

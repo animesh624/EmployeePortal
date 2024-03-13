@@ -16,8 +16,8 @@ public class GetEmployeeDto {
     private String userEmail;
 
     @JsonProperty("is_searched")
-    private String isSearched;
+    private boolean isSearched;
 
     @JsonProperty("requested_user_email")
-    private  String requestUserEmail;
+    private String requestUserEmail;
 }

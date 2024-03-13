@@ -31,7 +31,7 @@ public class RegisterUserDto {
     private String pod;
 
     @JsonProperty("is_admin")
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
 
     @JsonProperty("password")
     private String password;

@@ -7,6 +7,7 @@ import com.example.employeeportal.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +25,8 @@ public class UserController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<Object> login(@RequestBody LoginUserDto loginUserDto) throws Exception {
+    public ResponseEntity<Object> login(@RequestBody @Validated LoginUserDto loginUserDto) throws Exception {
+        log.info("Animesh enetered here {}",loginUserDto);
         return userService.login(loginUserDto);
     }
 

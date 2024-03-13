@@ -14,9 +14,16 @@ import lombok.NoArgsConstructor;
 public class TreeNodeDto {
 
     @JsonProperty("first_name")
-    public String firstName;
+    private String firstName;
+
     @JsonProperty("user_email")
-    public String userEmail;
+    private String userEmail;
+
     @JsonProperty("designation")
-    public String designation;
+    private String designation;
+
+    @JsonProperty("profile_image_url")
+    private String profileImageUrl;
+
+
 }

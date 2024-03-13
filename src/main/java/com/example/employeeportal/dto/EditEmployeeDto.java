@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.util.List;
 
@@ -14,20 +15,25 @@ import java.util.List;
 @NoArgsConstructor
 public class EditEmployeeDto {
 
+    @NonNull
     @JsonProperty("first_name")
     private String firstName;
 
+    @NonNull
     @JsonProperty("last_name")
     private String lastName;
 
+    @NonNull
     @JsonProperty("user_email")
     private String userEmail;
 
     @JsonProperty("manager_email")
     private String managerEmail;
 
+    @NonNull
     @JsonProperty("emp_code")
     private String empCode;
+
 
     @JsonProperty("designation")
     private String designation;
