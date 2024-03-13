@@ -29,7 +29,9 @@ public class DocumentUrlFacade {
         if(documentUrl != null){
             documentUrl.setUrl(fileUrl);
         }
-        documentUrl = buildDocumentUrlRequest(uploadDocumentDto, fileUrl);
+        else{
+            documentUrl = buildDocumentUrlRequest(uploadDocumentDto, fileUrl);
+        }
         documentUrlManager.save(documentUrl);
     }
 
