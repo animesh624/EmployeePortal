@@ -11,11 +11,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class DocumentUrlFacade {
 
-    @Autowired
-    DocumentUrlManager documentUrlManager;
+    private DocumentUrlManager documentUrlManager;
+    private UserRoleMasterManager userRoleMasterManager;
 
     @Autowired
-    UserRoleMasterManager userRoleMasterManager;
+    public DocumentUrlFacade(DocumentUrlManager documentUrlManager,
+                         UserRoleMasterManager userRoleMasterManager) {
+        this.documentUrlManager = documentUrlManager;
+        this.userRoleMasterManager = userRoleMasterManager;
+    }
+
     public void saveDocumentUrlData (UploadDocumentDto uploadDocumentDto, String fileUrl) throws Exception{
         if(fileUrl == null){
             throw new Exception("Error while saving file to S3");

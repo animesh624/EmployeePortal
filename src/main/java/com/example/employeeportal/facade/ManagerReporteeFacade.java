@@ -18,11 +18,16 @@ import java.util.List;
 @Slf4j
 public class ManagerReporteeFacade {
 
-    @Autowired
-    EmployeeDataManager employeeDataManager;
+    private EmployeeDataManager employeeDataManager;
+    private ManagerReporteeManager managerReporteeManager;
 
     @Autowired
-    ManagerReporteeManager managerReporteeManager;
+    public ManagerReporteeFacade(EmployeeDataManager employeeDataManager,
+                         ManagerReporteeManager managerReporteeManager) {
+        this.employeeDataManager = employeeDataManager;
+        this.managerReporteeManager = managerReporteeManager;
+    }
+
 
     public List<TreeNodeDto> getDetailsForEmployeeReportee(GetNeighboursDto getNeighboursDto) throws Exception{
         List<TreeNodeDto> finalList = new ArrayList<>();

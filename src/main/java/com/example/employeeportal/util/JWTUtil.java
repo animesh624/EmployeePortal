@@ -9,8 +9,13 @@ import org.springframework.util.StringUtils;
 @Slf4j
 public class JWTUtil {
 
+
+    private JWTHelper jwtHelper;
+
     @Autowired
-    JWTHelper jwtHelper;
+    public JWTUtil (JWTHelper jwtHelper){
+        this.jwtHelper = jwtHelper;
+    }
 
     public boolean isTokenValid(String securityToken, String subjectKey) {
         return jwtHelper.validateSubject(securityToken, subjectKey);

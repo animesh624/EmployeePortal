@@ -18,14 +18,18 @@ import javax.annotation.PostConstruct;
 @Component
 public class UserDataFacade {
 
-    @Autowired
-    EmployeeDataManager employeeDataManager;
+    private EmployeeDataManager employeeDataManager;
+    private UserDataManager userDataManager;
+    private ManagerReporteeManager managerReporteeManager;
 
     @Autowired
-    UserDataManager userDataManager;
-
-    @Autowired
-    ManagerReporteeManager managerReporteeManager;
+    public UserDataFacade(EmployeeDataManager employeeDataManager,
+                         UserDataManager userDataManager,
+                         ManagerReporteeManager managerReporteeManager) {
+        this.employeeDataManager = employeeDataManager;
+        this.userDataManager = userDataManager;
+        this.managerReporteeManager = managerReporteeManager;
+    }
 
     BCryptPasswordEncoder bCryptPasswordEncoder;
 

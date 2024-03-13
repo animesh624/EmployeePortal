@@ -44,49 +44,53 @@ import java.util.Map;
 @Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
-    EmployeeDataManager employeeDataManager;
-
-    @Autowired
-    ManagerReporteeManager managerReporteeManager;
-
-    @Autowired
-    JWTUtil jwtUtil;
-
-    @Autowired
-    S3Facade s3Facade;
-
-    @Autowired
-    EmployeeDataFacade employeeDataFacade;
-
-    @Autowired
-    SkillsManager skillsManager;
-
-    @Autowired
-    LanguagesManager languagesManager;
-
-    @Autowired
-    InterestsManager interestsManager;
-
-    @Autowired
-    DocumentUrlManager documentUrlManager;
-
-    @Autowired
-    ManagerReporteeFacade managerReporteeFacade;
-
-    @Autowired
-    DocumentUrlFacade documentUrlFacade;
-
-    @Autowired
-    UserRoleMasterManager userRoleMasterManager;
-
-    @Autowired
-    UserDataManager userDataManager;
-
-    @Autowired
+    private EmployeeDataManager employeeDataManager;
+    private ManagerReporteeManager managerReporteeManager;
+    private JWTUtil jwtUtil;
+    private S3Facade s3Facade;
+    private EmployeeDataFacade employeeDataFacade;
+    private SkillsManager skillsManager;
+    private LanguagesManager languagesManager;
+    private InterestsManager interestsManager;
+    private DocumentUrlManager documentUrlManager;
+    private ManagerReporteeFacade managerReporteeFacade;
+    private DocumentUrlFacade documentUrlFacade;
+    private UserRoleMasterManager userRoleMasterManager;
+    private UserDataManager userDataManager;
     private FeedbackRepo feedbackRepo;
 
     private static ObjectMapper objectMapper;
+
+    @Autowired
+    public EmployeeServiceImpl(EmployeeDataManager employeeDataManager,
+                         ManagerReporteeManager managerReporteeManager,
+                         JWTUtil jwtUtil,
+                         S3Facade s3Facade,
+                         EmployeeDataFacade employeeDataFacade,
+                         SkillsManager skillsManager,
+                         LanguagesManager languagesManager,
+                         InterestsManager interestsManager,
+                         DocumentUrlManager documentUrlManager,
+                         ManagerReporteeFacade managerReporteeFacade,
+                         DocumentUrlFacade documentUrlFacade,
+                         UserRoleMasterManager userRoleMasterManager,
+                         UserDataManager userDataManager,
+                         FeedbackRepo feedbackRepo) {
+        this.employeeDataManager = employeeDataManager;
+        this.managerReporteeManager = managerReporteeManager;
+        this.jwtUtil = jwtUtil;
+        this.s3Facade = s3Facade;
+        this.employeeDataFacade = employeeDataFacade;
+        this.skillsManager = skillsManager;
+        this.languagesManager = languagesManager;
+        this.interestsManager = interestsManager;
+        this.documentUrlManager = documentUrlManager;
+        this.managerReporteeFacade = managerReporteeFacade;
+        this.documentUrlFacade = documentUrlFacade;
+        this.userRoleMasterManager = userRoleMasterManager;
+        this.userDataManager = userDataManager;
+        this.feedbackRepo = feedbackRepo;
+    }
 
     @PostConstruct
     public void init(){

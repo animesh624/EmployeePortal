@@ -35,32 +35,44 @@ import java.util.*;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserDataManager userDataManager;
+    private UserDataManager userDataManager;
+
+    private EmployeeDataManager employeeDataManager;
+
+    private JWTUtil jwtUtil;
+
+    private ManagerReporteeManager managerReporteeManager;
+
+    private UserDataFacade userDataFacade;
+
+    private EmailService emailService;
+
+    private ForgotPasswordRepo forgotPasswordRepo;
+
+    private UserDataRepo userDataRepo;
+
+    private S3Facade s3Facade;
 
     @Autowired
-    EmployeeDataManager employeeDataManager;
-
-    @Autowired
-    JWTUtil jwtUtil;
-
-    @Autowired
-    ManagerReporteeManager managerReporteeManager;
-
-    @Autowired
-    UserDataFacade userDataFacade;
-
-    @Autowired
-    EmailService emailService;
-
-    @Autowired
-    ForgotPasswordRepo forgotPasswordRepo;
-
-    @Autowired
-    UserDataRepo userDataRepo;
-
-    @Autowired
-    S3Facade s3Facade;
+    public UserServiceImpl(UserDataManager userDataManager,
+                         EmployeeDataManager employeeDataManager,
+                         JWTUtil jwtUtil,
+                         ManagerReporteeManager managerReporteeManager,
+                         UserDataFacade userDataFacade,
+                         EmailService emailService,
+                         ForgotPasswordRepo forgotPasswordRepo,
+                         UserDataRepo userDataRepo,
+                         S3Facade s3Facade) {
+        this.userDataManager = userDataManager;
+        this.employeeDataManager = employeeDataManager;
+        this.jwtUtil = jwtUtil;
+        this.managerReporteeManager = managerReporteeManager;
+        this.userDataFacade = userDataFacade;
+        this.emailService = emailService;
+        this.forgotPasswordRepo = forgotPasswordRepo;
+        this.userDataRepo = userDataRepo;
+        this.s3Facade = s3Facade;
+    }
 
     private static BCryptPasswordEncoder bCryptPasswordEncoder;
 

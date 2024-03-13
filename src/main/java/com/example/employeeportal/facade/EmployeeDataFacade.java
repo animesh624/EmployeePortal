@@ -28,26 +28,30 @@ import java.util.List;
 @Component
 public class EmployeeDataFacade {
 
-    @Autowired
-    EmployeeDataManager employeeDataManager;
+    private EmployeeDataManager employeeDataManager;
+    private SkillsManager skillsManager;
+    private LanguagesManager languagesManager;
+    private InterestsManager interestsManager;
+    private UserRoleMasterManager userRoleMasterManager;
+    private DocumentUrlManager documentUrlManager;
+    private ManagerReporteeManager managerReporteeManager;
 
     @Autowired
-    SkillsManager skillsManager;
-
-    @Autowired
-    LanguagesManager languagesManager;
-
-    @Autowired
-    InterestsManager interestsManager;
-
-    @Autowired
-    UserRoleMasterManager userRoleMasterManager;
-
-    @Autowired
-    DocumentUrlManager documentUrlManager;
-
-    @Autowired
-    ManagerReporteeManager managerReporteeManager;
+    public EmployeeDataFacade(EmployeeDataManager employeeDataManager,
+                         SkillsManager skillsManager,
+                         LanguagesManager languagesManager,
+                         InterestsManager interestsManager,
+                         UserRoleMasterManager userRoleMasterManager,
+                         DocumentUrlManager documentUrlManager,
+                         ManagerReporteeManager managerReporteeManager) {
+        this.employeeDataManager = employeeDataManager;
+        this.skillsManager = skillsManager;
+        this.languagesManager = languagesManager;
+        this.interestsManager = interestsManager;
+        this.userRoleMasterManager = userRoleMasterManager;
+        this.documentUrlManager = documentUrlManager;
+        this.managerReporteeManager = managerReporteeManager;
+    }
 
     public void saveEditEmployeeDetails(EmployeeData employeeData, EditEmployeeDto editEmployeeDto) throws Exception{
 
