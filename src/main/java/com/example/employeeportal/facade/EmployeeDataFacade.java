@@ -41,12 +41,13 @@ public class EmployeeDataFacade {
 
     @Autowired
     public EmployeeDataFacade(EmployeeDataManager employeeDataManager,
-                         SkillsManager skillsManager,
-                         LanguagesManager languagesManager,
-                         InterestsManager interestsManager,
-                         UserRoleMasterManager userRoleMasterManager,
-                         DocumentUrlManager documentUrlManager,
-                         ManagerReporteeManager managerReporteeManager) {
+                                 SkillsManager skillsManager,
+                                 LanguagesManager languagesManager,
+                                 InterestsManager interestsManager,
+                                 UserRoleMasterManager userRoleMasterManager,
+                                 DocumentUrlManager documentUrlManager,
+                                 ManagerReporteeManager managerReporteeManager,
+                                 UserDataManager userDataManager) {
         this.employeeDataManager = employeeDataManager;
         this.skillsManager = skillsManager;
         this.languagesManager = languagesManager;
@@ -54,6 +55,7 @@ public class EmployeeDataFacade {
         this.userRoleMasterManager = userRoleMasterManager;
         this.documentUrlManager = documentUrlManager;
         this.managerReporteeManager = managerReporteeManager;
+        this.userDataManager = userDataManager;
     }
 
     public void saveEditEmployeeDetails(EmployeeData employeeData, EditEmployeeDto editEmployeeDto) throws Exception{
@@ -80,8 +82,9 @@ public class EmployeeDataFacade {
     }
 
     public void saveEditUserDetails(EditEmployeeDto editEmployeeDto) throws Exception{
+        log.info("Animesh at 83 with editEmployeeDto.getUserEmail() {}",editEmployeeDto.getUserEmail());
         UserData userData = userDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
-
+        log.info("Animesh at line 84 with userData {}",userData);
         if(userData == null){
             throw new Exception("User data doesnt exists for userEmail "+ editEmployeeDto.getUserEmail());
         }

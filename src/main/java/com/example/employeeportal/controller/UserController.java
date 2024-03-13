@@ -17,8 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class UserController {
 
+    private UserService userService;
+
     @Autowired
-    UserService userService;
+    public UserController(UserService userService){
+        this.userService = userService;
+    }
 
     // this is only for testing purpose
     @GetMapping

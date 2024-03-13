@@ -6,6 +6,8 @@ import com.example.employeeportal.dto.GetEmailDto;
 import com.example.employeeportal.dto.GetEmployeeDto;
 import com.example.employeeportal.dto.GetNeighboursDto;
 import com.example.employeeportal.dto.UploadDocumentDto;
+import com.example.employeeportal.manager.UserDataManager;
+import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,12 @@ import java.util.Map;
 @Slf4j
 public class EmployeeController {
 
+    private EmployeeService employeeService;
+
     @Autowired
-    EmployeeService employeeService;
+    public EmployeeController(EmployeeService employeeService){
+        this.employeeService = employeeService;
+    }
 
     @PostMapping("/getByUserEmail")
     public ResponseEntity<Object> getByUserEmail(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
