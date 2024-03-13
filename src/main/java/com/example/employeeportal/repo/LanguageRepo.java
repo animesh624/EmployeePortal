@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -16,5 +17,6 @@ public interface LanguageRepo extends JpaRepository<Languages,String> {
 
     Languages getFirstByUserEmailAndLanguage(String userEmail, String roleId) throws Exception;
 
+    @Transactional
     void deleteAllByUserEmail(String userEmail) throws Exception;
 }

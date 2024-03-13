@@ -65,19 +65,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     public EmployeeServiceImpl(EmployeeDataManager employeeDataManager,
-                         ManagerReporteeManager managerReporteeManager,
-                         JWTUtil jwtUtil,
-                         S3Facade s3Facade,
-                         EmployeeDataFacade employeeDataFacade,
-                         SkillsManager skillsManager,
-                         LanguagesManager languagesManager,
-                         InterestsManager interestsManager,
-                         DocumentUrlManager documentUrlManager,
-                         ManagerReporteeFacade managerReporteeFacade,
-                         DocumentUrlFacade documentUrlFacade,
-                         UserRoleMasterManager userRoleMasterManager,
-                         UserDataManager userDataManager,
-                         FeedbackRepo feedbackRepo) {
+                                 ManagerReporteeManager managerReporteeManager,
+                                 JWTUtil jwtUtil,
+                                 S3Facade s3Facade,
+                                 EmployeeDataFacade employeeDataFacade,
+                                 SkillsManager skillsManager,
+                                 LanguagesManager languagesManager,
+                                 InterestsManager interestsManager,
+                                 DocumentUrlManager documentUrlManager,
+                                 ManagerReporteeFacade managerReporteeFacade,
+                                 DocumentUrlFacade documentUrlFacade,
+                                 UserRoleMasterManager userRoleMasterManager,
+                                 UserDataManager userDataManager,
+                                 FeedbackRepo feedbackRepo,
+                                 TreeFacade treeFacade) {
+
         this.employeeDataManager = employeeDataManager;
         this.managerReporteeManager = managerReporteeManager;
         this.jwtUtil = jwtUtil;
@@ -92,6 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.userRoleMasterManager = userRoleMasterManager;
         this.userDataManager = userDataManager;
         this.feedbackRepo = feedbackRepo;
+        this.treeFacade = treeFacade;
     }
 
     @PostConstruct

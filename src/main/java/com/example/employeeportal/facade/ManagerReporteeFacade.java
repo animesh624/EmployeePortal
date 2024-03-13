@@ -52,26 +52,26 @@ public class ManagerReporteeFacade {
     }
 
     public TreeNodeDto getDetailsForEmployeeManager(GetNeighboursDto getNeighboursDto) throws Exception {
-        String managerEmail = employeeDataManager.getManagerEmailByUserEmail(getNeighboursDto.getUserEmail());
+            String managerEmail = employeeDataManager.getManagerEmailByUserEmail(getNeighboursDto.getUserEmail());
 
-        EmployeeData managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
-        if(managerDetails == null)
-            return null;
-        return TreeNodeDto.builder()
-                .designation(managerDetails.getDesignation())
-                .userEmail(managerDetails.getUserEmail())
-                .firstName(managerDetails.getFirstName())
-                .profileImageUrl(managerDetails.getProfileImageUrl())
-                .build();
+            EmployeeData managerDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(managerEmail);
+            if(managerDetails == null)
+                return null;
+            return TreeNodeDto.builder()
+                    .designation(managerDetails.getDesignation())
+                    .userEmail(managerDetails.getUserEmail())
+                    .firstName(managerDetails.getFirstName())
+                    .profileImageUrl(managerDetails.getProfileImageUrl())
+                    .build();
     }
 
     public TreeNodeDto getDetailsForNode(GetNeighboursDto getNeighboursDto) throws Exception{
-            EmployeeData employeeData = employeeDataManager.getByUserEmail(getNeighboursDto.getUserEmail());
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(getNeighboursDto.getUserEmail());
 
-            if(employeeData == null)
-                return TreeNodeDto.builder().build();
+        if(employeeData == null)
+            return TreeNodeDto.builder().build();
 
-            return TreeNodeDto.builder()
+        return TreeNodeDto.builder()
                     .userEmail(employeeData.getUserEmail())
                     .designation(employeeData.getDesignation())
                     .firstName(employeeData.getFirstName())

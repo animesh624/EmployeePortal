@@ -26,7 +26,6 @@ public class TreeFacade {
     private SkillsManager skillsManager;
     private InterestsManager interestsManager;
     private UserDataManager userDataManager;
-
     private DocumentUrlManager documentUrlManager;
 
     @Autowired
