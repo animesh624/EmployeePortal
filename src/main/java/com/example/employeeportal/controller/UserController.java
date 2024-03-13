@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<Object> register(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<Object> register(@RequestParam(value = "file", required = false) MultipartFile file,
                                            @RequestParam("data") String data,
                                            @RequestHeader String token) throws Exception {
         return userService.register(file,data,token);
