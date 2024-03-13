@@ -13,5 +13,7 @@ public interface ManagerReporteeRepo extends JpaRepository<ManagerReportee,Strin
 
     ManagerReportee getFirstByReporteeEmailAndManagerEmail(String reporteeEmail, String managerEmail) throws Exception;
 
+    void deleteByReporteeEmail(String reporteeEmail) throws Exception;
+
 
 }

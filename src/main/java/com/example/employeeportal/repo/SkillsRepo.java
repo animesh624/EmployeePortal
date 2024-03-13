@@ -15,4 +15,6 @@ public interface SkillsRepo extends JpaRepository<Skills,String> {
     List<String> getAllRoleIdByUserEmail(String userEmail) throws Exception;
 
     Skills findFirstByUserEmailAndSkill(String userEmail, String roleId) throws Exception;
+
+    void deleteAllByUserEmail(String userEmail) throws Exception;
 }

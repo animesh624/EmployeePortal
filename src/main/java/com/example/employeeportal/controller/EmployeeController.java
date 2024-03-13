@@ -91,4 +91,9 @@ public class EmployeeController {
     public ResponseEntity<Object> getAll(@RequestBody GetEmailDto getMailDto, @RequestHeader String token) throws Exception{
         return employeeService.getAll(getMailDto,token);
     }
+
+    @PostMapping("/deleteEmployee")
+    public ResponseEntity<Object> deleteNode(@RequestBody GetEmailDto getEmailDto, @RequestHeader String token) throws Exception{
+        return employeeService.deleteEmployee(getEmailDto,token);
+    }
 }

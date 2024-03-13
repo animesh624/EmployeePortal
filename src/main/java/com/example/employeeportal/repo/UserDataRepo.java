@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserDataRepo extends JpaRepository<UserData, String> {
     UserData getFirstByUserEmail(String userEmail);
 
+    void deleteByUserEmail(String userEmail) throws Exception;
+
     @Transactional
     @Modifying
     @Query("update UserData u set u.password = ?2 where u.userEmail = ?1")

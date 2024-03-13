@@ -14,4 +14,6 @@ public interface DocumentUrlRepo extends JpaRepository<DocumentUrl,String> {
     List<Object> findAllByUserEmail(String userEmail);
 
     DocumentUrl findFirstByUserEmailAndDocumentName(String userEmail, String name) throws Exception;
+
+    void deleteAllByUserEmail(String userEmail) throws Exception;
 }

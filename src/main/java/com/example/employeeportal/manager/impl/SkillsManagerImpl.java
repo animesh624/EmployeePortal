@@ -29,4 +29,9 @@ public class SkillsManagerImpl extends GenericManagerImpl<Skills,String> impleme
     public Skills getByUserEmailAndRoleId (String userEmail, String roleId) throws Exception{
         return skillsRepo.findFirstByUserEmailAndSkill(userEmail,roleId);
     }
+
+    @Override
+    public void deleteAllByUserEmail(String userEmail) throws Exception{
+        skillsRepo.deleteAllByUserEmail(userEmail);
+    }
 }

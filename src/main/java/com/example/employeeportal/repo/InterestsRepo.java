@@ -16,4 +16,6 @@ public interface InterestsRepo extends JpaRepository<Interests,String> {
 
     Interests getFirstByUserEmailAndInterest(String userEmail, String roleId) throws Exception;
 
+    void deleteAllByUserEmail(String userEmail) throws Exception;
+
 }

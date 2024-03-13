@@ -30,4 +30,9 @@ public class DocumentUrlManagerImpl extends GenericManagerImpl<DocumentUrl,Strin
     public DocumentUrl getByUserEmailAndName (String userEmail, String name) throws Exception{
         return documentUrlRepo.findFirstByUserEmailAndDocumentName(userEmail,name);
     }
+
+    @Override
+    public void deleteAllByUserEmail(String userEmail) throws Exception{
+        documentUrlRepo.deleteAllByUserEmail(userEmail);
+    }
 }

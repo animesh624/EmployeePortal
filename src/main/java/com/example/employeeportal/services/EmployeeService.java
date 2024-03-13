@@ -25,6 +25,8 @@ public interface EmployeeService {
 
     ResponseEntity<Object> getAll(GetEmailDto getMailDto, String token) throws Exception;
 
+    ResponseEntity<Object> deleteEmployee(GetEmailDto getMailDto, String token) throws Exception;
+
 
 
 }

@@ -38,6 +38,8 @@ public class EmployeeDataFacade {
     private DocumentUrlManager documentUrlManager;
     private ManagerReporteeManager managerReporteeManager;
     private UserDataManager userDataManager;
+    private TreeFacade treeFacade;
+
 
     @Autowired
     public EmployeeDataFacade(EmployeeDataManager employeeDataManager,
@@ -63,11 +65,10 @@ public class EmployeeDataFacade {
         if(StringUtils.isEmpty(employeeDataManager.getManagerEmailByUserEmail(editEmployeeDto.getManagerEmail()))){
             return;
         }
-
-        ManagerReportee managerReportee = managerReporteeManager.getByReporteeAndManager(employeeData.getUserEmail(),employeeData.getManagerEmail());
-        if (managerReportee != null){
-            managerReporteeManager.delete(managerReportee);
+        if(!employeeData.getManagerEmail().equals(employeeData.getManagerEmail())){
+            treeFacade.handleManagerChange(employeeData,editEmployeeDto.getManagerEmail());
         }
+
 
         employeeData.setFirstName(editEmployeeDto.getFirstName());
         employeeData.setLastName(editEmployeeDto.getLastName());
@@ -76,9 +77,6 @@ public class EmployeeDataFacade {
         employeeData.setContactNumber(editEmployeeDto.getContactNumber());
         employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());  // TODO : for mapping_table also we need to change the logic here
         employeeDataManager.save(employeeData);
-
-        managerReportee = buildManagerReportee(employeeData);
-        managerReporteeManager.save(managerReportee);
     }
 
     public void saveEditUserDetails(EditEmployeeDto editEmployeeDto) throws Exception{
