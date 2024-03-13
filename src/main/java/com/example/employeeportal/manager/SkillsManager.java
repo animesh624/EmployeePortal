@@ -10,4 +10,6 @@ public interface SkillsManager extends GenericManager<Skills,String> {
 
     Skills getByUserEmailAndRoleId (String userEmail, String roleId) throws Exception;
 
+    void deleteAllByUserEmail(String userEmail) throws Exception;
+
 }

@@ -28,4 +28,9 @@ public class ManagerReporteeManagerImpl extends GenericManagerImpl<ManagerReport
     public ManagerReportee getByReporteeAndManager(String reporteeEmail, String managerEmail) throws Exception{
         return managerReporteeRepo.getFirstByReporteeEmailAndManagerEmail(reporteeEmail,managerEmail);
     }
+
+    @Override
+    public void deleteByReporteeEmail (String reporteeEmail) throws Exception{
+        managerReporteeRepo.deleteByReporteeEmail(reporteeEmail);
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -14,4 +15,7 @@ public interface DocumentUrlRepo extends JpaRepository<DocumentUrl,String> {
     List<Object> findAllByUserEmail(String userEmail);
 
     DocumentUrl findFirstByUserEmailAndDocumentName(String userEmail, String name) throws Exception;
+
+    @Transactional
+    void deleteAllByUserEmail(String userEmail) throws Exception;
 }

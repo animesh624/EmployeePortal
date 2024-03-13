@@ -14,4 +14,7 @@ public class GetEmailDto {
 
         @JsonProperty("user_email")
         private String userEmail;
+
+        @JsonProperty("requested_user_email")
+        private String requestedUserEmail;
 }

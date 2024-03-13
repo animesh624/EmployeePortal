@@ -29,5 +29,10 @@ public class InterestsManagerImpl extends GenericManagerImpl<Interests,String> i
         return interestsRepo.getFirstByUserEmailAndInterest(userEmail,roleId);
     }
 
+    @Override
+    public void deleteAllByUserEmail(String userEmail) throws Exception{
+        interestsRepo.deleteAllByUserEmail(userEmail);
+    }
+
 
 }

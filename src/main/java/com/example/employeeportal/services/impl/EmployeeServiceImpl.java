@@ -5,6 +5,7 @@ import com.example.employeeportal.facade.DocumentUrlFacade;
 import com.example.employeeportal.facade.EmployeeDataFacade;
 import com.example.employeeportal.facade.ManagerReporteeFacade;
 import com.example.employeeportal.facade.S3Facade;
+import com.example.employeeportal.facade.TreeFacade;
 import com.example.employeeportal.manager.DocumentUrlManager;
 import com.example.employeeportal.manager.EmployeeDataManager;
 import com.example.employeeportal.manager.InterestsManager;
@@ -58,24 +59,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     private UserRoleMasterManager userRoleMasterManager;
     private UserDataManager userDataManager;
     private FeedbackRepo feedbackRepo;
+    private TreeFacade treeFacade;
 
     private static ObjectMapper objectMapper;
 
     @Autowired
     public EmployeeServiceImpl(EmployeeDataManager employeeDataManager,
-                         ManagerReporteeManager managerReporteeManager,
-                         JWTUtil jwtUtil,
-                         S3Facade s3Facade,
-                         EmployeeDataFacade employeeDataFacade,
-                         SkillsManager skillsManager,
-                         LanguagesManager languagesManager,
-                         InterestsManager interestsManager,
-                         DocumentUrlManager documentUrlManager,
-                         ManagerReporteeFacade managerReporteeFacade,
-                         DocumentUrlFacade documentUrlFacade,
-                         UserRoleMasterManager userRoleMasterManager,
-                         UserDataManager userDataManager,
-                         FeedbackRepo feedbackRepo) {
+                                 ManagerReporteeManager managerReporteeManager,
+                                 JWTUtil jwtUtil,
+                                 S3Facade s3Facade,
+                                 EmployeeDataFacade employeeDataFacade,
+                                 SkillsManager skillsManager,
+                                 LanguagesManager languagesManager,
+                                 InterestsManager interestsManager,
+                                 DocumentUrlManager documentUrlManager,
+                                 ManagerReporteeFacade managerReporteeFacade,
+                                 DocumentUrlFacade documentUrlFacade,
+                                 UserRoleMasterManager userRoleMasterManager,
+                                 UserDataManager userDataManager,
+                                 FeedbackRepo feedbackRepo,
+                                 TreeFacade treeFacade) {
+
         this.employeeDataManager = employeeDataManager;
         this.managerReporteeManager = managerReporteeManager;
         this.jwtUtil = jwtUtil;
@@ -90,6 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.userRoleMasterManager = userRoleMasterManager;
         this.userDataManager = userDataManager;
         this.feedbackRepo = feedbackRepo;
+        this.treeFacade = treeFacade;
     }
 
     @PostConstruct
@@ -219,6 +224,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return ResponseEntity.status(HttpStatus.CREATED).body("Feedback submitted successfully");
     }
 
+    @Override
     public ResponseEntity<Object> getAll(GetEmailDto getMailDto, String token) throws Exception{
         if(!jwtUtil.isTokenValid(token,getMailDto.getUserEmail())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -233,6 +239,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         result.put("data",listEmployeeData);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteEmployee(GetEmailDto getMailDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,getMailDto.getRequestedUserEmail())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(getMailDto.getUserEmail());
+        if(employeeData == null){
+            log.info("Given userEmail doesnt exist "+ getMailDto.getUserEmail());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        treeFacade.removeAllRelationShip(employeeData, true);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

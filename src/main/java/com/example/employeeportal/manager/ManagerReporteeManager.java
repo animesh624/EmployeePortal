@@ -9,4 +9,6 @@ public interface ManagerReporteeManager extends GenericManager<ManagerReportee,S
     List<ManagerReportee> getAllByManagerEmail(String managerEmail) throws Exception;
 
     ManagerReportee getByReporteeAndManager(String reporteeEmail, String managerEmail) throws Exception;
+
+    void deleteByReporteeEmail (String reporteeEmail) throws Exception;
 }

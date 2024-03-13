@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetNeighboursDto {
+
     @JsonProperty("user_email")
     private String userEmail;
+
     @JsonProperty("requested_user_email")
     private  String requestUserEmail;
 }

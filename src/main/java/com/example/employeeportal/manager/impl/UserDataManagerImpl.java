@@ -21,4 +21,9 @@ public class UserDataManagerImpl extends GenericManagerImpl<UserData,String> imp
     public UserData getByUserEmail(String userEmail) throws Exception {
         return userDataRepo.getFirstByUserEmail(userEmail);
     }
+
+    @Override
+    public void deleteByUserEmail(String userEmail) throws Exception{
+        userDataRepo.deleteByUserEmail(userEmail);
+    }
 }

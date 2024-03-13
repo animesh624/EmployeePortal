@@ -36,23 +36,14 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     private UserDataManager userDataManager;
-
     private EmployeeDataManager employeeDataManager;
-
     private JWTUtil jwtUtil;
-
     private ManagerReporteeManager managerReporteeManager;
-
     private UserDataFacade userDataFacade;
-
     private EmailService emailService;
-
     private ForgotPasswordRepo forgotPasswordRepo;
-
     private UserDataRepo userDataRepo;
-
     private S3Facade s3Facade;
-
     @Autowired
     public UserServiceImpl(UserDataManager userDataManager,
                          EmployeeDataManager employeeDataManager,

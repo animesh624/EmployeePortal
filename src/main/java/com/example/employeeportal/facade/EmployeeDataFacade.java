@@ -38,6 +38,8 @@ public class EmployeeDataFacade {
     private DocumentUrlManager documentUrlManager;
     private ManagerReporteeManager managerReporteeManager;
     private UserDataManager userDataManager;
+    private TreeFacade treeFacade;
+
 
     @Autowired
     public EmployeeDataFacade(EmployeeDataManager employeeDataManager,
@@ -47,7 +49,8 @@ public class EmployeeDataFacade {
                                  UserRoleMasterManager userRoleMasterManager,
                                  DocumentUrlManager documentUrlManager,
                                  ManagerReporteeManager managerReporteeManager,
-                                 UserDataManager userDataManager) {
+                                 UserDataManager userDataManager,
+                                 TreeFacade treeFacade) {
         this.employeeDataManager = employeeDataManager;
         this.skillsManager = skillsManager;
         this.languagesManager = languagesManager;
@@ -56,29 +59,26 @@ public class EmployeeDataFacade {
         this.documentUrlManager = documentUrlManager;
         this.managerReporteeManager = managerReporteeManager;
         this.userDataManager = userDataManager;
+        this.treeFacade = treeFacade;
     }
 
     public void saveEditEmployeeDetails(EmployeeData employeeData, EditEmployeeDto editEmployeeDto) throws Exception{
 
-        if(StringUtils.isEmpty(employeeDataManager.getManagerEmailByUserEmail(editEmployeeDto.getManagerEmail()))){
+        if(StringUtils.isEmpty(employeeDataManager.getManagerEmailByUserEmail(editEmployeeDto.getManagerEmail()))
+              || employeeData.getUserEmail().equals(editEmployeeDto.getManagerEmail())){
             return;
         }
-
-        ManagerReportee managerReportee = managerReporteeManager.getByReporteeAndManager(employeeData.getUserEmail(),employeeData.getManagerEmail());
-        if (managerReportee != null){
-            managerReporteeManager.delete(managerReportee);
+        if(!employeeData.getManagerEmail().equals(editEmployeeDto.getManagerEmail())){
+            treeFacade.handleManagerChange(employeeData,editEmployeeDto.getManagerEmail());
         }
+
 
         employeeData.setFirstName(editEmployeeDto.getFirstName());
         employeeData.setLastName(editEmployeeDto.getLastName());
         employeeData.setPod(editEmployeeDto.getPod());
         employeeData.setDesignation(editEmployeeDto.getDesignation());
         employeeData.setContactNumber(editEmployeeDto.getContactNumber());
-        employeeData.setManagerEmail(editEmployeeDto.getManagerEmail());  // TODO : for mapping_table also we need to change the logic here
         employeeDataManager.save(employeeData);
-
-        managerReportee = buildManagerReportee(employeeData);
-        managerReporteeManager.save(managerReportee);
     }
 
     public void saveEditUserDetails(EditEmployeeDto editEmployeeDto) throws Exception{
@@ -162,10 +162,9 @@ public class EmployeeDataFacade {
                 }
                 documentUrl.setDocumentName(nameUrlMapDto.getName());
                 documentUrl.setUrl(nameUrlMapDto.getUrl());
-                documentUrl.setUserEmail(editEmployeeDto.getUserEmail());
                 documentUrlManager.save(documentUrl);
             }catch (Exception e){
-
+               log.error("Exception occured while saving documents urls {}",e);
             }
         });
     }

@@ -61,19 +61,4 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     public String getManagerEmailByUserEmail (String userEmail) throws Exception{
         return employeeDataRepo.getManagerEmailByUserEmail(userEmail);
     }
-
-//    @Override
-//    public EmployeeData searchEmployeeByEmail(String userEmail) throws Exception{
-//        return employeeDataRepo.searchEmployeeByEmail(userEmail);
-//    };
-//
-//    @Override
-//    public EmployeeData searchEmployeeByDesignation(String designation) throws Exception{
-//        return employeeDataRepo.searchEmployeeByDesignation(designation);
-//    };
-//
-//    @Override
-//    public EmployeeData searchEmployeeByName(String Name) throws Exception{
-//        return employeeDataRepo.searchEmployeeByName(Name);
-//    };
 }

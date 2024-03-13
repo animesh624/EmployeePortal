@@ -28,4 +28,10 @@ public class LanguagesManagerImpl extends GenericManagerImpl<Languages, String> 
     public Languages getByUserEmailAndRoleId(String userEmail, String roleId) throws Exception {
         return languageRepo.getFirstByUserEmailAndLanguage(userEmail, roleId);
     }
+
+    @Override
+    public void deleteAllByUserEmail(String userEmail) throws Exception{
+          languageRepo.deleteAllByUserEmail(userEmail);
+    }
+
 }
