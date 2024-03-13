@@ -160,6 +160,7 @@ public class EmployeeDataFacade {
                 if(documentUrl == null){
                     documentUrl = DocumentUrl.builder().build();
                 }
+                documentUrl.setUserEmail(editEmployeeDto.getUserEmail());
                 documentUrl.setDocumentName(nameUrlMapDto.getName());
                 documentUrl.setUrl(nameUrlMapDto.getUrl());
                 documentUrlManager.save(documentUrl);
