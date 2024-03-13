@@ -137,6 +137,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             return null;
         }
         employeeDataFacade.saveEditEmployeeDetails(employeeData,editEmployeeDto);
+        employeeDataFacade.saveEditUserDetails(editEmployeeDto);
         employeeDataFacade.saveSkillsLanguagesInterests(editEmployeeDto.getUserEmail(),editEmployeeDto);
         employeeDataFacade.saveProfileUrls(editEmployeeDto);
         return new ResponseEntity<>(HttpStatus.OK);

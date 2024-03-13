@@ -8,6 +8,7 @@ import com.example.employeeportal.manager.InterestsManager;
 import com.example.employeeportal.manager.LanguagesManager;
 import com.example.employeeportal.manager.ManagerReporteeManager;
 import com.example.employeeportal.manager.SkillsManager;
+import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.manager.UserRoleMasterManager;
 import com.example.employeeportal.model.DocumentUrl;
 import com.example.employeeportal.model.EmployeeData;
@@ -15,6 +16,7 @@ import com.example.employeeportal.model.Interests;
 import com.example.employeeportal.model.Languages;
 import com.example.employeeportal.model.ManagerReportee;
 import com.example.employeeportal.model.Skills;
+import com.example.employeeportal.model.UserData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,6 +37,7 @@ public class EmployeeDataFacade {
     private UserRoleMasterManager userRoleMasterManager;
     private DocumentUrlManager documentUrlManager;
     private ManagerReporteeManager managerReporteeManager;
+    private UserDataManager userDataManager;
 
     @Autowired
     public EmployeeDataFacade(EmployeeDataManager employeeDataManager,
@@ -74,6 +77,18 @@ public class EmployeeDataFacade {
 
         managerReportee = buildManagerReportee(employeeData);
         managerReporteeManager.save(managerReportee);
+    }
+
+    public void saveEditUserDetails(EditEmployeeDto editEmployeeDto) throws Exception{
+        UserData userData = userDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
+
+        if(userData == null){
+            throw new Exception("User data doesnt exists for userEmail "+ editEmployeeDto.getUserEmail());
+        }
+
+        userData.setFirstName(editEmployeeDto.getFirstName());
+        userData.setLastName(editEmployeeDto.getLastName());
+        userDataManager.save(userData);
     }
 
     private ManagerReportee buildManagerReportee(EmployeeData employeeData) throws Exception{
