@@ -55,7 +55,7 @@ public class EmployeeDataFacade {
             return;
         }
 
-        ManagerReportee managerReportee = managerReporteeManager.getByReporteeEmailAndManagerEmail(employeeData.getManagerEmail(),employeeData.getUserEmail());
+        ManagerReportee managerReportee = managerReporteeManager.getByReporteeAndManager(employeeData.getUserEmail(),employeeData.getManagerEmail());
         if (managerReportee != null){
             managerReporteeManager.delete(managerReportee);
         }

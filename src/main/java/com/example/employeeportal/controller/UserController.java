@@ -3,6 +3,8 @@ package com.example.employeeportal.controller;
 import com.example.employeeportal.dto.GetEmailDto;
 import com.example.employeeportal.dto.LoginUserDto;
 import com.example.employeeportal.dto.RegisterUserDto;
+import com.example.employeeportal.manager.UserDataManager;
+import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,14 @@ public class UserController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<Object> login(@RequestBody @Validated LoginUserDto loginUserDto) throws Exception {
-        log.info("Animesh enetered here {}",loginUserDto);
+    public ResponseEntity<Object> here(@RequestBody LoginUserDto loginUserDto) throws Exception {
+        log.info("Animesh enetered here at login{}",loginUserDto);
         return userService.login(loginUserDto);
+    }
+
+    @PostMapping(path = "/isLoggedIn")
+    public ResponseEntity<Object> isLoggedIn(@RequestBody GetEmailDto getEmailDto, @RequestHeader String token) throws Exception{
+        return userService.isLoggedIn(getEmailDto,token);
     }
 
     @PostMapping(path = "/register")
@@ -35,11 +42,6 @@ public class UserController {
                                            @RequestParam("data") String data,
                                            @RequestHeader String token) throws Exception {
         return userService.register(file,data,token);
-    }
-
-    @PostMapping(path = "/isLoggedIn")
-    public ResponseEntity<Object> isLoggedIn(@RequestBody GetEmailDto getEmailDto, @RequestHeader String token) throws Exception{
-        return userService.isLoggedIn(getEmailDto,token);
     }
 
     @PostMapping("/forgot-password")

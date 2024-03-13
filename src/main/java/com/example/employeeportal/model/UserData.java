@@ -41,7 +41,7 @@ public class UserData {
     private String lastName;
 
     @Column(name = "is_admin")
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
 
     @CreationTimestamp
     @Column(name = "date_created")

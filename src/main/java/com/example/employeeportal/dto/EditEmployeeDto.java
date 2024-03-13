@@ -27,13 +27,13 @@ public class EditEmployeeDto {
     @JsonProperty("user_email")
     private String userEmail;
 
+    @NonNull
     @JsonProperty("manager_email")
     private String managerEmail;
 
     @NonNull
     @JsonProperty("emp_code")
     private String empCode;
-
 
     @JsonProperty("designation")
     private String designation;
@@ -58,6 +58,5 @@ public class EditEmployeeDto {
 
     @JsonProperty("profile_urls")
     private List<NameUrlMapDto> profileUrls;
-    //images
 
 }

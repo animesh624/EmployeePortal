@@ -65,6 +65,7 @@ public class ManagerReporteeFacade {
 
             if(employeeData == null)
                 return TreeNodeDto.builder().build();
+
             return TreeNodeDto.builder()
                     .userEmail(employeeData.getUserEmail())
                     .designation(employeeData.getDesignation())

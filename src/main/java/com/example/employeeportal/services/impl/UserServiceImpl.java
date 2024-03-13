@@ -38,8 +38,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDataManager userDataManager;
 
-    private static ObjectMapper objectMapper;
-
     @Autowired
     EmployeeDataManager employeeDataManager;
 
@@ -64,7 +62,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     S3Facade s3Facade;
 
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private static BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private static ObjectMapper objectMapper;
 
     @PostConstruct
     public void init() {

@@ -36,6 +36,7 @@ public class EmployeeController {
 
     @PostMapping("/edit/employee")
     public ResponseEntity<Object> editEmployee(@RequestBody EditEmployeeDto editEmployeeDto, @RequestHeader String token) throws Exception{
+        log.info("Animesh inside editEmployee {}",editEmployeeDto);
         return employeeService.editEmployee(editEmployeeDto,token);
     }
 
