@@ -23,6 +23,6 @@ public interface LanguageRepo extends JpaRepository<Languages,String> {
     @Query(value = "SELECT DISTINCT l.user_email " +
             "FROM languages_temp l " +
             "INNER JOIN user_role_master_temp urm ON l.language = urm.role_id " +
-            "WHERE urm.name = ?1", nativeQuery = true)
+            "WHERE urm.name = LIKE %?1%", nativeQuery = true)
     List<String> getUserEmailByLanguage(String language) throws Exception;
 }
