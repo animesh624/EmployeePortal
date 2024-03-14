@@ -35,7 +35,6 @@ public class UserController {
 
     @PostMapping(path = "/login")
     public ResponseEntity<Object> here(@RequestBody LoginUserDto loginUserDto) throws Exception {
-        log.info("Animesh enetered here at login{}",loginUserDto);
         return userService.login(loginUserDto);
     }
 
@@ -53,7 +52,6 @@ public class UserController {
 
     @PostMapping(path = "/bulkRegister")
     public ResponseEntity<Object> bulkRegister(@RequestBody RegisterUserBulkDto registerUserBulkDto) throws Exception {
-        log.info("Animesh inside register user dto {}",registerUserBulkDto);
         return userService.bulkRegister(registerUserBulkDto);
     }
 
