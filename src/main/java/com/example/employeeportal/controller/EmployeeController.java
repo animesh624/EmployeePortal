@@ -39,25 +39,24 @@ public class EmployeeController {
     public ResponseEntity<Object> getByUserEmail(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.getByUserEmail(getEmployeeDto,token);
     }
-
-    @PostMapping("/get-reportees")
-    public ResponseEntity<Object> getReportees(@RequestBody GetEmailDto getMailDto, @RequestHeader String token) throws Exception{
-        return employeeService.getReportees(getMailDto,token);
-    }
-
     @PostMapping("/edit/employee")
     public ResponseEntity<Object> editEmployee(@RequestBody EditEmployeeDto editEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.editEmployee(editEmployeeDto,token);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Object> searchEmployee(@RequestParam(value = "name",required = false) String name,
-                                                 @RequestParam(value = "designation",required = false) String designation,
-                                                 @RequestParam(value = "skill",required = false) String skill,
-                                                 @RequestParam(value = "language",required = false) String language,
-                                                 @RequestParam(value = "interest",required = false) String interest,
-                                                 @RequestParam(value = "user_email",required = false) String userEmail) throws Exception {
-        return employeeService.searchEmployee(name, designation, userEmail,skill, language, interest);
+    public ResponseEntity<Object> searchEmployee(@RequestParam(value = "name", required = false) String name,
+                                                 @RequestParam(value = "designation", required = false) String designation,
+                                                 @RequestParam(value = "skill", required = false) String skill,
+                                                 @RequestParam(value = "language", required = false) String language,
+                                                 @RequestParam(value = "interest", required = false) String interest,
+                                                 @RequestParam(value = "user_email", required = false) String userEmail) throws Exception {
+        return employeeService.searchEmployee(name, designation, userEmail, skill, language, interest);
+    }
+
+    @PostMapping("/get-reportees")
+    public ResponseEntity<Object> getReportees(@RequestBody GetEmailDto getMailDto, @RequestHeader String token) throws Exception{
+        return employeeService.getReportees(getMailDto,token);
     }
 
     @PostMapping("/getNeighbours")
@@ -79,12 +78,6 @@ public class EmployeeController {
     }
 
     // this is only for testing purpose.
-    @GetMapping(path="/downloadCheck")
-    public ResponseEntity<Object> downloadCheck() throws Exception{
-        Map<String, Object> result = new HashMap<>();
-        result.put("url","https://employee-portal-file.s3.ap-south-1.amazonaws.com/1710002013462-aefa701f1a7a22d4c4ff6d63486f781e.jpg");
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 
     @PostMapping("/feedback")
     public ResponseEntity<Object> submitFeedback(@RequestParam(value = "type") String type, @RequestBody FeedbackDto feedbackRequest, @RequestHeader String token) throws Exception {
@@ -99,5 +92,12 @@ public class EmployeeController {
     @PostMapping("/deleteEmployee")
     public ResponseEntity<Object> deleteNode(@RequestBody GetEmailDto getEmailDto, @RequestHeader String token) throws Exception{
         return employeeService.deleteEmployee(getEmailDto,token);
+    }
+
+    @GetMapping(path="/downloadCheck")
+    public ResponseEntity<Object> downloadCheck() throws Exception{
+        Map<String, Object> result = new HashMap<>();
+        result.put("url","https://employee-portal-file.s3.ap-south-1.amazonaws.com/1710002013462-aefa701f1a7a22d4c4ff6d63486f781e.jpg");
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

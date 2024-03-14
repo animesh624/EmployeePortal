@@ -44,17 +44,17 @@ public class EmployeeDataManagerImpl extends GenericManagerImpl<EmployeeData,Str
     @Override
     public List<EmployeeData> searchEmployee(String name, String designation,String userEmail,String skill,String language,String interest) throws Exception{
         List<String> listUserEmail;
-        if(name != null) {
+        if (name != null) {
             return employeeDataRepo.searchEmployeeByName(name);
-        } else if(designation != null){
+        } else if (designation != null) {
             return employeeDataRepo.searchEmployeeByDesignation(designation);
-        } else if(userEmail != null){
+        } else if (userEmail != null) {
             return employeeDataRepo.searchEmployeeByEmail(userEmail);
-        }else if(skill != null){
+        } else if (skill != null) {
             listUserEmail = skillsRepo.getUserEmailBySkill(skill);
-        }else if(language != null){
+        } else if (language != null) {
             listUserEmail = languageRepo.getUserEmailByLanguage(language);
-        }else{
+        } else {
             listUserEmail = interestsRepo.getUserEmailByInterest(interest);
         }
         List<EmployeeData> listEmployeeData = new ArrayList<>();
