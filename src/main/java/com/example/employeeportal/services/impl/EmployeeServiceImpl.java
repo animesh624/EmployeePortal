@@ -22,9 +22,11 @@ import com.example.employeeportal.repo.FeedbackRepo;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +54,6 @@ import java.util.Map;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeDataRepo employeeDataRepo;
-
     private EmployeeDataManager employeeDataManager;
     private JWTUtil jwtUtil;
     private S3Facade s3Facade;
@@ -72,20 +73,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     public EmployeeServiceImpl(EmployeeDataManager employeeDataManager,
-                                 ManagerReporteeManager managerReportee,
-                                 JWTUtil jwtUtil,
-                                 S3Facade s3Facade,
-                                 EmployeeDataFacade employeeDataFacade,
-                                 SkillsManager skillsManager,
-                                 LanguagesManager languagesManager,
-                                 InterestsManager interestsManager,
-                                 DocumentUrlManager documentUrlManager,
-                                 ManagerReporteeFacade managerReporteeFacade,
-                                 DocumentUrlFacade documentUrlFacade,
-                                 UserRoleMasterManager userRoleMasterManager,
-                                 UserDataManager userDataManager,
-                                 FeedbackRepo feedbackRepo,
-                                 TreeFacade treeFacade) {
+                               ManagerReporteeManager managerReportee,
+                               JWTUtil jwtUtil,
+                               S3Facade s3Facade,
+                               EmployeeDataFacade employeeDataFacade,
+                               SkillsManager skillsManager,
+                               LanguagesManager languagesManager,
+                               InterestsManager interestsManager,
+                               DocumentUrlManager documentUrlManager,
+                               ManagerReporteeFacade managerReporteeFacade,
+                               DocumentUrlFacade documentUrlFacade,
+                               UserRoleMasterManager userRoleMasterManager,
+                               UserDataManager userDataManager,
+                               FeedbackRepo feedbackRepo,
+                               TreeFacade treeFacade) {
 
         this.employeeDataManager = employeeDataManager;
         this.managerReportee = managerReportee;
@@ -105,18 +106,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         objectMapper = new ObjectMapper();
     }
 
     @Override
-    public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getEmployeeDto.getRequestUserEmail())){
+    public ResponseEntity<Object> getByUserEmail(GetEmployeeDto getEmployeeDto, String token) throws Exception {
+        if (!jwtUtil.isTokenValid(token, getEmployeeDto.getRequestUserEmail())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         EmployeeData employeeData = employeeDataManager.getByUserEmail(getEmployeeDto.getUserEmail());
 
-        if(employeeData == null){
+        if (employeeData == null) {
             log.error("User doesnt exist with userEmail " + getEmployeeDto.getRequestUserEmail());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -125,48 +126,48 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<String> languagesIds = languagesManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
         List<String> skillsIds = skillsManager.getAllRoleIdByUserEmail(employeeData.getUserEmail());
 
-        employeeDataFacade.updateFrequency(employeeData,getEmployeeDto.isSearched());
+        employeeDataFacade.updateFrequency(employeeData, getEmployeeDto.isSearched());
 
-        Map<String,Object> result = new HashMap<>();
-        result.put("data",employeeData);
-        result.put("languages",userRoleMasterManager.getAllNameByRoleId(languagesIds));
-        result.put("skills",userRoleMasterManager.getAllNameByRoleId(skillsIds));
-        result.put("interests",userRoleMasterManager.getAllNameByRoleId(interestsIds));
-        result.put("documentUrls",documentUrlManager.getAllByUserEmail(employeeData.getUserEmail()));
-        result.put("isAdmin",userDataManager.getByUserEmail(employeeData.getUserEmail()).getIsAdmin());
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", employeeData);
+        result.put("languages", userRoleMasterManager.getAllNameByRoleId(languagesIds));
+        result.put("skills", userRoleMasterManager.getAllNameByRoleId(skillsIds));
+        result.put("interests", userRoleMasterManager.getAllNameByRoleId(interestsIds));
+        result.put("documentUrls", documentUrlManager.getAllByUserEmail(employeeData.getUserEmail()));
+        result.put("isAdmin", userDataManager.getByUserEmail(employeeData.getUserEmail()).getIsAdmin());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto, String token) throws Exception{
-        log.info("Animesh here {}",editEmployeeDto);
-        if(!jwtUtil.isTokenValid(token,editEmployeeDto.getRequestedUserEmail())){
+    public ResponseEntity<Object> editEmployee(EditEmployeeDto editEmployeeDto, String token) throws Exception {
+        log.info("Animesh here {}", editEmployeeDto);
+        if (!jwtUtil.isTokenValid(token, editEmployeeDto.getRequestedUserEmail())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         EmployeeData employeeData = employeeDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
-        if(employeeData == null){
+        if (employeeData == null) {
             log.error("User doesnt exist with userEmail " + editEmployeeDto.getUserEmail());
             return null;
         }
-        employeeDataFacade.saveEditEmployeeDetails(employeeData,editEmployeeDto);
+        employeeDataFacade.saveEditEmployeeDetails(employeeData, editEmployeeDto);
         employeeDataFacade.saveEditUserDetails(editEmployeeDto);
-        employeeDataFacade.saveSkillsLanguagesInterests(editEmployeeDto.getUserEmail(),editEmployeeDto);
+        employeeDataFacade.saveSkillsLanguagesInterests(editEmployeeDto.getUserEmail(), editEmployeeDto);
         employeeDataFacade.saveProfileUrls(editEmployeeDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> getReportees(GetEmailDto getMailDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getMailDto.getUserEmail())) {
+    public ResponseEntity<Object> getReportees(GetEmailDto getMailDto, String token) throws Exception {
+        if (!jwtUtil.isTokenValid(token, getMailDto.getUserEmail())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         EmployeeData employeeData = employeeDataManager.getByUserEmail(getMailDto.getUserEmail());
-        if(employeeData == null){
-            log.info("Given userEmail doesnt exist "+ getMailDto.getUserEmail());
+        if (employeeData == null) {
+            log.info("Given userEmail doesnt exist " + getMailDto.getUserEmail());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Map<String,Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
 
         String userEmail = getMailDto.getUserEmail();
         List<EmployeeData> finalList = new ArrayList<>();
@@ -174,15 +175,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         Queue<String> queueMail = new LinkedList<>();
         queueMail.add(userEmail);
         while (!queueMail.isEmpty()) {
-           String managerEmail = queueMail.remove();
-           List<ManagerReportee> reporteeList = managerReportee.getAllByManagerEmail(managerEmail);
+            String managerEmail = queueMail.remove();
+            List<ManagerReportee> reporteeList = managerReportee.getAllByManagerEmail(managerEmail);
             for (ManagerReportee reportee : reporteeList) {
                 queueMail.add(reportee.getReporteeEmail());
             }
             finalList.add(employeeDataRepo.findFirstByUserEmail(managerEmail));
         }
-        result.put("data",finalList);
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        result.put("data", finalList);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Override
@@ -196,34 +197,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public  ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception{
-            if(!jwtUtil.isTokenValid(token,getNeighboursDto.getRequestUserEmail())) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
+    public ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception {
+        if (!jwtUtil.isTokenValid(token, getNeighboursDto.getRequestUserEmail())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
-            ManagerReporteeResponseDto managerReporteeResponseDto = ManagerReporteeResponseDto.builder()
-                    .manager(managerReporteeFacade.getDetailsForEmployeeManager(getNeighboursDto))
-                    .reportee(managerReporteeFacade.getDetailsForEmployeeReportee(getNeighboursDto))
-                    .node(managerReporteeFacade.getDetailsForNode(getNeighboursDto))
-                    .build();
-            Map<String, Object> result = new HashMap<>();
-            result.put("data", managerReporteeResponseDto);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        ManagerReporteeResponseDto managerReporteeResponseDto = ManagerReporteeResponseDto.builder()
+                .manager(managerReporteeFacade.getDetailsForEmployeeManager(getNeighboursDto))
+                .reportee(managerReporteeFacade.getDetailsForEmployeeReportee(getNeighboursDto))
+                .node(managerReporteeFacade.getDetailsForNode(getNeighboursDto))
+                .build();
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", managerReporteeResponseDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> uploadDocument(MultipartFile file, String data, String token) throws Exception{
+    public ResponseEntity<Object> uploadDocument(MultipartFile file, String data, String token) throws Exception {
         UploadDocumentDto uploadDocumentDto = objectMapper.readValue(data, UploadDocumentDto.class);
-        if(!jwtUtil.isTokenValid(token,uploadDocumentDto.getRequestedUserEmail())){
+        if (!jwtUtil.isTokenValid(token, uploadDocumentDto.getRequestedUserEmail())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         String fileUrl = s3Facade.uploadFile(file);
-        documentUrlFacade.saveDocumentUrlData(uploadDocumentDto,fileUrl);
+        documentUrlFacade.saveDocumentUrlData(uploadDocumentDto, fileUrl);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> downloadFile(String fileName) throws Exception{
+    public ResponseEntity<Object> downloadFile(String fileName) throws Exception {
         File file = s3Facade.downloadFile(fileName);
         Path path = Paths.get(file.getAbsolutePath());
         ByteArrayResource resource;
@@ -241,12 +242,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ResponseEntity<Object> saveFeedback(String type, FeedbackDto feedbackDto, String token) throws Exception {
-        if(!jwtUtil.isTokenValid(token,feedbackDto.getUserEmail())){
+        if (!jwtUtil.isTokenValid(token, feedbackDto.getUserEmail())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         EmployeeData employeeData = employeeDataManager.getByUserEmail(feedbackDto.getUserEmail());
-        if(employeeData == null){
+        if (employeeData == null) {
             log.error("User doesnt exist with userEmail " + feedbackDto.getUserEmail());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -262,31 +263,31 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public ResponseEntity<Object> getAll(GetEmailDto getMailDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getMailDto.getUserEmail())){
+    public ResponseEntity<Object> getAll(GetEmailDto getMailDto, String token) throws Exception {
+        if (!jwtUtil.isTokenValid(token, getMailDto.getUserEmail())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         List<EmployeeData> listEmployeeData = employeeDataManager.getAll();
 
-        if(listEmployeeData == null){
+        if (listEmployeeData == null) {
             log.error("User doesnt exist with userEmail " + getMailDto.getUserEmail());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Map<String,Object> result = new HashMap<>();
-        result.put("data",listEmployeeData);
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", listEmployeeData);
 
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> deleteEmployee(GetEmailDto getMailDto, String token) throws Exception{
-        if(!jwtUtil.isTokenValid(token,getMailDto.getRequestedUserEmail())) {
+    public ResponseEntity<Object> deleteEmployee(GetEmailDto getMailDto, String token) throws Exception {
+        if (!jwtUtil.isTokenValid(token, getMailDto.getRequestedUserEmail())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         EmployeeData employeeData = employeeDataManager.getByUserEmail(getMailDto.getUserEmail());
-        if(employeeData == null){
-            log.info("Given userEmail doesnt exist "+ getMailDto.getUserEmail());
+        if (employeeData == null) {
+            log.info("Given userEmail doesnt exist " + getMailDto.getUserEmail());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         treeFacade.removeAllRelationShip(employeeData, true);
