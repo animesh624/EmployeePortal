@@ -16,10 +16,16 @@ import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.manager.UserRoleMasterManager;
 import com.example.employeeportal.model.EmployeeData;
 import com.example.employeeportal.model.Feedback;
+import com.example.employeeportal.model.ManagerReportee;
+import com.example.employeeportal.repo.EmployeeDataRepo;
 import com.example.employeeportal.repo.FeedbackRepo;
 import com.example.employeeportal.services.EmployeeService;
 import com.example.employeeportal.util.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -43,10 +49,11 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeDataManager employeeDataManager;
-    private ManagerReporteeManager managerReporteeManager;
+    private ManagerReporteeManager managerReportee;
     private JWTUtil jwtUtil;
     private S3Facade s3Facade;
     private EmployeeDataFacade employeeDataFacade;
@@ -60,42 +67,42 @@ public class EmployeeServiceImpl implements EmployeeService {
     private UserDataManager userDataManager;
     private FeedbackRepo feedbackRepo;
     private TreeFacade treeFacade;
-
+    private EmployeeDataRepo employeeDataRepo;
     private static ObjectMapper objectMapper;
 
-    @Autowired
-    public EmployeeServiceImpl(EmployeeDataManager employeeDataManager,
-                                 ManagerReporteeManager managerReporteeManager,
-                                 JWTUtil jwtUtil,
-                                 S3Facade s3Facade,
-                                 EmployeeDataFacade employeeDataFacade,
-                                 SkillsManager skillsManager,
-                                 LanguagesManager languagesManager,
-                                 InterestsManager interestsManager,
-                                 DocumentUrlManager documentUrlManager,
-                                 ManagerReporteeFacade managerReporteeFacade,
-                                 DocumentUrlFacade documentUrlFacade,
-                                 UserRoleMasterManager userRoleMasterManager,
-                                 UserDataManager userDataManager,
-                                 FeedbackRepo feedbackRepo,
-                                 TreeFacade treeFacade) {
-
-        this.employeeDataManager = employeeDataManager;
-        this.managerReporteeManager = managerReporteeManager;
-        this.jwtUtil = jwtUtil;
-        this.s3Facade = s3Facade;
-        this.employeeDataFacade = employeeDataFacade;
-        this.skillsManager = skillsManager;
-        this.languagesManager = languagesManager;
-        this.interestsManager = interestsManager;
-        this.documentUrlManager = documentUrlManager;
-        this.managerReporteeFacade = managerReporteeFacade;
-        this.documentUrlFacade = documentUrlFacade;
-        this.userRoleMasterManager = userRoleMasterManager;
-        this.userDataManager = userDataManager;
-        this.feedbackRepo = feedbackRepo;
-        this.treeFacade = treeFacade;
-    }
+//    @Autowired
+//    public EmployeeServiceImpl(EmployeeDataManager employeeDataManager,
+//                                 ManagerReporteeManager managerReportee,
+//                                 JWTUtil jwtUtil,
+//                                 S3Facade s3Facade,
+//                                 EmployeeDataFacade employeeDataFacade,
+//                                 SkillsManager skillsManager,
+//                                 LanguagesManager languagesManager,
+//                                 InterestsManager interestsManager,
+//                                 DocumentUrlManager documentUrlManager,
+//                                 ManagerReporteeFacade managerReporteeFacade,
+//                                 DocumentUrlFacade documentUrlFacade,
+//                                 UserRoleMasterManager userRoleMasterManager,
+//                                 UserDataManager userDataManager,
+//                                 FeedbackRepo feedbackRepo,
+//                                 TreeFacade treeFacade) {
+//
+//        this.employeeDataManager = employeeDataManager;
+//        this.managerReportee = managerReportee;
+//        this.jwtUtil = jwtUtil;
+//        this.s3Facade = s3Facade;
+//        this.employeeDataFacade = employeeDataFacade;
+//        this.skillsManager = skillsManager;
+//        this.languagesManager = languagesManager;
+//        this.interestsManager = interestsManager;
+//        this.documentUrlManager = documentUrlManager;
+//        this.managerReporteeFacade = managerReporteeFacade;
+//        this.documentUrlFacade = documentUrlFacade;
+//        this.userRoleMasterManager = userRoleMasterManager;
+//        this.userDataManager = userDataManager;
+//        this.feedbackRepo = feedbackRepo;
+//        this.treeFacade = treeFacade;
+//    }
 
     @PostConstruct
     public void init(){
@@ -146,6 +153,36 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDataFacade.saveSkillsLanguagesInterests(editEmployeeDto.getUserEmail(),editEmployeeDto);
         employeeDataFacade.saveProfileUrls(editEmployeeDto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> getReportees(GetEmailDto getMailDto, String token) throws Exception{
+        if(!jwtUtil.isTokenValid(token,getMailDto.getUserEmail())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        EmployeeData employeeData = employeeDataManager.getByUserEmail(getMailDto.getUserEmail());
+        if(employeeData == null){
+            log.info("Given userEmail doesnt exist "+ getMailDto.getUserEmail());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Map<String,Object> result = new HashMap<>();
+
+        String userEmail = getMailDto.getUserEmail();
+        List<EmployeeData> finalList = new ArrayList<>();
+
+        Queue<String> queueMail = new LinkedList<>();
+        queueMail.add(userEmail);
+        while (!queueMail.isEmpty()) {
+           String managerEmail = queueMail.remove();
+           List<ManagerReportee> reporteeList = managerReportee.getAllByManagerEmail(managerEmail);
+            for (ManagerReportee reportee : reporteeList) {
+                queueMail.add(reportee.getReporteeEmail());
+            }
+            finalList.add(employeeDataRepo.findFirstByUserEmail(managerEmail));
+        }
+        result.put("data",finalList);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
     @Override
