@@ -47,7 +47,7 @@ public class EmployeeController {
         return employeeService.editEmployee(editEmployeeDto,token);
     }
 
-    @PostMapping("/search")
+    @GetMapping("/search")
     public ResponseEntity<Object> searchEmployee(@RequestParam(value = "name",required = false) String name,
                                                  @RequestParam(value = "designation",required = false) String designation,
                                                  @RequestParam(value = "skill",required = false) String skill,
