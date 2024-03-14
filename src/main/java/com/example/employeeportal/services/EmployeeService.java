@@ -15,7 +15,7 @@ public interface EmployeeService {
 
     ResponseEntity<Object> getReportees(GetEmailDto getMailDto, String token) throws Exception;
 
-    ResponseEntity<Object> searchEmployee(String name, String designation,String userEmail,String skill,String language,String interest) throws Exception;
+    ResponseEntity<Object> searchEmployee(String name, String designation, String userEmail, String skill, String language, String interest) throws Exception;
 
     ResponseEntity<Object> getNeighbours(GetNeighboursDto getNeighboursDto, String token) throws Exception;
 

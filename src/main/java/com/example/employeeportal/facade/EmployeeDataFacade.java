@@ -82,9 +82,7 @@ public class EmployeeDataFacade {
     }
 
     public void saveEditUserDetails(EditEmployeeDto editEmployeeDto) throws Exception{
-        log.info("Animesh at 83 with editEmployeeDto.getUserEmail() {}",editEmployeeDto.getUserEmail());
         UserData userData = userDataManager.getByUserEmail(editEmployeeDto.getUserEmail());
-        log.info("Animesh at line 84 with userData {}",userData);
         if(userData == null){
             throw new Exception("User data doesnt exists for userEmail "+ editEmployeeDto.getUserEmail());
         }
@@ -139,7 +137,6 @@ public class EmployeeDataFacade {
 //        List<String> profileLinkNames = editEmployeeDto.getProfileUrls().stream()
 //                .map(NameUrlMapDto::getName)
 //                .collect(Collectors.toList());
-//        log.info("Animesh printing name {}",profileLinkNames);
 
 //        editEmployeeDto.getProfileUrls().forEach( nameUrlMapDto -> {
 //                     try{

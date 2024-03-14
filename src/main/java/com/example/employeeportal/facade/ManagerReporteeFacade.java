@@ -38,7 +38,7 @@ public class ManagerReporteeFacade {
                 EmployeeData reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(value.getReporteeEmail());
                 TreeNodeDto temp = TreeNodeDto.builder()
                                 .userEmail(reporteeDetails.getUserEmail())
-                                .firstName(reporteeDetails.getFirstName() + reporteeDetails.getLastName())
+                                .firstName(reporteeDetails.getFirstName() + " " + reporteeDetails.getLastName())
                                 .designation(reporteeDetails.getDesignation())
                                 .profileImageUrl(reporteeDetails.getProfileImageUrl())
                                 .build();
