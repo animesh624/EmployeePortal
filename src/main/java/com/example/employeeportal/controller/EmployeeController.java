@@ -37,6 +37,7 @@ public class EmployeeController {
 
     @PostMapping("/getByUserEmail")
     public ResponseEntity<Object> getByUserEmail(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
+        log.info("Animesh inside getByUserEmail {}",getEmployeeDto);
         return employeeService.getByUserEmail(getEmployeeDto,token);
     }
 
