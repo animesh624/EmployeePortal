@@ -20,4 +20,10 @@ public interface InterestsRepo extends JpaRepository<Interests,String> {
     @Transactional
     void deleteAllByUserEmail(String userEmail) throws Exception;
 
+    @Query(value = "SELECT DISTINCT i.user_email " +
+            "FROM interests_temp i " +
+            "INNER JOIN user_role_master_temp urm ON i.interest = urm.role_id " +
+            "WHERE urm.name = ?1", nativeQuery = true)
+    List<String> getUserEmailByInterest(String interest) throws Exception;
+
 }

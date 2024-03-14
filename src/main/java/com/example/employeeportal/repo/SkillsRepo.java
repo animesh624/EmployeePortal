@@ -19,4 +19,10 @@ public interface SkillsRepo extends JpaRepository<Skills,String> {
 
     @Transactional
     void deleteAllByUserEmail(String userEmail) throws Exception;
+
+    @Query(value = "SELECT DISTINCT st.user_email " +
+            "FROM skills_temp st " +
+            "INNER JOIN user_role_master_temp urm ON st.skill = urm.role_id " +
+            "WHERE urm.name = ?1", nativeQuery = true)
+    List<String> getUserEmailBySkill(String skill) throws Exception;
 }

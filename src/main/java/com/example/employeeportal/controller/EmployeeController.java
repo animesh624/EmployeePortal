@@ -50,11 +50,11 @@ public class EmployeeController {
     @PostMapping("/search")
     public ResponseEntity<Object> searchEmployee(@RequestParam(value = "name",required = false) String name,
                                                  @RequestParam(value = "designation",required = false) String designation,
-                                                 @RequestParam(value = "expertise",required = false) String expertise,
-                                                 @RequestParam(value = "user_email",required = false) String userEmail,
-                                                 @RequestHeader String token) throws Exception {
-        log.info("Animesh here with {}",name);
-        return employeeService.searchEmployee(name, designation, expertise, userEmail, token);
+                                                 @RequestParam(value = "skill",required = false) String skill,
+                                                 @RequestParam(value = "language",required = false) String language,
+                                                 @RequestParam(value = "interest",required = false) String interest,
+                                                 @RequestParam(value = "user_email",required = false) String userEmail) throws Exception {
+        return employeeService.searchEmployee(name, designation, userEmail,skill, language, interest);
     }
 
     @PostMapping("/getNeighbours")
