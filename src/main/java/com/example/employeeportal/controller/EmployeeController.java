@@ -94,10 +94,10 @@ public class EmployeeController {
         return employeeService.deleteEmployee(getEmailDto,token);
     }
 
-    @GetMapping(path="/downloadCheck")
-    public ResponseEntity<Object> downloadCheck() throws Exception{
-        Map<String, Object> result = new HashMap<>();
-        result.put("url","https://employee-portal-file.s3.ap-south-1.amazonaws.com/1710002013462-aefa701f1a7a22d4c4ff6d63486f781e.jpg");
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+//    @GetMapping(path="/downloadCheck")
+//    public ResponseEntity<Object> downloadCheck() throws Exception{
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("url","https://employee-portal-file.s3.ap-south-1.amazonaws.com/1710002013462-aefa701f1a7a22d4c4ff6d63486f781e.jpg");
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
 }
