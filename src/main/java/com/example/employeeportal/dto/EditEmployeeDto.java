@@ -31,10 +31,6 @@ public class EditEmployeeDto {
     @JsonProperty("manager_email")
     private String managerEmail;
 
-//    @NonNull
-//    @JsonProperty("emp_code")
-//    private String empCode;
-
     @JsonProperty("designation")
     private String designation;
 

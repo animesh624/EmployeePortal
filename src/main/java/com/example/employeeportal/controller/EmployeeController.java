@@ -77,8 +77,6 @@ public class EmployeeController {
         return employeeService.downloadFile(fileName);
     }
 
-    // this is only for testing purpose.
-
     @PostMapping("/feedback")
     public ResponseEntity<Object> submitFeedback(@RequestParam(value = "type") String type, @RequestBody FeedbackDto feedbackRequest, @RequestHeader String token) throws Exception {
         return employeeService.saveFeedback(type,feedbackRequest,token);
