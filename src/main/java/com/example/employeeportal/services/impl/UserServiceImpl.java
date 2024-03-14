@@ -127,12 +127,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Object> bulkRegister(RegisterUserBulkDto registerUserBulkDto) throws Exception{
-
-        log.info("ANimesh inside bulkRegister with {}",registerUserBulkDto);
-//        return new ResponseEntity<>(HttpStatus.OK);
         registerUserBulkDto.getBulkList().forEach(registerUserDto -> {
             try {
-                log.info("Animesh at 133 {}",registerUserDto);
                 userDataFacade.saveEntryInUserData(registerUserDto);
                 userDataFacade.saveEntryInEmployeeData(registerUserDto, null);
                 userDataFacade.createMapping(registerUserDto);
