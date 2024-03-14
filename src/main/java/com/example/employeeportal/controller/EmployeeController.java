@@ -44,16 +44,6 @@ public class EmployeeController {
         return employeeService.editEmployee(editEmployeeDto,token);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<Object> searchEmployee(@RequestParam(value = "name", required = false) String name,
-                                                 @RequestParam(value = "designation", required = false) String designation,
-                                                 @RequestParam(value = "skill", required = false) String skill,
-                                                 @RequestParam(value = "language", required = false) String language,
-                                                 @RequestParam(value = "interest", required = false) String interest,
-                                                 @RequestParam(value = "user_email", required = false) String userEmail) throws Exception {
-        return employeeService.searchEmployee(name, designation, userEmail, skill, language, interest);
-    }
-
     @PostMapping("/get-reportees")
     public ResponseEntity<Object> getReportees(@RequestBody GetEmailDto getMailDto, @RequestHeader String token) throws Exception{
         return employeeService.getReportees(getMailDto,token);
@@ -62,6 +52,16 @@ public class EmployeeController {
     @PostMapping("/getNeighbours")
     public ResponseEntity<Object> getNeighbours(@RequestBody GetNeighboursDto getNeighboursDto, @RequestHeader String token) throws Exception{
         return employeeService.getNeighbours(getNeighboursDto,token);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Object> searchEmployee(@RequestParam(value = "name", required = false) String name,
+                                                 @RequestParam(value = "designation", required = false) String designation,
+                                                 @RequestParam(value = "skill", required = false) String skill,
+                                                 @RequestParam(value = "language", required = false) String language,
+                                                 @RequestParam(value = "interest", required = false) String interest,
+                                                 @RequestParam(value = "user_email", required = false) String userEmail) throws Exception {
+        return employeeService.searchEmployee(name, designation, userEmail, skill, language, interest);
     }
 
     // TODO seperate folder for pdf and images.

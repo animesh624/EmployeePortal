@@ -49,14 +49,15 @@ import java.util.Map;
 
 @Service
 @Slf4j
-@AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private EmployeeDataRepo employeeDataRepo;
+
     private EmployeeDataManager employeeDataManager;
-    private ManagerReporteeManager managerReportee;
     private JWTUtil jwtUtil;
     private S3Facade s3Facade;
     private EmployeeDataFacade employeeDataFacade;
+    private ManagerReporteeManager managerReportee;
     private SkillsManager skillsManager;
     private LanguagesManager languagesManager;
     private InterestsManager interestsManager;
@@ -67,42 +68,41 @@ public class EmployeeServiceImpl implements EmployeeService {
     private UserDataManager userDataManager;
     private FeedbackRepo feedbackRepo;
     private TreeFacade treeFacade;
-    private EmployeeDataRepo employeeDataRepo;
     private static ObjectMapper objectMapper;
 
-//    @Autowired
-//    public EmployeeServiceImpl(EmployeeDataManager employeeDataManager,
-//                                 ManagerReporteeManager managerReportee,
-//                                 JWTUtil jwtUtil,
-//                                 S3Facade s3Facade,
-//                                 EmployeeDataFacade employeeDataFacade,
-//                                 SkillsManager skillsManager,
-//                                 LanguagesManager languagesManager,
-//                                 InterestsManager interestsManager,
-//                                 DocumentUrlManager documentUrlManager,
-//                                 ManagerReporteeFacade managerReporteeFacade,
-//                                 DocumentUrlFacade documentUrlFacade,
-//                                 UserRoleMasterManager userRoleMasterManager,
-//                                 UserDataManager userDataManager,
-//                                 FeedbackRepo feedbackRepo,
-//                                 TreeFacade treeFacade) {
-//
-//        this.employeeDataManager = employeeDataManager;
-//        this.managerReportee = managerReportee;
-//        this.jwtUtil = jwtUtil;
-//        this.s3Facade = s3Facade;
-//        this.employeeDataFacade = employeeDataFacade;
-//        this.skillsManager = skillsManager;
-//        this.languagesManager = languagesManager;
-//        this.interestsManager = interestsManager;
-//        this.documentUrlManager = documentUrlManager;
-//        this.managerReporteeFacade = managerReporteeFacade;
-//        this.documentUrlFacade = documentUrlFacade;
-//        this.userRoleMasterManager = userRoleMasterManager;
-//        this.userDataManager = userDataManager;
-//        this.feedbackRepo = feedbackRepo;
-//        this.treeFacade = treeFacade;
-//    }
+    @Autowired
+    public EmployeeServiceImpl(EmployeeDataManager employeeDataManager,
+                                 ManagerReporteeManager managerReportee,
+                                 JWTUtil jwtUtil,
+                                 S3Facade s3Facade,
+                                 EmployeeDataFacade employeeDataFacade,
+                                 SkillsManager skillsManager,
+                                 LanguagesManager languagesManager,
+                                 InterestsManager interestsManager,
+                                 DocumentUrlManager documentUrlManager,
+                                 ManagerReporteeFacade managerReporteeFacade,
+                                 DocumentUrlFacade documentUrlFacade,
+                                 UserRoleMasterManager userRoleMasterManager,
+                                 UserDataManager userDataManager,
+                                 FeedbackRepo feedbackRepo,
+                                 TreeFacade treeFacade) {
+
+        this.employeeDataManager = employeeDataManager;
+        this.managerReportee = managerReportee;
+        this.jwtUtil = jwtUtil;
+        this.s3Facade = s3Facade;
+        this.employeeDataFacade = employeeDataFacade;
+        this.skillsManager = skillsManager;
+        this.languagesManager = languagesManager;
+        this.interestsManager = interestsManager;
+        this.documentUrlManager = documentUrlManager;
+        this.managerReporteeFacade = managerReporteeFacade;
+        this.documentUrlFacade = documentUrlFacade;
+        this.userRoleMasterManager = userRoleMasterManager;
+        this.userDataManager = userDataManager;
+        this.feedbackRepo = feedbackRepo;
+        this.treeFacade = treeFacade;
+    }
 
     @PostConstruct
     public void init(){
