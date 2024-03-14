@@ -2,12 +2,15 @@ package com.example.employeeportal.controller;
 
 import com.example.employeeportal.dto.GetEmailDto;
 import com.example.employeeportal.dto.LoginUserDto;
+import com.example.employeeportal.dto.RegisterUserBulkDto;
 import com.example.employeeportal.dto.RegisterUserDto;
 import com.example.employeeportal.manager.UserDataManager;
 import com.example.employeeportal.model.UserData;
 import com.example.employeeportal.services.UserService;
+import com.mysql.cj.x.protobuf.Mysqlx;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +49,12 @@ public class UserController {
                                            @RequestParam("data") String data,
                                            @RequestHeader String token) throws Exception {
         return userService.register(file,data,token);
+    }
+
+    @PostMapping(path = "/bulkRegister")
+    public ResponseEntity<Object> bulkRegister(@RequestBody RegisterUserBulkDto registerUserBulkDto) throws Exception {
+        log.info("Animesh inside register user dto {}",registerUserBulkDto);
+        return userService.bulkRegister(registerUserBulkDto);
     }
 
     @PostMapping("/forgot-password")
