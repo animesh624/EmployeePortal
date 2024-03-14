@@ -38,7 +38,7 @@ public class ManagerReporteeFacade {
                 EmployeeData reporteeDetails = employeeDataManager.getEmpCodeDesignationNameByUserEmail(value.getReporteeEmail());
                 TreeNodeDto temp = TreeNodeDto.builder()
                                 .userEmail(reporteeDetails.getUserEmail())
-                                .firstName(reporteeDetails.getFirstName())
+                                .firstName(reporteeDetails.getFirstName() + reporteeDetails.getLastName())
                                 .designation(reporteeDetails.getDesignation())
                                 .profileImageUrl(reporteeDetails.getProfileImageUrl())
                                 .build();
@@ -60,7 +60,7 @@ public class ManagerReporteeFacade {
             return TreeNodeDto.builder()
                     .designation(managerDetails.getDesignation())
                     .userEmail(managerDetails.getUserEmail())
-                    .firstName(managerDetails.getFirstName())
+                    .firstName(managerDetails.getFirstName() + managerDetails.getLastName())
                     .profileImageUrl(managerDetails.getProfileImageUrl())
                     .build();
     }
@@ -74,7 +74,7 @@ public class ManagerReporteeFacade {
         return TreeNodeDto.builder()
                     .userEmail(employeeData.getUserEmail())
                     .designation(employeeData.getDesignation())
-                    .firstName(employeeData.getFirstName())
+                    .firstName(employeeData.getFirstName() + employeeData.getLastName())
                     .profileImageUrl(employeeData.getProfileImageUrl())
                     .build();
     }
