@@ -206,7 +206,7 @@ public class EmployeeDataFacade {
 
     public void updateFrequency(EmployeeData employeeData,boolean isSearched) throws Exception{
         if(isSearched) {
-            employeeData.setFrequency(employeeData.getFrequency());
+            employeeData.setFrequency(employeeData.getFrequency()+1);
             employeeDataManager.save(employeeData);
         }
 
