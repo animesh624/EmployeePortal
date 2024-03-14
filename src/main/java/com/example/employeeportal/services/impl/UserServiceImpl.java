@@ -3,6 +3,7 @@ package com.example.employeeportal.services.impl;
 import com.example.employeeportal.dto.GetEmailDto;
 import com.example.employeeportal.dto.LoginUserDto;
 import com.example.employeeportal.dto.MailBody;
+import com.example.employeeportal.dto.RegisterUserBulkDto;
 import com.example.employeeportal.dto.RegisterUserDto;
 import com.example.employeeportal.facade.S3Facade;
 import com.example.employeeportal.facade.UserDataFacade;
@@ -121,6 +122,25 @@ public class UserServiceImpl implements UserService {
         userDataFacade.saveEntryInUserData(registerUserDto);
         userDataFacade.saveEntryInEmployeeData(registerUserDto,fileUrl);
         userDataFacade.createMapping(registerUserDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> bulkRegister(RegisterUserBulkDto registerUserBulkDto) throws Exception{
+
+        log.info("ANimesh inside bulkRegister with {}",registerUserBulkDto);
+//        return new ResponseEntity<>(HttpStatus.OK);
+        registerUserBulkDto.getBulkList().forEach(registerUserDto -> {
+            try {
+                log.info("Animesh at 133 {}",registerUserDto);
+                userDataFacade.saveEntryInUserData(registerUserDto);
+                userDataFacade.saveEntryInEmployeeData(registerUserDto, null);
+                userDataFacade.createMapping(registerUserDto);
+            }catch (Exception e){
+                log.error("Error while bulk upload for " + registerUserDto.getUserEmail());
+            }
+        });
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
