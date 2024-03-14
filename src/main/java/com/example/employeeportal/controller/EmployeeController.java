@@ -65,7 +65,6 @@ public class EmployeeController {
         return employeeService.searchEmployee(name, designation, userEmail, skill, language, interest);
     }
 
-
     // TODO seperate folder for pdf and images.
     @PostMapping(path = "/uploadDocument")
     public ResponseEntity<Object> uploadDocument(@RequestParam("file") MultipartFile file,
