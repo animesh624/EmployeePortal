@@ -109,7 +109,6 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Object> register(MultipartFile file, String data, String token) throws Exception{
 
         RegisterUserDto registerUserDto = objectMapper.readValue(data, RegisterUserDto.class);
-        log.info("Animesh printint {}",registerUserDto);
         if(!jwtUtil.isTokenValid(token,registerUserDto.getRequestUserEmail())
                 || !(userDataManager.getByUserEmail(registerUserDto.getRequestUserEmail()).getIsAdmin())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
