@@ -60,7 +60,7 @@ public class ManagerReporteeFacade {
             return TreeNodeDto.builder()
                     .designation(managerDetails.getDesignation())
                     .userEmail(managerDetails.getUserEmail())
-                    .firstName(managerDetails.getFirstName() + managerDetails.getLastName())
+                    .firstName(managerDetails.getFirstName() + " " + managerDetails.getLastName())
                     .profileImageUrl(managerDetails.getProfileImageUrl())
                     .build();
     }
@@ -74,7 +74,7 @@ public class ManagerReporteeFacade {
         return TreeNodeDto.builder()
                     .userEmail(employeeData.getUserEmail())
                     .designation(employeeData.getDesignation())
-                    .firstName(employeeData.getFirstName() + employeeData.getLastName())
+                    .firstName(employeeData.getFirstName() + " " + employeeData.getLastName())
                     .profileImageUrl(employeeData.getProfileImageUrl())
                     .build();
     }
