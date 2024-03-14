@@ -23,7 +23,7 @@ public interface InterestsRepo extends JpaRepository<Interests,String> {
     @Query(value = "SELECT DISTINCT i.user_email " +
             "FROM interests_temp i " +
             "INNER JOIN user_role_master_temp urm ON i.interest = urm.role_id " +
-            "WHERE urm.name = LIKE %?1%", nativeQuery = true)
+            "WHERE urm.name LIKE %?1%", nativeQuery = true)
     List<String> getUserEmailByInterest(String interest) throws Exception;
 
 }
