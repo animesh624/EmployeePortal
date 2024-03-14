@@ -39,6 +39,7 @@ public class EmployeeController {
     public ResponseEntity<Object> getByUserEmail(@RequestBody GetEmployeeDto getEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.getByUserEmail(getEmployeeDto,token);
     }
+
     @PostMapping("/edit/employee")
     public ResponseEntity<Object> editEmployee(@RequestBody EditEmployeeDto editEmployeeDto, @RequestHeader String token) throws Exception{
         return employeeService.editEmployee(editEmployeeDto,token);
@@ -91,11 +92,4 @@ public class EmployeeController {
     public ResponseEntity<Object> deleteNode(@RequestBody GetEmailDto getEmailDto, @RequestHeader String token) throws Exception{
         return employeeService.deleteEmployee(getEmailDto,token);
     }
-
-//    @GetMapping(path="/downloadCheck")
-//    public ResponseEntity<Object> downloadCheck() throws Exception{
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("url","https://employee-portal-file.s3.ap-south-1.amazonaws.com/1710002013462-aefa701f1a7a22d4c4ff6d63486f781e.jpg");
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
 }
