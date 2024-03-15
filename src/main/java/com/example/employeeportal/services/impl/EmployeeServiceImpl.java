@@ -86,7 +86,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                                UserRoleMasterManager userRoleMasterManager,
                                UserDataManager userDataManager,
                                FeedbackRepo feedbackRepo,
-                               TreeFacade treeFacade) {
+                               TreeFacade treeFacade,
+                               EmployeeDataRepo employeeDataRepo) {
 
         this.employeeDataManager = employeeDataManager;
         this.managerReportee = managerReportee;
@@ -103,6 +104,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.userDataManager = userDataManager;
         this.feedbackRepo = feedbackRepo;
         this.treeFacade = treeFacade;
+        this.employeeDataRepo = employeeDataRepo;
     }
 
     @PostConstruct
